@@ -10,6 +10,7 @@
           <h2>{{ movieOfTheWeek.pelicula.titol }}</h2>
           <p>{{ movieOfTheWeek.pelicula.genere }}</p>
           <p>{{ movieOfTheWeek.fecha }}</p>
+          <p>{{ movieOfTheWeek.hora }}</p>
           <nuxt-link :to="'compra/'+movieOfTheWeek.pelicula_id" class="buttonTicket">Reservar Entrada</nuxt-link>
         </div>
       </div>

@@ -43,8 +43,8 @@ export default {
                 [{ id: '6-1', seleccionat: false }, { id: '6-2', seleccionat: false }, { id: '6-3', seleccionat: false }, { id: '6-4', seleccionat: false }, { id: '6-5', seleccionat: false }, { id: '6-6', seleccionat: false }, { id: '6-7', seleccionat: false }, { id: '6-8', seleccionat: false }, { id: '6-9', seleccionat: false }, { id: '6-10', seleccionat: false }, { id: '6-11', seleccionat: false }, { id: '6-12', seleccionat: false }],
                 [{ id: '7-1', seleccionat: false }, { id: '7-2', seleccionat: false }, { id: '7-3', seleccionat: false }, { id: '7-4', seleccionat: false }, { id: '7-5', seleccionat: false }, { id: '7-6', seleccionat: false }, { id: '7-7', seleccionat: false }, { id: '7-8', seleccionat: false }, { id: '7-9', seleccionat: false }, { id: '7-10', seleccionat: false }, { id: '7-11', seleccionat: false }, { id: '7-12', seleccionat: false }],
                 [{ id: '8-1', seleccionat: false }, { id: '8-2', seleccionat: false }, { id: '8-3', seleccionat: false }, { id: '8-4', seleccionat: false }, { id: '8-5', seleccionat: false }, { id: '8-6', seleccionat: false }, { id: '8-7', seleccionat: false }, { id: '8-8', seleccionat: false }, { id: '8-9', seleccionat: false }, { id: '8-10', seleccionat: false }, { id: '8-11', seleccionat: false }, { id: '8-12', seleccionat: false }],
-                [{ id: '9-1', seleccionat: false }, { id: '9-2', seleccionat: false }, { id: '9-3', seleccionat: false }, { id: '9-4', seleccionat: false }, { id: '9-5', seleccionat: false }, { id: '9-6', seleccionat: false }, { id: '9-7', seleccionat: false }, { id: '9-8', seleccionat: false }, { id: '9-9', seleccionat: false }, { id: '9-10', seleccionat: false }],
-
+                [{ id: '9-1', seleccionat: false }, { id: '9-2', seleccionat: false }, { id: '9-3', seleccionat: false }, { id: '9-4', seleccionat: false }, { id: '9-5', seleccionat: false }, { id: '9-6', seleccionat: false }, { id: '9-7', seleccionat: false }, { id: '9-8', seleccionat: false }, { id: '9-9', seleccionat: false }, { id: '9-10', seleccionat: false }, { id: '9-11', seleccionat: false }, { id: '9-12', seleccionat: false }],
+                [{ id: '10-1', seleccionat: false }, { id: '10-2', seleccionat: false }, { id: '10-3', seleccionat: false }, { id: '10-4', seleccionat: false }, { id: '10-5', seleccionat: false }, { id: '10-6', seleccionat: false }, { id: '10-7', seleccionat: false }, { id: '10-8', seleccionat: false }, { id: '10-9', seleccionat: false }, { id: '10-10', seleccionat: false }, { id: '10-11', seleccionat: false }, { id: '10-12', seleccionat: false }],
             ],
             butacasSeleccionadas: [],
             butacasOcupadas: ['1-1','1-2'],
@@ -90,8 +90,6 @@ body {
     /* Elimina el padding predeterminado del body */
     height: 100vh;
     /* Hace que el body ocupe el 100% del alto de la ventana */
-    overflow: hidden;
-    /* Evita el desplazamiento vertical */
 }
 
 .cine {
@@ -104,7 +102,7 @@ body {
 }
 
 .pantalla {
-    width: 50%;
+    width: 40%;
     height: 50px;
     background-color: #ffffff;
     color: #000000;
