@@ -25,6 +25,7 @@ class SesionController extends Controller
             'pelicula_id' => 'required|exists:peliculas,id',
             'fecha' => 'required|date',
             'dia_espectador' => 'required|boolean',
+            'hora' => 'required|date_format:H:i', // 'H:i' es el formato de hora 'HH:MM
             'VIP' => 'required|boolean',
         ]);
 

@@ -14,7 +14,8 @@ class Sesion extends Model
     protected $fillable = [
         'pelicula_id', 
         'fecha', 
-        'dia_espectador', 
+        'dia_espectador',
+        'hora', 
         'VIP'
     ];
 
