@@ -34,6 +34,7 @@ class SesionController extends Controller
             'fecha' => $request->fecha,
             'dia_espectador' => $request->dia_espectador,
             'VIP' => $request->VIP,
+            'hora' => $request->hora,
         ]);
 
         return response()->json($sesion, 201);
