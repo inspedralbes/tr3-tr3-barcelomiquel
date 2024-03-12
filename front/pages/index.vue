@@ -95,10 +95,9 @@ h1 {
 }
 
 .movie-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  padding: 20px;
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan si no caben en una línea */
+  justify-content: center; /* Centra los elementos horizontalmente */
 }
 
 @media screen and (max-width: 768px) {
@@ -124,20 +123,14 @@ h1 {
 }
 
 .movie-card {
-  margin: 20px;
+  margin: 70px;
   padding: 20px;
   border: 1px solid #4b5d67;
-  /* Borde sutil */
   border-radius: 15px;
-  /* Bordes más redondeados */
   width: 300px;
-  /* Ancho mayor para mejor visualización */
   background-color: #0b0c10;
-  /* Fondo oscuro para la tarjeta */
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  /* Sombra más pronunciada para profundidad */
   transition: transform 0.3s ease;
-  /* Suave transformación al pasar el mouse */
 }
 
 .movie-card:hover {

@@ -3,21 +3,20 @@ version: '3.8'
 services:
   laravel-app:
     image: php:8.1-fpm
-    container_name: laravel_app
+    container_name: laravel
     working_dir: /var/www
     volumes:
       - ./back:/var/www
     command: >
       bash -c "apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev zip unzip git 
       libonig-dev libxml2-dev && docker-php-ext-install pdo pdo_mysql gd
-      && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer 
-      && composer install 
+      && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+      && composer install
       && php artisan key:generate
+      && php artisan migrate
       && php artisan serve --host=0.0.0.0 --port=8000"
     ports:
       - "8000:8000"
-    networks:
-      - app-network
     depends_on:
       - db
 
@@ -30,8 +29,7 @@ services:
     command: bash -c "npm install && npm run dev"
     ports:
       - "3000:3000"
-    networks:
-      - app-network
+
 
   db:
     image: mysql:latest
@@ -42,11 +40,10 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: laravel
       MYSQL_USER: root
-      MYSQL_PASSWORD: ""
+      MYSQL_PASSWORD: root
     ports:
       - "3307:3306"
-    networks:
-      - app-network
+
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -55,17 +52,13 @@ services:
       PMA_HOST: db
       PMA_PORT: 3306
       PMA_USER: root
-      PMA_PASSWORD: ""
+      PMA_PASSWORD: root
     ports:
       - "8080:80"
-    networks:
-      - app-network
+
     depends_on:
       - db
 
-networks:
-  app-network:
-    driver: bridge
 
 volumes:
   db-data:
