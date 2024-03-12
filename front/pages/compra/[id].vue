@@ -1,4 +1,5 @@
 <template>
+
     <body>
         <Header />
         <div class="cine">
@@ -11,7 +12,8 @@
                     <!-- Añadido el número/letra de la fila -->
                     <div class="fila-indicador">{{ fila[0].id[0] }}</div>
                     <div class="asientos">
-                        <Seient v-for="seient in fila" :key="seient.id" :seient="seient" @toggle="toggleSeient(seient.id)">
+                        <Seient v-for="seient in fila" :key="seient.id" :seient="seient"
+                            @toggle="toggleSeient(seient.id)">
                         </Seient>
                     </div>
                 </div>
@@ -20,11 +22,12 @@
                 <h3>Butacas seleccionadas:</h3>
                 <p>{{ butacasSeleccionadas.join(', ') }}</p>
                 <button @click="comprar">Comprar</button>
+                <button class="borrar" @click="borrarSeleccion">Borrar selección</button>
             </div>
         </div>
     </body>
 </template>
-  
+
 <script>
 import Seient from '../components/Seient.vue';
 
@@ -35,7 +38,7 @@ export default {
     data() {
         return {
             files: [
-                [{ id: '1-1', seleccionat: false , ocupada: true }, { id: '1-2', seleccionat: false , ocupada: true}, { id: '1-3', seleccionat: false }, { id: '1-4', seleccionat: false }, { id: '1-5', seleccionat: false }, { id: '1-6', seleccionat: false }, { id: '1-7', seleccionat: false }, { id: '1-8', seleccionat: false }, { id: '1-9', seleccionat: false }, { id: '1-10', seleccionat: false }, { id: '1-11', seleccionat: false }, { id: '1-12', seleccionat: false }],
+                [{ id: '1-1', seleccionat: false, ocupada: true }, { id: '1-2', seleccionat: false, ocupada: true }, { id: '1-3', seleccionat: false }, { id: '1-4', seleccionat: false }, { id: '1-5', seleccionat: false }, { id: '1-6', seleccionat: false }, { id: '1-7', seleccionat: false }, { id: '1-8', seleccionat: false }, { id: '1-9', seleccionat: false }, { id: '1-10', seleccionat: false }, { id: '1-11', seleccionat: false }, { id: '1-12', seleccionat: false }],
                 [{ id: '2-1', seleccionat: false }, { id: '2-2', seleccionat: false }, { id: '2-3', seleccionat: false }, { id: '2-4', seleccionat: false }, { id: '2-5', seleccionat: false }, { id: '2-6', seleccionat: false }, { id: '2-7', seleccionat: false }, { id: '2-8', seleccionat: false }, { id: '2-9', seleccionat: false }, { id: '2-10', seleccionat: false }, { id: '2-11', seleccionat: false }, { id: '2-12', seleccionat: false }],
                 [{ id: '3-1', seleccionat: false }, { id: '3-2', seleccionat: false }, { id: '3-3', seleccionat: false }, { id: '3-4', seleccionat: false }, { id: '3-5', seleccionat: false }, { id: '3-6', seleccionat: false }, { id: '3-7', seleccionat: false }, { id: '3-8', seleccionat: false }, { id: '3-9', seleccionat: false }, { id: '3-10', seleccionat: false }, { id: '3-11', seleccionat: false }, { id: '3-12', seleccionat: false }],
                 [{ id: '4-1', seleccionat: false }, { id: '4-2', seleccionat: false }, { id: '4-3', seleccionat: false }, { id: '4-4', seleccionat: false }, { id: '4-5', seleccionat: false }, { id: '4-6', seleccionat: false }, { id: '4-7', seleccionat: false }, { id: '4-8', seleccionat: false }, { id: '4-9', seleccionat: false }, { id: '4-10', seleccionat: false }, { id: '4-11', seleccionat: false }, { id: '4-12', seleccionat: false }],
@@ -47,21 +50,25 @@ export default {
                 [{ id: '10-1', seleccionat: false }, { id: '10-2', seleccionat: false }, { id: '10-3', seleccionat: false }, { id: '10-4', seleccionat: false }, { id: '10-5', seleccionat: false }, { id: '10-6', seleccionat: false }, { id: '10-7', seleccionat: false }, { id: '10-8', seleccionat: false }, { id: '10-9', seleccionat: false }, { id: '10-10', seleccionat: false }, { id: '10-11', seleccionat: false }, { id: '10-12', seleccionat: false }],
             ],
             butacasSeleccionadas: [],
-            butacasOcupadas: ['1-1','1-2'],
+            butacasOcupadas: ['1-1', '1-2'],
         };
     },
     methods: {
         toggleSeient(seientId) {
-            console.log(seientId);
-            const seient = this.findSeientById(seientId);
-            seient.seleccionat = !seient.seleccionat;
-            if (seient.seleccionat) {
-                this.butacasSeleccionadas.push(seientId);
-            } else {
-                const index = this.butacasSeleccionadas.indexOf(seientId);
-                if (index > -1) {
-                    this.butacasSeleccionadas.splice(index, 1);
+            if (this.butacasSeleccionadas.length < 10 || this.findSeientById(seientId).seleccionat) {
+                console.log(seientId);
+                const seient = this.findSeientById(seientId);
+                seient.seleccionat = !seient.seleccionat;
+                if (seient.seleccionat) {
+                    this.butacasSeleccionadas.push(seientId);
+                } else {
+                    const index = this.butacasSeleccionadas.indexOf(seientId);
+                    if (index > -1) {
+                        this.butacasSeleccionadas.splice(index, 1);
+                    }
                 }
+            } else {
+                alert("No puedes seleccionar más de 10 butacas.");
             }
         },
         findSeientById(seientId) {
@@ -72,7 +79,25 @@ export default {
                     }
                 }
             }
+        },
+        borrarSeleccion() {
+            this.butacasSeleccionadas.forEach(id => {
+                const seient = this.findSeientById(id);
+                seient.seleccionat = false;
+            });
+            this.butacasSeleccionadas = [];
+        },
+        comprar() {
+            this.$router.push({
+                name: 'ConfirmacionCompra', // Asegúrate de que este es el nombre correcto
+                params: {
+                    butacas: this.butacasSeleccionadas,
+                    nombrePelicula: 'El nombre de tu película', // Ejemplo, ajusta según sea necesario
+                    precioTotal: 100 
+                }
+            });
         }
+
     },
     computed: {
         mostrarPanel() {
@@ -81,7 +106,7 @@ export default {
     },
 };
 </script>
-  
+
 <style scoped>
 body {
     margin: 0;
@@ -99,6 +124,7 @@ body {
     /* Fondo oscuro para simular el interior de una sala de cine */
     color: #ffffff;
     height: 100%;
+    font-family: 'Your Epic Font', sans-serif;
 }
 
 .pantalla {
@@ -112,7 +138,7 @@ body {
     justify-content: center;
     align-items: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    /* Sombra para darle profundidad */
+    font-family: 'Your Epic Font', sans-serif;
 }
 
 .plano-sala {
@@ -150,6 +176,7 @@ body {
     margin-top: 20px;
     border-radius: 5px;
     text-align: left;
+    font-family: 'Your Epic Font', sans-serif;
 }
 
 button {
@@ -166,7 +193,19 @@ button:hover {
     background-color: #45a049;
 }
 
+.borrar {
+    background-color: #af4c4c;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.borrar:hover {
+    background-color: #a04545;
+}
 
 /* Los estilos de Seient.vue se aplicarán aquí debido al scope */
 </style>
-  
