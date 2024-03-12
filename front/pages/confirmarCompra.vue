@@ -42,6 +42,11 @@
         }
       },
     },
+    mounted() {
+        this.butacas = JSON.parse(this.$route.query.butacas || '[]');
+        this.nombrePelicula = this.$route.query.nombrePelicula;
+        this.precioTotal = Number(this.$route.query.precioTotal);
+    }
   };
   </script>
   

@@ -9,8 +9,7 @@
             </div>
             <div class="plano-sala">
                 <div v-for="(fila, index) in files" :key="index" class="fila">
-                    <!-- Añadido el número/letra de la fila -->
-                    <div class="fila-indicador">{{ fila[0].id[0] }}</div>
+                    <div class="fila-indicador">{{ fila[0].id.split('-')[0] }}</div>
                     <div class="asientos">
                         <Seient v-for="seient in fila" :key="seient.id" :seient="seient"
                             @toggle="toggleSeient(seient.id)">
@@ -21,6 +20,7 @@
             <div v-if="mostrarPanel" class="panel-seleccion">
                 <h3>Butacas seleccionadas:</h3>
                 <p>{{ butacasSeleccionadas.join(', ') }}</p>
+                <p>Precio total: {{ precioTotal }}€</p> <!-- Muestra el precio total aquí -->
                 <button @click="comprar">Comprar</button>
                 <button class="borrar" @click="borrarSeleccion">Borrar selección</button>
             </div>
@@ -38,22 +38,39 @@ export default {
     data() {
         return {
             files: [
-                [{ id: '1-1', seleccionat: false, ocupada: true }, { id: '1-2', seleccionat: false, ocupada: true }, { id: '1-3', seleccionat: false }, { id: '1-4', seleccionat: false }, { id: '1-5', seleccionat: false }, { id: '1-6', seleccionat: false }, { id: '1-7', seleccionat: false }, { id: '1-8', seleccionat: false }, { id: '1-9', seleccionat: false }, { id: '1-10', seleccionat: false }, { id: '1-11', seleccionat: false }, { id: '1-12', seleccionat: false }],
-                [{ id: '2-1', seleccionat: false }, { id: '2-2', seleccionat: false }, { id: '2-3', seleccionat: false }, { id: '2-4', seleccionat: false }, { id: '2-5', seleccionat: false }, { id: '2-6', seleccionat: false }, { id: '2-7', seleccionat: false }, { id: '2-8', seleccionat: false }, { id: '2-9', seleccionat: false }, { id: '2-10', seleccionat: false }, { id: '2-11', seleccionat: false }, { id: '2-12', seleccionat: false }],
-                [{ id: '3-1', seleccionat: false }, { id: '3-2', seleccionat: false }, { id: '3-3', seleccionat: false }, { id: '3-4', seleccionat: false }, { id: '3-5', seleccionat: false }, { id: '3-6', seleccionat: false }, { id: '3-7', seleccionat: false }, { id: '3-8', seleccionat: false }, { id: '3-9', seleccionat: false }, { id: '3-10', seleccionat: false }, { id: '3-11', seleccionat: false }, { id: '3-12', seleccionat: false }],
-                [{ id: '4-1', seleccionat: false }, { id: '4-2', seleccionat: false }, { id: '4-3', seleccionat: false }, { id: '4-4', seleccionat: false }, { id: '4-5', seleccionat: false }, { id: '4-6', seleccionat: false }, { id: '4-7', seleccionat: false }, { id: '4-8', seleccionat: false }, { id: '4-9', seleccionat: false }, { id: '4-10', seleccionat: false }, { id: '4-11', seleccionat: false }, { id: '4-12', seleccionat: false }],
-                [{ id: '5-1', seleccionat: false }, { id: '5-2', seleccionat: false }, { id: '5-3', seleccionat: false }, { id: '5-4', seleccionat: false }, { id: '5-5', seleccionat: false }, { id: '5-6', seleccionat: false }, { id: '5-7', seleccionat: false }, { id: '5-8', seleccionat: false }, { id: '5-9', seleccionat: false }, { id: '5-10', seleccionat: false }, { id: '5-11', seleccionat: false }, { id: '5-12', seleccionat: false }],
-                [{ id: '6-1', seleccionat: false }, { id: '6-2', seleccionat: false }, { id: '6-3', seleccionat: false }, { id: '6-4', seleccionat: false }, { id: '6-5', seleccionat: false }, { id: '6-6', seleccionat: false }, { id: '6-7', seleccionat: false }, { id: '6-8', seleccionat: false }, { id: '6-9', seleccionat: false }, { id: '6-10', seleccionat: false }, { id: '6-11', seleccionat: false }, { id: '6-12', seleccionat: false }],
-                [{ id: '7-1', seleccionat: false }, { id: '7-2', seleccionat: false }, { id: '7-3', seleccionat: false }, { id: '7-4', seleccionat: false }, { id: '7-5', seleccionat: false }, { id: '7-6', seleccionat: false }, { id: '7-7', seleccionat: false }, { id: '7-8', seleccionat: false }, { id: '7-9', seleccionat: false }, { id: '7-10', seleccionat: false }, { id: '7-11', seleccionat: false }, { id: '7-12', seleccionat: false }],
-                [{ id: '8-1', seleccionat: false }, { id: '8-2', seleccionat: false }, { id: '8-3', seleccionat: false }, { id: '8-4', seleccionat: false }, { id: '8-5', seleccionat: false }, { id: '8-6', seleccionat: false }, { id: '8-7', seleccionat: false }, { id: '8-8', seleccionat: false }, { id: '8-9', seleccionat: false }, { id: '8-10', seleccionat: false }, { id: '8-11', seleccionat: false }, { id: '8-12', seleccionat: false }],
-                [{ id: '9-1', seleccionat: false }, { id: '9-2', seleccionat: false }, { id: '9-3', seleccionat: false }, { id: '9-4', seleccionat: false }, { id: '9-5', seleccionat: false }, { id: '9-6', seleccionat: false }, { id: '9-7', seleccionat: false }, { id: '9-8', seleccionat: false }, { id: '9-9', seleccionat: false }, { id: '9-10', seleccionat: false }, { id: '9-11', seleccionat: false }, { id: '9-12', seleccionat: false }],
-                [{ id: '10-1', seleccionat: false }, { id: '10-2', seleccionat: false }, { id: '10-3', seleccionat: false }, { id: '10-4', seleccionat: false }, { id: '10-5', seleccionat: false }, { id: '10-6', seleccionat: false }, { id: '10-7', seleccionat: false }, { id: '10-8', seleccionat: false }, { id: '10-9', seleccionat: false }, { id: '10-10', seleccionat: false }, { id: '10-11', seleccionat: false }, { id: '10-12', seleccionat: false }],
+                [{ id: '1-1', seleccionat: false, ocupada: true }, { id: '1-2', seleccionat: false, ocupada: true }, { id: '1-3', seleccionat: false, ocupada: false }, { id: '1-4', seleccionat: false, ocupada: false }, { id: '1-5', seleccionat: false, ocupada: false }, { id: '1-6', seleccionat: false, ocupada: false }, { id: '1-7', seleccionat: false, ocupada: false }, { id: '1-8', seleccionat: false, ocupada: false }, { id: '1-9', seleccionat: false, ocupada: false }, { id: '1-10', seleccionat: false, ocupada: false }, { id: '1-11', seleccionat: false, ocupada: false }, { id: '1-12', seleccionat: false, ocupada: false }],
+                [{ id: '2-1', seleccionat: false, ocupada: false }, { id: '2-2', seleccionat: false, ocupada: false }, { id: '2-3', seleccionat: false, ocupada: false }, { id: '2-4', seleccionat: false, ocupada: false }, { id: '2-5', seleccionat: false, ocupada: false }, { id: '2-6', seleccionat: false, ocupada: false }, { id: '2-7', seleccionat: false, ocupada: false }, { id: '2-8', seleccionat: false, ocupada: false }, { id: '2-9', seleccionat: false, ocupada: false }, { id: '2-10', seleccionat: false, ocupada: false }, { id: '2-11', seleccionat: false, ocupada: false }, { id: '2-12', seleccionat: false, ocupada: false }],
+                [{ id: '3-1', seleccionat: false, ocupada: false }, { id: '3-2', seleccionat: false, ocupada: false }, { id: '3-3', seleccionat: false, ocupada: false }, { id: '3-4', seleccionat: false, ocupada: false }, { id: '3-5', seleccionat: false, ocupada: false }, { id: '3-6', seleccionat: false, ocupada: false }, { id: '3-7', seleccionat: false, ocupada: false }, { id: '3-8', seleccionat: false, ocupada: false }, { id: '3-9', seleccionat: false, ocupada: false }, { id: '3-10', seleccionat: false, ocupada: false }, { id: '3-11', seleccionat: false, ocupada: false }, { id: '3-12', seleccionat: false, ocupada: false }],
+                [{ id: '4-1', seleccionat: false, ocupada: false }, { id: '4-2', seleccionat: false, ocupada: false }, { id: '4-3', seleccionat: false, ocupada: false }, { id: '4-4', seleccionat: false, ocupada: false }, { id: '4-5', seleccionat: false, ocupada: false }, { id: '4-6', seleccionat: false, ocupada: false }, { id: '4-7', seleccionat: false, ocupada: false }, { id: '4-8', seleccionat: false, ocupada: false }, { id: '4-9', seleccionat: false, ocupada: false }, { id: '4-10', seleccionat: false, ocupada: false }, { id: '4-11', seleccionat: false, ocupada: false }, { id: '4-12', seleccionat: false, ocupada: false }],
+                [{ id: '5-1', seleccionat: false, ocupada: false }, { id: '5-2', seleccionat: false, ocupada: false }, { id: '5-3', seleccionat: false, ocupada: false }, { id: '5-4', seleccionat: false, ocupada: false }, { id: '5-5', seleccionat: false, ocupada: false }, { id: '5-6', seleccionat: false, ocupada: false }, { id: '5-7', seleccionat: false, ocupada: false }, { id: '5-8', seleccionat: false, ocupada: false }, { id: '5-9', seleccionat: false, ocupada: false }, { id: '5-10', seleccionat: false, ocupada: false }, { id: '5-11', seleccionat: false, ocupada: false }, { id: '5-12', seleccionat: false, ocupada: false }],
+                [{ id: '6-1', seleccionat: false, ocupada: false }, { id: '6-2', seleccionat: false, ocupada: false }, { id: '6-3', seleccionat: false, ocupada: false }, { id: '6-4', seleccionat: false, ocupada: false }, { id: '6-5', seleccionat: false, ocupada: false }, { id: '6-6', seleccionat: false, ocupada: false }, { id: '6-7', seleccionat: false, ocupada: false }, { id: '6-8', seleccionat: false, ocupada: false }, { id: '6-9', seleccionat: false, ocupada: false }, { id: '6-10', seleccionat: false, ocupada: false }, { id: '6-11', seleccionat: false, ocupada: false }, { id: '6-12', seleccionat: false, ocupada: false }],
+                [{ id: '7-1', seleccionat: false, ocupada: false }, { id: '7-2', seleccionat: false, ocupada: false }, { id: '7-3', seleccionat: false, ocupada: false }, { id: '7-4', seleccionat: false, ocupada: false }, { id: '7-5', seleccionat: false, ocupada: false }, { id: '7-6', seleccionat: false, ocupada: false }, { id: '7-7', seleccionat: false, ocupada: false }, { id: '7-8', seleccionat: false, ocupada: false }, { id: '7-9', seleccionat: false, ocupada: false }, { id: '7-10', seleccionat: false, ocupada: false }, { id: '7-11', seleccionat: false, ocupada: false }, { id: '7-12', seleccionat: false, ocupada: false }],
+                [{ id: '8-1', seleccionat: false, ocupada: false }, { id: '8-2', seleccionat: false, ocupada: false }, { id: '8-3', seleccionat: false, ocupada: false }, { id: '8-4', seleccionat: false, ocupada: false }, { id: '8-5', seleccionat: false, ocupada: false }, { id: '8-6', seleccionat: false, ocupada: false }, { id: '8-7', seleccionat: false, ocupada: false }, { id: '8-8', seleccionat: false, ocupada: false }, { id: '8-9', seleccionat: false, ocupada: false }, { id: '8-10', seleccionat: false, ocupada: false }, { id: '8-11', seleccionat: false, ocupada: false }, { id: '8-12', seleccionat: false, ocupada: false }],
+                [{ id: '9-1', seleccionat: false, ocupada: false }, { id: '9-2', seleccionat: false, ocupada: false }, { id: '9-3', seleccionat: false, ocupada: false }, { id: '9-4', seleccionat: false, ocupada: false }, { id: '9-5', seleccionat: false, ocupada: false }, { id: '9-6', seleccionat: false, ocupada: false }, { id: '9-7', seleccionat: false, ocupada: false }, { id: '9-8', seleccionat: false, ocupada: false }, { id: '9-9', seleccionat: false, ocupada: false }, { id: '9-10', seleccionat: false, ocupada: false }, { id: '9-11', seleccionat: false, ocupada: false }, { id: '9-12', seleccionat: false, ocupada: false }],
+                [{ id: '10-1', seleccionat: false, ocupada: false }, { id: '10-2', seleccionat: false, ocupada: false }, { id: '10-3', seleccionat: false, ocupada: false }, { id: '10-4', seleccionat: false, ocupada: false }, { id: '10-5', seleccionat: false, ocupada: false }, { id: '10-6', seleccionat: false, ocupada: false }, { id: '10-7', seleccionat: false, ocupada: false }, { id: '10-8', seleccionat: false, ocupada: false }, { id: '10-9', seleccionat: false, ocupada: false }, { id: '10-10', seleccionat: false, ocupada: false }, { id: '10-11', seleccionat: false, ocupada: false }, { id: '10-12', seleccionat: false, ocupada: false }],
             ],
             butacasSeleccionadas: [],
             butacasOcupadas: ['1-1', '1-2'],
         };
     },
     methods: {
+        fetchButacasOcupadas() {
+            fetch(`http://localhost:8000/api/entradas/${this.$route.params.id}`)
+                .then(response => response.json())
+                .then(data => {
+                    this.actualizarButacasOcupadas(data.butacasOcupadas);
+                })
+                .catch(error => console.error('Error al obtener butacas ocupadas:', error));
+        },
+        actualizarButacasOcupadas(butacasOcupadas) {
+            this.files.forEach(fila => {
+                fila.forEach(asiento => {
+                    if (butacasOcupadas.includes(asiento.id)) {
+                        asiento.ocupada = true;
+                    }
+                });
+            });
+        },
         toggleSeient(seientId) {
             if (this.butacasSeleccionadas.length < 10 || this.findSeientById(seientId).seleccionat) {
                 console.log(seientId);
@@ -89,11 +106,11 @@ export default {
         },
         comprar() {
             this.$router.push({
-                name: 'ConfirmacionCompra', // Asegúrate de que este es el nombre correcto
-                params: {
-                    butacas: this.butacasSeleccionadas,
-                    nombrePelicula: 'El nombre de tu película', // Ejemplo, ajusta según sea necesario
-                    precioTotal: 100 
+                path: '/confirmarCompra', // La ruta es derivada del nombre del archivo en la carpeta pages
+                query: {
+                    butacas: JSON.stringify(this.butacasSeleccionadas),
+                    nombrePelicula: 'El nombre de tu película', // Ajusta según sea necesario
+                    precioTotal: this.precioTotal
                 }
             });
         }
@@ -102,6 +119,9 @@ export default {
     computed: {
         mostrarPanel() {
             return this.butacasSeleccionadas.length > 0;
+        },
+        precioTotal() {
+            return this.butacasSeleccionadas.length * 6; // 6€ por butaca
         }
     },
 };
