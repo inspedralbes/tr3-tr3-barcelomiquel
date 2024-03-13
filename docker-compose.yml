@@ -26,7 +26,7 @@ services:
     working_dir: /app
     volumes:
       - ./front:/app
-    command: bash -c "npm install && npm run dev"
+    command: bash -c "npm install && npx nodemon -L --watch . --exec 'npm run dev'"
     ports:
       - "3000:3000"
 

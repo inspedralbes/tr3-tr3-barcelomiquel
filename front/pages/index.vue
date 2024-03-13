@@ -66,6 +66,9 @@ export default {
           console.error('There has been a problem with your fetch operation:', error);
         });
     },
+  },created(){
+     let store = useSesionCompraStore();
+     store.id_sesion_actual = this.$route.params.id;
   },
 };
 </script>

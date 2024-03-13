@@ -1,9 +1,18 @@
 <template>
-
     <body>
         <Header />
         <div class="cine">
             <h1>Selecciona el teu seient de la sessio {{ $route.params.id }}</h1>
+            <div class="detalles-pelicula">
+                <img :src="sessionData.pelicula.poster" alt="Póster de la película" class="poster-pelicula">
+                <div class="info-pelicula">
+                    <h2>{{ sessionData.pelicula.titul }}</h2>
+                    <p>Género: {{ sessionData.pelicula.genere }}</p>
+                    <p>Fecha: {{ sessionData.pelicula.fecha }}</p>
+                    <p>Hora: {{ sessionData.pelicula.hora }}</p>
+                    <p>Descripción: {{ sessionData.pelicula.descripcio }}</p>
+                </div>
+            </div>
             <div class="pantalla">
                 <h2>Pantalla</h2>
             </div>
@@ -29,6 +38,7 @@
 </template>
 
 <script>
+import { useSesionCompraStore } from '../stores/sesionCompra.js';
 import Seient from '../components/Seient.vue';
 
 export default {
@@ -51,9 +61,22 @@ export default {
             ],
             butacasSeleccionadas: [],
             butacasOcupadas: ['1-1', '1-2'],
+            sessionData: null,
         };
     },
     methods: {
+        fetchSessionData() {
+            const store = useSesionCompraStore(); // Utiliza la tienda Pinia
+            const sessionId = store.id_sesion_actual; // Obtiene el ID de sesión actual de la tienda
+            
+            // Ahora utiliza este sessionId para hacer el fetch
+            fetch(`http://localhost:8000/api/sesiones/${sessionId}`)
+                .then(response => response.json())
+                .then(data => {
+                    this.sessionData = data; // Almacena los datos de la sesión en sessionData
+                })
+                .catch(error => console.error('Error al obtener datos de la sesión:', error));
+        },
         fetchButacasOcupadas() {
             fetch(`http://localhost:8000/api/entradas/${this.$route.params.id}`)
                 .then(response => response.json())
@@ -124,6 +147,9 @@ export default {
             return this.butacasSeleccionadas.length * 6; // 6€ por butaca
         }
     },
+    created() {
+        this.fetchSessionData(); // Llamada al método para obtener los datos de la sesión al crear el componente
+    },
 };
 </script>
 
@@ -176,6 +202,13 @@ body {
 }
 
 .fila-indicador {
+    width: 30px;
+    /* Ancho fijo para todos los indicadores de fila */
+    display: flex;
+    justify-content: center;
+    /* Centra el contenido horizontalmente */
+    align-items: center;
+    /* Centra el contenido verticalmente */
     margin-right: 10px;
     /* Espacio entre el indicador de la fila y los asientos */
     color: #ffffff;
@@ -225,6 +258,26 @@ button:hover {
 
 .borrar:hover {
     background-color: #a04545;
+}
+
+.detalles-pelicula {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+.poster-pelicula {
+    width: 150px; /* Ajusta según necesidad */
+    margin-right: 20px;
+}
+
+.info-pelicula h2 {
+    margin: 0;
+    padding: 0;
+}
+
+.info-pelicula p {
+    margin: 5px 0;
 }
 
 /* Los estilos de Seient.vue se aplicarán aquí debido al scope */

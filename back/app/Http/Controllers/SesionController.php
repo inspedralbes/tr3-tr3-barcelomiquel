@@ -43,9 +43,13 @@ class SesionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        // Busca la sesión por su ID y carga la película relacionada
+        $sesion = Sesion::with('pelicula')->findOrFail($id);
+
+        // Si la sesión no existe, findOrFail arrojará automáticamente un error 404
+        return response()->json($sesion);
     }
 
     /**
