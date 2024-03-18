@@ -66,11 +66,15 @@ export default {
         };
     },
     methods: {
+        toggleSeient(seientId) {
+            const store = useSesionCompraStore();
+            store.addButacaSeleccionada(seientId);
+        },
         fetchSessionData() {
             const store = useSesionCompraStore(); // Utiliza la tienda Pinia
             const sessionId = store.id_sesion_actual; // Obtiene el ID de sesión actual de la tienda
             console.log('sessionId:', sessionId); // Agregar esta línea para depurar
-            
+
             // Ahora utiliza este sessionId para hacer el fetch
             fetch(`http://localhost:8000/api/sesiones/${sessionId}`)
                 .then(response => response.json())
@@ -138,8 +142,16 @@ export default {
                     precioTotal: this.precioTotal
                 }
             });
-        }
-
+        },
+        addButacaSeleccionada(butacaId) {
+            this.butacasSeleccionadas.push(butacaId);
+        },
+        removeButacaSeleccionada(butacaId) {
+            const index = this.butacasSeleccionadas.indexOf(butacaId);
+            if (index > -1) {
+                this.butacasSeleccionadas.splice(index, 1);
+            }
+        },
     },
     computed: {
         mostrarPanel() {
@@ -147,6 +159,9 @@ export default {
         },
         precioTotal() {
             return this.butacasSeleccionadas.length * 6; // 6€ por butaca
+        },
+        store() {
+            return useSesionCompraStore();
         }
     },
     created() {
