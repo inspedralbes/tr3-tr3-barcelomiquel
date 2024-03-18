@@ -26,20 +26,20 @@ services:
     working_dir: /app
     volumes:
       - ./front:/app
-    command: bash -c "npm install && npx nodemon -L --watch . --exec 'npm run dev'"
+    command: bash -c "pwd && ls -la && echo 'INI' && npm install && echo 'segon'&& npm i @pinia/nuxt && npm install pinia && npx nodemon -L --watch . --exec 'npm run dev'"
     ports:
       - "3000:3000"
 
   db:
-    image: mysql:latest
+    image: mysql:8.2.0
     container_name: mysql_db
     volumes:
-      - db-data:/var/lib/mysql
+      - db-data2:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: laravel
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
+      MYSQL_USER: miquel
+      MYSQL_PASSWORD: miquel
     ports:
       - "3307:3306"
 
@@ -49,12 +49,12 @@ services:
     environment:
       PMA_HOST: db
       PMA_PORT: 3306
-      PMA_USER: root
-      PMA_PASSWORD: root
+      PMA_USER: miquel
+      PMA_PASSWORD: miquel
     ports:
       - "8080:80"
     depends_on:
       - db
 
 volumes:
-  db-data:
+  db-data2:
