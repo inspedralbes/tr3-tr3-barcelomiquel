@@ -1,9 +1,10 @@
 <template>
+
     <body>
         <Header />
         <div class="cine">
             <h1>Selecciona el teu seient de la sessio {{ $route.params.id }}</h1>
-            <div class="detalles-pelicula">
+            <div class="detalles-pelicula" v-if="sessionData">
                 <img :src="sessionData.pelicula.poster" alt="Póster de la película" class="poster-pelicula">
                 <div class="info-pelicula">
                     <h2>{{ sessionData.pelicula.titul }}</h2>
@@ -68,6 +69,7 @@ export default {
         fetchSessionData() {
             const store = useSesionCompraStore(); // Utiliza la tienda Pinia
             const sessionId = store.id_sesion_actual; // Obtiene el ID de sesión actual de la tienda
+            console.log('sessionId:', sessionId); // Agregar esta línea para depurar
             
             // Ahora utiliza este sessionId para hacer el fetch
             fetch(`http://localhost:8000/api/sesiones/${sessionId}`)
@@ -267,7 +269,8 @@ button:hover {
 }
 
 .poster-pelicula {
-    width: 150px; /* Ajusta según necesidad */
+    width: 150px;
+    /* Ajusta según necesidad */
     margin-right: 20px;
 }
 
