@@ -82,7 +82,7 @@ export default {
             const isSelected = !seient.seleccionat;
 
             // Verifica si el límite de asientos seleccionados no se ha alcanzado o si el asiento ya está seleccionado
-            if (this.butacasSeleccionadas.length < 10 || isSelected) {
+            if (this.butacasSeleccionadas.length < 10 || !isSelected) {
                 // Cambia el estado de selección del asiento
                 seient.seleccionat = isSelected;
 
@@ -121,12 +121,7 @@ export default {
         },
         comprar() {
             this.$router.push({
-                path: '/confirmarCompra', // La ruta es derivada del nombre del archivo en la carpeta pages
-                query: {
-                    butacas: JSON.stringify(this.butacasSeleccionadas),
-                    nombrePelicula: 'El nombre de tu película', // Ajusta según sea necesario
-                    precioTotal: this.precioTotal
-                }
+                path: '/confirmarCompra', 
             });
         },
     },

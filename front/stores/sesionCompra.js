@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 
 export const useSesionCompraStore = defineStore('sesionCompra', () => {
+    const sesionID = ref(0);
     const butacasSeleccionadas = ref([]);
     const precioTotal = ref(0);
 
@@ -21,7 +22,12 @@ export const useSesionCompraStore = defineStore('sesionCompra', () => {
         precioTotal.value = butacasSeleccionadas.value.reduce((total, asiento) => total + asiento.precio, 0);
     }
 
+    function setSesionID(id) {
+        sesionID.value = id;
+    }
+
     return { 
+        sesionID,
         butacasSeleccionadas,
         precioTotal,
         agregarButacaSeleccionada,

@@ -11,7 +11,7 @@
           <p>{{ movieOfTheWeek.pelicula.genere }}</p>
           <p>{{ movieOfTheWeek.fecha }}</p>
           <p>{{ movieOfTheWeek.hora }}</p>
-          <nuxt-link :to="'compra/'+movieOfTheWeek.pelicula_id" class="buttonTicket">Reservar Entrada</nuxt-link>
+          <nuxt-link :to="'compra/'+movieOfTheWeek.pelicula_id" class="buttonTicket" @click="reservarEntrada(movieOfTheWeek.id)">Reservar Entrada</nuxt-link>
         </div>
       </div>
       <h2>Todas las películas</h2>
@@ -22,7 +22,7 @@
           <p>{{ sesion.pelicula.genere }}</p>
           <p>{{ sesion.fecha }}</p>
           <p>{{ sesion.hora }}</p>
-          <nuxt-link :to="'compra/'+sesion.pelicula_id" class="buttonTicket">Reservar Entrada</nuxt-link>
+          <nuxt-link :to="'compra/'+sesion.pelicula_id" class="buttonTicket" @click="reservarEntrada(sesion.id)">Reservar Entrada</nuxt-link>
         </div>
       </div>
     </div>
@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import { useSesionCompraStore } from '@/stores/sesionCompra';
+
 export default {
   data() {
     return {
@@ -66,9 +68,10 @@ export default {
           console.error('There has been a problem with your fetch operation:', error);
         });
     },
-  },created(){
-     let store = useSesionCompraStore();
-     store.id_sesion_actual = this.$route.params.id;
+    reservarEntrada(sesionId) {
+      let store = useSesionCompraStore();
+      store.setSesionID(sesionId);
+    },
   },
 };
 </script>
