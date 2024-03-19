@@ -4,16 +4,7 @@
         <Header />
         <div class="cine">
             <h1>Selecciona el teu seient de la sessio {{ $route.params.id }}</h1>
-            <div class="detalles-pelicula" v-if="sessionData">
-                <img :src="sessionData.pelicula.poster" alt="Póster de la película" class="poster-pelicula">
-                <div class="info-pelicula">
-                    <h2>{{ sessionData.pelicula.titul }}</h2>
-                    <p>Género: {{ sessionData.pelicula.genere }}</p>
-                    <p>Fecha: {{ sessionData.pelicula.fecha }}</p>
-                    <p>Hora: {{ sessionData.pelicula.hora }}</p>
-                    <p>Descripción: {{ sessionData.pelicula.descripcio }}</p>
-                </div>
-            </div>
+
             <div class="pantalla">
                 <h2>Pantalla</h2>
             </div>
@@ -30,7 +21,7 @@
             <div v-if="mostrarPanel" class="panel-seleccion">
                 <h3>Butacas seleccionadas:</h3>
                 <p>{{ butacasSeleccionadas.join(', ') }}</p>
-                <p>Precio total: {{ precioTotal }}€</p> <!-- Muestra el precio total aquí -->
+                <p>Precio total: {{ precioTotal }}€</p>
                 <button @click="comprar">Comprar</button>
                 <button class="borrar" @click="borrarSeleccion">Borrar selección</button>
             </div>
@@ -66,23 +57,6 @@ export default {
         };
     },
     methods: {
-        toggleSeient(seientId) {
-            const store = useSesionCompraStore();
-            store.addButacaSeleccionada(seientId);
-        },
-        fetchSessionData() {
-            const store = useSesionCompraStore(); // Utiliza la tienda Pinia
-            const sessionId = store.id_sesion_actual; // Obtiene el ID de sesión actual de la tienda
-            console.log('sessionId:', sessionId); // Agregar esta línea para depurar
-
-            // Ahora utiliza este sessionId para hacer el fetch
-            fetch(`http://localhost:8000/api/sesiones/${sessionId}`)
-                .then(response => response.json())
-                .then(data => {
-                    this.sessionData = data; // Almacena los datos de la sesión en sessionData
-                })
-                .catch(error => console.error('Error al obtener datos de la sesión:', error));
-        },
         fetchButacasOcupadas() {
             fetch(`http://localhost:8000/api/entradas/${this.$route.params.id}`)
                 .then(response => response.json())
@@ -101,17 +75,29 @@ export default {
             });
         },
         toggleSeient(seientId) {
-            if (this.butacasSeleccionadas.length < 10 || this.findSeientById(seientId).seleccionat) {
-                console.log(seientId);
-                const seient = this.findSeientById(seientId);
-                seient.seleccionat = !seient.seleccionat;
-                if (seient.seleccionat) {
+            // Encuentra el asiento seleccionado por su ID
+            const seient = this.findSeientById(seientId);
+
+            // Verifica si el asiento está seleccionado o no
+            const isSelected = !seient.seleccionat;
+
+            // Verifica si el límite de asientos seleccionados no se ha alcanzado o si el asiento ya está seleccionado
+            if (this.butacasSeleccionadas.length < 10 || isSelected) {
+                // Cambia el estado de selección del asiento
+                seient.seleccionat = isSelected;
+
+                // Actualiza el array de butacas seleccionadas
+                if (isSelected) {
                     this.butacasSeleccionadas.push(seientId);
+
+                    const precio = 6; // Precio fijo de 6€ por asiento
+                    this.store.agregarButacaSeleccionada(seientId, precio);
                 } else {
                     const index = this.butacasSeleccionadas.indexOf(seientId);
                     if (index > -1) {
                         this.butacasSeleccionadas.splice(index, 1);
                     }
+                    this.store.eliminarButacaSeleccionada(seientId);
                 }
             } else {
                 alert("No puedes seleccionar más de 10 butacas.");
@@ -143,15 +129,6 @@ export default {
                 }
             });
         },
-        addButacaSeleccionada(butacaId) {
-            this.butacasSeleccionadas.push(butacaId);
-        },
-        removeButacaSeleccionada(butacaId) {
-            const index = this.butacasSeleccionadas.indexOf(butacaId);
-            if (index > -1) {
-                this.butacasSeleccionadas.splice(index, 1);
-            }
-        },
     },
     computed: {
         mostrarPanel() {
@@ -165,7 +142,8 @@ export default {
         }
     },
     created() {
-        this.fetchSessionData(); // Llamada al método para obtener los datos de la sesión al crear el componente
+        // Llama a la función para obtener las butacas ocupadas cuando se crea el componente
+        this.fetchButacasOcupadas();
     },
 };
 </script>
