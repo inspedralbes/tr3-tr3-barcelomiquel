@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Entrada;
+use App\Models\Sesion;
 
 class EntradaController extends Controller
 {
@@ -12,13 +13,17 @@ class EntradaController extends Controller
      */
     public function index()
     {
-        //
+        // Obtener todas las entradas
+        $entradas = Entrada::all();
+        
+        // Devolver una respuesta
+        return response()->json($entradas);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, string $id)
     {
         // Validar los datos de entrada
         $validated = $request->validate([
@@ -27,9 +32,9 @@ class EntradaController extends Controller
             'precio' => 'required|numeric',
         ]);
 
-        // Crear la entrada
+        // Crear una nueva entrada
         $entrada = Entrada::create($validated);
-
+        
         // Devolver una respuesta
         return response()->json($entrada, 201);
     }
@@ -39,7 +44,11 @@ class EntradaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // Buscar la entrada por ID
+        $entrada = Entrada::findOrFail($id);
+
+        // Devolver una respuesta
+        return response()->json($entrada);
     }
 
     /**
@@ -47,7 +56,20 @@ class EntradaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Validar los datos de entrada
+        $validated = $request->validate([
+            'asientos' => 'array',
+            'precio' => 'numeric',
+        ]);
+
+        // Buscar la entrada por ID
+        $entrada = Entrada::findOrFail($id);
+
+        // Actualizar la entrada
+        $entrada->update($validated);
+
+        // Devolver una respuesta
+        return response()->json($entrada, 200);
     }
 
     /**
@@ -55,6 +77,11 @@ class EntradaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // Buscar la entrada por ID y eliminarla
+        $entrada = Entrada::findOrFail($id);
+        $entrada->delete();
+
+        // Devolver una respuesta
+        return response()->json(null, 204);
     }
 }

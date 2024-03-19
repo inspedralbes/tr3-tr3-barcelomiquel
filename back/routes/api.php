@@ -21,8 +21,11 @@ Route::get('/peliculas', [PeliculasController::class, 'index']);
 Route::post('/peliculas', [PeliculasController::class, 'store']);
 Route::get('/peliculas/{id}', [PeliculasController::class, 'show']);
 
-// Route::get('/entradas/{id}', [EntradaController::class, 'show']);
-Route::post('/entradas', [EntradaController::class, 'store']);
+Route::get('/entradas/{id}', [EntradaController::class, 'show']);
+Route::post('/entradas/{id}', [EntradaController::class, 'store']);
+Route::get('/entradas', [EntradaController::class, 'index']);
+Route::get('/entradas/{id}', [EntradaController::class, 'show']);
+
 
 Route::get('/sesiones', [SesionController::class, 'index']);
 Route::post('/sesiones', [SesionController::class, 'store']);

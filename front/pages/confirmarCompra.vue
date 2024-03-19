@@ -54,8 +54,34 @@ export default {
   },
   methods: {
     comprar() {
-      // Coloca aquí la lógica para realizar la compra, por ejemplo, redirigir a una página de confirmación
-      this.$router.push({ path: '/compraConfirmada' });
+      const sesionCompraStore = useSesionCompraStore();
+      const sesionId = sesionCompraStore.sesionID;
+      const asientos = sesionCompraStore.butacasSeleccionadas.map(butaca => ({
+        id: butaca.id,
+        precio: butaca.precio
+      }));
+
+      fetch(`http://localhost:8000/api/entradas/${sesionId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          asientos: asientos,
+          precio: this.precioTotal
+        }),
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error al comprar las entradas');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Redirige a la página de confirmación
+        this.$router.push({ path: '/compraConfirmada' });
+      })
+      .catch(error => console.error('Error al comprar las entradas:', error));
     },
     fetchPelicula() {
       const sesionCompraStore = useSesionCompraStore();
@@ -79,7 +105,6 @@ export default {
       console.log("Botón tornar clicado"); // Añadido para verificar si se ejecuta la función
       this.$router.push({ path: '/' });
     },
-
   },
   created() {
     this.fetchPelicula();
