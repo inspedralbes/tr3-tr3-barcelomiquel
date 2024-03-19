@@ -25,6 +25,7 @@
         </ul>
         <h2>Total: {{ precioTotal }}€</h2>
         <button @click="comprar">Comprar</button>
+        <button class="tornar" @click="tornar">Inici</button>
       </div>
     </div>
   </body>
@@ -68,6 +69,17 @@ export default {
         })
         .catch(error => console.error('Error al obtener la película:', error));
     },
+    tornar() {
+      // Resetea el store de PINIA para borrar los datos almacenados
+      this.store.sesionID = 0;
+      this.store.butacasSeleccionadas = [];
+      this.store.precioTotal = 0;
+
+      // Redirige a la página de inicio
+      console.log("Botón tornar clicado"); // Añadido para verificar si se ejecuta la función
+      this.$router.push({ path: '/' });
+    },
+
   },
   created() {
     this.fetchPelicula();
@@ -81,7 +93,7 @@ body {
   /* Elimina los márgenes predeterminados del body */
   padding: 0;
   /* Elimina el padding predeterminado del body */
-  height: 100vh;
+  height: 100%;
   /* Hace que el body ocupe el 100% del alto de la ventana */
 }
 
@@ -129,34 +141,57 @@ button:hover {
 
 
 .detalles-pelicula {
-    display: flex;
-    align-items: center; /* Alinea verticalmente */
-    justify-content: center; /* Alinea horizontalmente */
-    padding: 20px;
+  display: flex;
+  align-items: center;
+  /* Alinea verticalmente */
+  justify-content: center;
+  /* Alinea horizontalmente */
+  padding: 20px;
 }
 
 .poster-pelicula {
-    width: 300px; /* Ajusta según necesidad */
-    margin-left: 35%;
+  width: 300px;
+  /* Ajusta según necesidad */
+  margin-left: 35%;
 }
 
 .poster-pelicula img {
-    width: 100%; /* Para asegurar que la imagen del póster llene su contenedor */
+  width: 100%;
+  /* Para asegurar que la imagen del póster llene su contenedor */
 }
 
 .info-pelicula {
-    flex-grow: 1; /* Ocupa todo el espacio restante */
-    text-align: left;
-    padding: 35px;
+  flex-grow: 1;
+  /* Ocupa todo el espacio restante */
+  text-align: left;
+  padding: 35px;
 }
 
 .info-pelicula h2 {
-    margin-top: 0; /* Eliminar el margen superior del título */
-    margin-bottom: 10px; /* Espacio entre el título y los párrafos */
+  margin-top: 0;
+  /* Eliminar el margen superior del título */
+  margin-bottom: 10px;
+  /* Espacio entre el título y los párrafos */
 }
 
 .info-pelicula p {
-    margin: 0; /* Eliminar márgenes en los párrafos */
-    margin-bottom: 5px; /* Espacio entre párrafos */
+  margin: 0;
+  /* Eliminar márgenes en los párrafos */
+  margin-bottom: 5px;
+  /* Espacio entre párrafos */
+}
+
+.tornar {
+  background-color: #afa84c;
+  color: white;
+  padding: 10px 20px;
+  margin: 10px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.tornar:hover {
+  background-color: #a09a45;
 }
 </style>

@@ -35,7 +35,8 @@
                 <p>{{ butacasSeleccionadas.join(', ') }}</p>
                 <p>Precio total: {{ precioTotal }}€</p>
                 <button @click="comprar">Comprar</button>
-                <button class="borrar" @click="borrarSeleccion">Borrar selección</button>
+                <button class="borrar" @click="borrarSeleccion">Borrar selecció</button>
+                <button class="tornar" @click="tornar">Inici</button>
             </div>
         </div>
     </body>
@@ -148,6 +149,15 @@ export default {
                 path: '/confirmarCompra',
             });
         },
+        tornar() {
+            this.store.sesionID = 0;
+            this.store.butacasSeleccionadas = [];
+            this.store.precioTotal = 0;
+
+            this.$router.push({
+                path: '/',
+            });
+        },
     },
     computed: {
         mostrarPanel() {
@@ -189,34 +199,43 @@ body {
 
 .detalles-pelicula {
     display: flex;
-    align-items: center; /* Alinea verticalmente */
-    justify-content: center; /* Alinea horizontalmente */
+    align-items: center;
+    /* Alinea verticalmente */
+    justify-content: center;
+    /* Alinea horizontalmente */
     padding: 20px;
 }
 
 .poster-pelicula {
-    width: 300px; /* Ajusta según necesidad */
+    width: 300px;
+    /* Ajusta según necesidad */
     margin-left: 35%;
 }
 
 .poster-pelicula img {
-    width: 100%; /* Para asegurar que la imagen del póster llene su contenedor */
+    width: 100%;
+    /* Para asegurar que la imagen del póster llene su contenedor */
 }
 
 .info-pelicula {
-    flex-grow: 1; /* Ocupa todo el espacio restante */
+    flex-grow: 1;
+    /* Ocupa todo el espacio restante */
     text-align: left;
     padding: 35px;
 }
 
 .info-pelicula h2 {
-    margin-top: 0; /* Eliminar el margen superior del título */
-    margin-bottom: 10px; /* Espacio entre el título y los párrafos */
+    margin-top: 0;
+    /* Eliminar el margen superior del título */
+    margin-bottom: 10px;
+    /* Espacio entre el título y los párrafos */
 }
 
 .info-pelicula p {
-    margin: 0; /* Eliminar márgenes en los párrafos */
-    margin-bottom: 5px; /* Espacio entre párrafos */
+    margin: 0;
+    /* Eliminar márgenes en los párrafos */
+    margin-bottom: 5px;
+    /* Espacio entre párrafos */
 }
 
 .pantalla {
@@ -282,7 +301,7 @@ button {
     background-color: #4CAF50;
     color: white;
     padding: 10px 20px;
-    margin: 10px 0;
+    margin: 10px 10px 0 0;
     border: none;
     cursor: pointer;
     border-radius: 5px;
@@ -296,7 +315,7 @@ button:hover {
     background-color: #af4c4c;
     color: white;
     padding: 10px 20px;
-    margin: 10px 0;
+    margin: 10px 10px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
@@ -304,6 +323,20 @@ button:hover {
 
 .borrar:hover {
     background-color: #a04545;
+}
+
+.tornar {
+    background-color: #afa84c;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.tornar:hover {
+    background-color: #a09a45;
 }
 
 /* Los estilos de Seient.vue se aplicarán aquí debido al scope */
