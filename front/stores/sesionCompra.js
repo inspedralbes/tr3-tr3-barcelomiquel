@@ -28,6 +28,7 @@ export const useSesionCompraStore = defineStore('sesionCompra', () => {
 
     return { 
         sesionID,
+        setSesionID,
         butacasSeleccionadas,
         precioTotal,
         agregarButacaSeleccionada,

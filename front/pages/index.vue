@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { useSesionCompraStore } from '@/stores/sesionCompra';
+import { useSesionCompraStore } from '../stores/sesionCompra.js';
 
 export default {
   data() {
@@ -69,8 +69,8 @@ export default {
         });
     },
     reservarEntrada(sesionId) {
-      let store = useSesionCompraStore();
-      store.setSesionID(sesionId);
+      const store = useSesionCompraStore(); // Obtén la instancia de Pinia
+      store.setSesionID(sesionId); // Guardar el ID de la sesión seleccionada en Pinia
     },
   },
 };

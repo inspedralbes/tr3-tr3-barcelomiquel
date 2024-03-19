@@ -3,8 +3,20 @@
     <body>
         <Header />
         <div class="cine">
+            <div class="detalles-pelicula" v-if="sesion">
+                <div class="poster-pelicula">
+                    <img :src="sesion.pelicula.poster" alt="Poster de la película" />
+                </div>
+                <div class="info-pelicula">
+                    <h2>{{ sesion.pelicula.titol }}</h2>
+                    <p>{{ sesion.pelicula.genere }}</p>
+                    <p>{{ sesion.hora }}</p>
+                    <p>{{ sesion.pelicula.duracio }}</p>
+                    <p>{{ sesion.fecha }}</p>
+                    <p>{{ sesion.pelicula.descripcio }}</p>
+                </div>
+            </div>
             <h1>Selecciona el teu seient de la sessio {{ $route.params.id }}</h1>
-
             <div class="pantalla">
                 <h2>Pantalla</h2>
             </div>
@@ -53,10 +65,22 @@ export default {
             ],
             butacasSeleccionadas: [],
             butacasOcupadas: ['1-1', '1-2'],
-            sessionData: null,
+            sesion: null,
         };
     },
     methods: {
+        fetchPelicula() {
+            const sesionCompraStore = useSesionCompraStore();
+            const sesionId = sesionCompraStore.sesionId;
+
+            fetch(`http://localhost:8000/api/sesiones/${this.$route.params.id}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    this.sesion = data;
+                })
+                .catch(error => console.error('Error al obtener la película:', error));
+        },
         fetchButacasOcupadas() {
             fetch(`http://localhost:8000/api/entradas/${this.$route.params.id}`)
                 .then(response => response.json())
@@ -121,7 +145,7 @@ export default {
         },
         comprar() {
             this.$router.push({
-                path: '/confirmarCompra', 
+                path: '/confirmarCompra',
             });
         },
     },
@@ -134,11 +158,12 @@ export default {
         },
         store() {
             return useSesionCompraStore();
-        }
+        },
     },
     created() {
         // Llama a la función para obtener las butacas ocupadas cuando se crea el componente
         this.fetchButacasOcupadas();
+        this.fetchPelicula();
     },
 };
 </script>
@@ -149,7 +174,7 @@ body {
     /* Elimina los márgenes predeterminados del body */
     padding: 0;
     /* Elimina el padding predeterminado del body */
-    height: 100vh;
+    height: 100%;
     /* Hace que el body ocupe el 100% del alto de la ventana */
 }
 
@@ -157,10 +182,41 @@ body {
     text-align: center;
     padding: 20px;
     background-color: #1f1f1f;
-    /* Fondo oscuro para simular el interior de una sala de cine */
     color: #ffffff;
     height: 100%;
     font-family: 'Your Epic Font', sans-serif;
+}
+
+.detalles-pelicula {
+    display: flex;
+    align-items: center; /* Alinea verticalmente */
+    justify-content: center; /* Alinea horizontalmente */
+    padding: 20px;
+}
+
+.poster-pelicula {
+    width: 300px; /* Ajusta según necesidad */
+    margin-left: 35%;
+}
+
+.poster-pelicula img {
+    width: 100%; /* Para asegurar que la imagen del póster llene su contenedor */
+}
+
+.info-pelicula {
+    flex-grow: 1; /* Ocupa todo el espacio restante */
+    text-align: left;
+    padding: 35px;
+}
+
+.info-pelicula h2 {
+    margin-top: 0; /* Eliminar el margen superior del título */
+    margin-bottom: 10px; /* Espacio entre el título y los párrafos */
+}
+
+.info-pelicula p {
+    margin: 0; /* Eliminar márgenes en los párrafos */
+    margin-bottom: 5px; /* Espacio entre párrafos */
 }
 
 .pantalla {
@@ -248,27 +304,6 @@ button:hover {
 
 .borrar:hover {
     background-color: #a04545;
-}
-
-.detalles-pelicula {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-}
-
-.poster-pelicula {
-    width: 150px;
-    /* Ajusta según necesidad */
-    margin-right: 20px;
-}
-
-.info-pelicula h2 {
-    margin: 0;
-    padding: 0;
-}
-
-.info-pelicula p {
-    margin: 5px 0;
 }
 
 /* Los estilos de Seient.vue se aplicarán aquí debido al scope */
