@@ -54,42 +54,31 @@ export default {
   },
   methods: {
     comprar() {
-      const sesionCompraStore = useSesionCompraStore();
-      const sesionId = sesionCompraStore.sesionID;
-      const asiento = sesionCompraStore.butacasSeleccionadas.map(butaca => ({
-        id: butaca.id,
-      }));
-      const precio = sesionCompraStore.butacasSeleccionadas.map(butaca => ({
-        precio: butaca.precio,
-      }));
+      const asientosSeleccionados = this.store.butacasSeleccionadas.map(butaca => {
+        return {
+          sesionId: this.store.sesionID,
+          butacaId: butaca.id,
+          precioUnitario: butaca.precio
+        };
+      });
 
-      fetch(`http://localhost:8000/api/entradas/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          sesion_id: sesionId,
-          asiento: asiento,
-          precio: precio
-        }),
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Error al comprar las entradas');
-          }
-          return response.json();
+      // Iterar sobre los asientos seleccionados y enviar cada uno al backend
+      asientosSeleccionados.forEach(asiento => {
+        fetch(`http://localhost:8000/api/entradas/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(asiento),
         })
-        .then(data => {
-          // Redirige a la página de confirmación
-
-          this.store.sesionID = 0;
-          this.store.butacasSeleccionadas = [];
-          this.store.precioTotal = 0;
-
-          this.$router.push({ path: '/' });
-        })
-        .catch(error => console.error('Error al comprar las entradas:', error));
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Error al enviar datos al backend');
+            }
+            // Aquí puedes manejar la respuesta del backend si es necesario
+          })
+          .catch(error => console.error('Error al enviar datos al backend:', error));
+      });
     },
     fetchPelicula() {
       const sesionCompraStore = useSesionCompraStore();
