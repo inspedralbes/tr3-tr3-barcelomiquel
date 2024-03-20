@@ -28,7 +28,7 @@ class EntradaController extends Controller
         // Validar los datos de entrada
         $validated = $request->validate([
             'sesion_id' => 'required|exists:sesiones,id',
-            'asientos' => 'required|array',
+            'asiento' => 'required|string',
             'precio' => 'required|numeric',
         ]);
 

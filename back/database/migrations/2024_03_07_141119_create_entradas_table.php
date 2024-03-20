@@ -9,11 +9,13 @@ class CreateEntradasTable extends Migration
     public function up()
     {
         Schema::create('entradas', function (Blueprint $table) {
-            $table->id();
             $table->foreignId('sesion_id')->constrained('sesiones')->onDelete('cascade');
-            $table->json('asientos'); // Suponiendo que quieres almacenar múltiples asientos por entrada
-            $table->decimal('precio', 8, 2); // Ajusta la precisión según necesites
+            $table->string('asiento'); // Cambiado a string para utilizarlo como parte de la clave primaria
+            $table->decimal('precio', 8, 2);
             $table->timestamps();
+
+            // Definición de clave primaria compuesta
+            $table->primary(['sesion_id', 'asiento']);
         });
     }
 

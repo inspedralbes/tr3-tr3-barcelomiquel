@@ -56,9 +56,11 @@ export default {
     comprar() {
       const sesionCompraStore = useSesionCompraStore();
       const sesionId = sesionCompraStore.sesionID;
-      const asientos = sesionCompraStore.butacasSeleccionadas.map(butaca => ({
+      const asiento = sesionCompraStore.butacasSeleccionadas.map(butaca => ({
         id: butaca.id,
-        precio: butaca.precio
+      }));
+      const precio = sesionCompraStore.butacasSeleccionadas.map(butaca => ({
+        precio: butaca.precio,
       }));
 
       fetch(`http://localhost:8000/api/entradas/`, {
@@ -68,21 +70,26 @@ export default {
         },
         body: JSON.stringify({
           sesion_id: sesionId,
-          asientos: asientos,
-          precio: this.precioTotal
+          asiento: asiento,
+          precio: precio
         }),
       })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Error al comprar las entradas');
-        }
-        return response.json();
-      })
-      .then(data => {
-        // Redirige a la página de confirmación
-        this.$router.push({ path: '/' });
-      })
-      .catch(error => console.error('Error al comprar las entradas:', error));
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error al comprar las entradas');
+          }
+          return response.json();
+        })
+        .then(data => {
+          // Redirige a la página de confirmación
+
+          this.store.sesionID = 0;
+          this.store.butacasSeleccionadas = [];
+          this.store.precioTotal = 0;
+
+          this.$router.push({ path: '/' });
+        })
+        .catch(error => console.error('Error al comprar las entradas:', error));
     },
     fetchPelicula() {
       const sesionCompraStore = useSesionCompraStore();

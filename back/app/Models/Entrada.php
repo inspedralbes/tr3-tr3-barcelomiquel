@@ -13,7 +13,7 @@ class Entrada extends Model
 
     protected $fillable = [
         'sesion_id', 
-        'asientos', 
+        'asiento', 
         'precio'
     ];
 
