@@ -1,20 +1,30 @@
 # Galaxia Films
 
-Galaxia Films es un proyecto en desarrollo que busca revolucionar la manera en que se produce y consume contenido audiovisual. Desde la creación hasta la distribución, nuestro objetivo es ofrecer una experiencia única para los amantes del cine y la televisión.
+## Descripció
 
-## Atención
-
-Este proyecto está en desarrollo. Asegúrate de consultar regularmente para conocer las últimas actualizaciones y avances.
+Galaxia Films es un projecte que tracta d'un cinema de poble en el que te una cartalera i tu pots reservar entrades.
 
 ## Docker & Docker Compose
 
-El proyecto se puede desplegar fácilmente en modo de desarrollo utilizando Docker Compose. Simplemente ejecuta `docker compose up` para iniciar el entorno.
+El proyecto es pot desplegar fácilment en mode de desenvolupament utilizant Docker Compose. Simplement excecuta la seguent ordre per iniciar l'entorno.
 
-# Este archivo debe contener como mínimo:
- * **Nombre del proyecto:** Galaxia Films
- * **Descripción:** Un proyecto en desarrollo para transformar la industria audiovisual.
- * **Gestor de tareas:** [Taiga](https://tree.taiga.io/project/a16miqbargim-tr3-barcelomiquel/taskboard/sprint-1-7966)
- * **Prototipo gráfico:** Pendiente (se añadirá en cuanto esté disponible)
- * **URL de producción:** Pendiente
- * **Estado:** En desarrollo
+````docker
+docker-compose up
+````
+
+## Gestio de tasques:
+
+ [Taiga](https://tree.taiga.io/project/a16miqbargim-tr3-barcelomiquel/taskboard/sprint-1-7966)
+
+## Prototip Grafic:
+
+Pendent
+
+## URL de Producció:
+
+Pendent
+
+## Estat:
+
+Desenvolupament
 
