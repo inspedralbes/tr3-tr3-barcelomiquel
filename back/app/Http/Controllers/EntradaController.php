@@ -23,7 +23,7 @@ class EntradaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, string $id)
+    public function store(Request $request)
     {
         // Validar los datos de entrada
         $validated = $request->validate([

@@ -61,12 +61,13 @@ export default {
         precio: butaca.precio
       }));
 
-      fetch(`http://localhost:8000/api/entradas/${sesionId}`, {
+      fetch(`http://localhost:8000/api/entradas/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          sesion_id: sesionId,
           asientos: asientos,
           precio: this.precioTotal
         }),
@@ -79,7 +80,7 @@ export default {
       })
       .then(data => {
         // Redirige a la página de confirmación
-        this.$router.push({ path: '/compraConfirmada' });
+        this.$router.push({ path: '/' });
       })
       .catch(error => console.error('Error al comprar las entradas:', error));
     },

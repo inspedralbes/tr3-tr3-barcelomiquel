@@ -83,7 +83,7 @@ export default {
                 .catch(error => console.error('Error al obtener la película:', error));
         },
         fetchButacasOcupadas() {
-            fetch(`http://localhost:8000/api/entradas/${this.$route.params.id}`)
+            fetch(`http://localhost:8000/api/sesiones-entradas/${this.$route.params.id}`)
                 .then(response => response.json())
                 .then(data => {
                     this.actualizarButacasOcupadas(data.butacasOcupadas);
