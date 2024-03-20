@@ -1,19 +1,20 @@
-# transversals
-Esquema mínim de carpetes pels projectes transversals
+# Galaxia Films
 
-És obligatori seguir aquesta estructura tot i que la podeu ampliar.
+Galaxia Films es un proyecto en desarrollo que busca revolucionar la manera en que se produce y consume contenido audiovisual. Desde la creación hasta la distribución, nuestro objetivo es ofrecer una experiencia única para los amantes del cine y la televisión.
 
-## Atenció
-Un cop comenceu heu de canviar aquesta explicació amb la corresponent al vostre projecte (utilitzant markdown)
+## Atención
 
-## Docker & Docker compose
-El projecte s'ha de poder desplegar en mode desenvolupament simplement fent docker compose up
+Este proyecto está en desarrollo. Asegúrate de consultar regularmente para conocer las últimas actualizaciones y avances.
 
-# Aquest fitxer ha de contenir com a mínim:
- * Nom dels integrants
- * Nom del projecte
- * Petita descripció
- * Adreça del gestor de tasques (taiga, jira, trello...)
- * Adreça del prototip gràfic del projecte (Penpot, figma, moqups...)
- * URL de producció (quan la tingueu)
- * Estat: (explicació d'en quin punt està)
+## Docker & Docker Compose
+
+El proyecto se puede desplegar fácilmente en modo de desarrollo utilizando Docker Compose. Simplemente ejecuta `docker compose up` para iniciar el entorno.
+
+# Este archivo debe contener como mínimo:
+ * **Nombre del proyecto:** Galaxia Films
+ * **Descripción:** Un proyecto en desarrollo para transformar la industria audiovisual.
+ * **Gestor de tareas:** [Taiga](https://tree.taiga.io/project/a16miqbargim-tr3-barcelomiquel/taskboard/sprint-1-7966)
+ * **Prototipo gráfico:** Pendiente (se añadirá en cuanto esté disponible)
+ * **URL de producción:** Pendiente
+ * **Estado:** En desarrollo
+
