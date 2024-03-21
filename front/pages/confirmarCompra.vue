@@ -56,29 +56,39 @@ export default {
     comprar() {
       const asientosSeleccionados = this.store.butacasSeleccionadas.map(butaca => {
         return {
-          sesionId: this.store.sesionID,
-          butacaId: butaca.id,
-          precioUnitario: butaca.precio
+          asiento: butaca.id,
+          precio: butaca.precio
         };
       });
 
-      // Iterar sobre los asientos seleccionados y enviar cada uno al backend
-      asientosSeleccionados.forEach(asiento => {
-        fetch(`http://localhost:8000/api/entradas/`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(asiento),
+      const data = {
+        sesion_id: this.store.sesionID,
+        asientos: asientosSeleccionados
+      };
+
+      console.log(data); // Añadido para verificar si se envía la información correcta
+
+      fetch(`http://localhost:8000/api/entradas`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error al enviar datos al backend');
+          }
+          // Mostrar mensaje de confirmación
+          alert('Entrades comprades amb èxit');
+
+          // Redirigir a la página de inicio después de 2 segundos
+          setTimeout(() => {
+            this.$router.push({ path: '/' });
+          }, 2000);
         })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Error al enviar datos al backend');
-            }
-            // Aquí puedes manejar la respuesta del backend si es necesario
-          })
-          .catch(error => console.error('Error al enviar datos al backend:', error));
-      });
+        .catch(error => console.error('Error al enviar datos al backend:', error));
     },
     fetchPelicula() {
       const sesionCompraStore = useSesionCompraStore();
@@ -216,4 +226,18 @@ button:hover {
 .tornar:hover {
   background-color: #a09a45;
 }
+
+/* .confirmacion {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  margin: 10px auto;
+  border-radius: 5px;
+  max-width: 300px;
+  text-align: center;
+}
+
+.confirmacion:hover {
+  background-color: #45a049;
+} */
 </style>

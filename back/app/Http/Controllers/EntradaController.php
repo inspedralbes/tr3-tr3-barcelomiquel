@@ -25,34 +25,29 @@ class EntradaController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request){
-
         $validated = $request->validate([
             'sesion_id' => 'required|exists:sesiones,id',
-            'asientos' => 'required|string|array',
-            'precio' => 'required|array',
+            'asientos.*.asiento' => 'required|string',
+            'asientos.*.precio' => 'required|int',
         ]);
-
-        // Iniciar una transacción
-        DB::beginTransaction();
-
+    
         try {
-            foreach ($validated['asientos'] as $index => $asiento) {
-                // Crear una nueva entrada para cada asiento
+            DB::beginTransaction();
+    
+            foreach ($validated['asientos'] as $asiento) {
                 Entrada::create([
                     'sesion_id' => $validated['sesion_id'],
-                    'asiento' => $asiento,
-                    'precio' => $validated['precio'][$index],
+                    'asiento' => $asiento['asiento'],
+                    'precio' => $asiento['precio'],
                 ]);
             }
-
-            // Commit de la transacción si todas las operaciones se completaron con éxito
+    
             DB::commit();
-
+    
             return response()->json(['message' => 'Entradas guardadas correctamente'], 201);
         } catch (\Exception $e) {
-            // Rollback de la transacción en caso de error
             DB::rollBack();
-
+    
             return response()->json(['message' => 'Error al guardar las entradas: ' . $e->getMessage()], 500);
         }
     }
