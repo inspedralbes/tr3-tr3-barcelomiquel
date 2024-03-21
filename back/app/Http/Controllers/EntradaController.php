@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Entrada;
 use App\Models\Sesion;
@@ -23,20 +24,32 @@ class EntradaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, string $id)
-    {
-        // Validar los datos de entrada
+    public function store(Request $request){
         $validated = $request->validate([
             'sesion_id' => 'required|exists:sesiones,id',
-            'asientos' => 'required|array',
-            'precio' => 'required|numeric',
+            'asientos.*.asiento' => 'required|string',
+            'asientos.*.precio' => 'required|int',
         ]);
-
-        // Crear una nueva entrada
-        $entrada = Entrada::create($validated);
-        
-        // Devolver una respuesta
-        return response()->json($entrada, 201);
+    
+        try {
+            DB::beginTransaction();
+    
+            foreach ($validated['asientos'] as $asiento) {
+                Entrada::create([
+                    'sesion_id' => $validated['sesion_id'],
+                    'asiento' => $asiento['asiento'],
+                    'precio' => $asiento['precio'],
+                ]);
+            }
+    
+            DB::commit();
+    
+            return response()->json(['message' => 'Entradas guardadas correctamente'], 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+    
+            return response()->json(['message' => 'Error al guardar las entradas: ' . $e->getMessage()], 500);
+        }
     }
 
     /**

@@ -14,7 +14,7 @@
           <nuxt-link :to="'compra/'+movieOfTheWeek.pelicula_id" class="buttonTicket" @click="reservarEntrada(movieOfTheWeek.id)">Reservar Entrada</nuxt-link>
         </div>
       </div>
-      <h2>Todas las películas</h2>
+      <h2>Totes les pel·lícules</h2>
       <div class="movie-list">
         <div class="movie-card" v-for="sesion in sesiones" :key="sesion.id">
           <img :src="sesion.pelicula.poster" :alt="`Póster de ${sesion.pelicula.titol}`" />

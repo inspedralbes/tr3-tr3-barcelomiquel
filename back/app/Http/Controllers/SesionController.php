@@ -53,6 +53,19 @@ class SesionController extends Controller
     }
 
     /**
+    * Show the tickets for a specific session.
+    */
+    public function showEntradas($id)
+    {
+        // Busca la sesión por su ID y carga las entradas relacionadas
+        $sesion = Sesion::with('entradas')->findOrFail($id);
+
+        // Si la sesión no existe, findOrFail arrojará automáticamente un error 404
+        return response()->json($sesion);
+    }
+
+
+    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)

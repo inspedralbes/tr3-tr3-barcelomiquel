@@ -23,5 +23,10 @@ class Sesion extends Model
     {
         return $this->belongsTo(Peliculas::class, 'pelicula_id');
     }
+
+    public function entradas()
+    {
+        return $this->hasMany(Entrada::class, 'sesion_id');
+    }
 }
 

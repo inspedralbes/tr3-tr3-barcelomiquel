@@ -53,7 +53,7 @@ export default {
     data() {
         return {
             files: [
-                [{ id: '1-1', seleccionat: false, ocupada: true }, { id: '1-2', seleccionat: false, ocupada: true }, { id: '1-3', seleccionat: false, ocupada: false }, { id: '1-4', seleccionat: false, ocupada: false }, { id: '1-5', seleccionat: false, ocupada: false }, { id: '1-6', seleccionat: false, ocupada: false }, { id: '1-7', seleccionat: false, ocupada: false }, { id: '1-8', seleccionat: false, ocupada: false }, { id: '1-9', seleccionat: false, ocupada: false }, { id: '1-10', seleccionat: false, ocupada: false }, { id: '1-11', seleccionat: false, ocupada: false }, { id: '1-12', seleccionat: false, ocupada: false }],
+                [{ id: '1-1', seleccionat: false, ocupada: false }, { id: '1-2', seleccionat: false, ocupada: false }, { id: '1-3', seleccionat: false, ocupada: false }, { id: '1-4', seleccionat: false, ocupada: false }, { id: '1-5', seleccionat: false, ocupada: false }, { id: '1-6', seleccionat: false, ocupada: false }, { id: '1-7', seleccionat: false, ocupada: false }, { id: '1-8', seleccionat: false, ocupada: false }, { id: '1-9', seleccionat: false, ocupada: false }, { id: '1-10', seleccionat: false, ocupada: false }, { id: '1-11', seleccionat: false, ocupada: false }, { id: '1-12', seleccionat: false, ocupada: false }],
                 [{ id: '2-1', seleccionat: false, ocupada: false }, { id: '2-2', seleccionat: false, ocupada: false }, { id: '2-3', seleccionat: false, ocupada: false }, { id: '2-4', seleccionat: false, ocupada: false }, { id: '2-5', seleccionat: false, ocupada: false }, { id: '2-6', seleccionat: false, ocupada: false }, { id: '2-7', seleccionat: false, ocupada: false }, { id: '2-8', seleccionat: false, ocupada: false }, { id: '2-9', seleccionat: false, ocupada: false }, { id: '2-10', seleccionat: false, ocupada: false }, { id: '2-11', seleccionat: false, ocupada: false }, { id: '2-12', seleccionat: false, ocupada: false }],
                 [{ id: '3-1', seleccionat: false, ocupada: false }, { id: '3-2', seleccionat: false, ocupada: false }, { id: '3-3', seleccionat: false, ocupada: false }, { id: '3-4', seleccionat: false, ocupada: false }, { id: '3-5', seleccionat: false, ocupada: false }, { id: '3-6', seleccionat: false, ocupada: false }, { id: '3-7', seleccionat: false, ocupada: false }, { id: '3-8', seleccionat: false, ocupada: false }, { id: '3-9', seleccionat: false, ocupada: false }, { id: '3-10', seleccionat: false, ocupada: false }, { id: '3-11', seleccionat: false, ocupada: false }, { id: '3-12', seleccionat: false, ocupada: false }],
                 [{ id: '4-1', seleccionat: false, ocupada: false }, { id: '4-2', seleccionat: false, ocupada: false }, { id: '4-3', seleccionat: false, ocupada: false }, { id: '4-4', seleccionat: false, ocupada: false }, { id: '4-5', seleccionat: false, ocupada: false }, { id: '4-6', seleccionat: false, ocupada: false }, { id: '4-7', seleccionat: false, ocupada: false }, { id: '4-8', seleccionat: false, ocupada: false }, { id: '4-9', seleccionat: false, ocupada: false }, { id: '4-10', seleccionat: false, ocupada: false }, { id: '4-11', seleccionat: false, ocupada: false }, { id: '4-12', seleccionat: false, ocupada: false }],
@@ -65,38 +65,44 @@ export default {
                 [{ id: '10-1', seleccionat: false, ocupada: false }, { id: '10-2', seleccionat: false, ocupada: false }, { id: '10-3', seleccionat: false, ocupada: false }, { id: '10-4', seleccionat: false, ocupada: false }, { id: '10-5', seleccionat: false, ocupada: false }, { id: '10-6', seleccionat: false, ocupada: false }, { id: '10-7', seleccionat: false, ocupada: false }, { id: '10-8', seleccionat: false, ocupada: false }, { id: '10-9', seleccionat: false, ocupada: false }, { id: '10-10', seleccionat: false, ocupada: false }, { id: '10-11', seleccionat: false, ocupada: false }, { id: '10-12', seleccionat: false, ocupada: false }],
             ],
             butacasSeleccionadas: [],
-            butacasOcupadas: ['1-1', '1-2'],
+            butacasOcupadas: [],
             sesion: null,
         };
     },
     methods: {
         fetchPelicula() {
             const sesionCompraStore = useSesionCompraStore();
-            const sesionId = sesionCompraStore.sesionId;
+            const sesionId = sesionCompraStore.sesionID; // Accede al ID almacenado en el store de PINIA
 
-            fetch(`http://localhost:8000/api/sesiones/${this.$route.params.id}`)
+            fetch(`http://localhost:8000/api/sesiones/${sesionId}`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
                     this.sesion = data;
                 })
                 .catch(error => console.error('Error al obtener la película:', error));
         },
         fetchButacasOcupadas() {
-            fetch(`http://localhost:8000/api/entradas/${this.$route.params.id}`)
+            const sesionCompraStore = useSesionCompraStore();
+            const sesionId = sesionCompraStore.sesionID; // Accede al ID almacenado en el store de PINIA
+            fetch(`http://localhost:8000/api/sesiones-entradas/${sesionId}`)
                 .then(response => response.json())
                 .then(data => {
-                    this.actualizarButacasOcupadas(data.butacasOcupadas);
+                    this.actualizarButacasOcupadas(data.entradas);
                 })
                 .catch(error => console.error('Error al obtener butacas ocupadas:', error));
         },
-        actualizarButacasOcupadas(butacasOcupadas) {
-            this.files.forEach(fila => {
-                fila.forEach(asiento => {
-                    if (butacasOcupadas.includes(asiento.id)) {
-                        asiento.ocupada = true;
+        actualizarButacasOcupadas(entradas) {
+            entradas.forEach(entrada => {
+                const asiento = entrada.asiento;
+                // Encuentra el asiento en el plano de la sala y márcalo como ocupado
+                for (let fila of this.files) {
+                    for (let seient of fila) {
+                        if (seient.id === asiento) {
+                            seient.ocupada = true;
+                            break; // No necesitas seguir buscando en las filas
+                        }
                     }
-                });
+                }
             });
         },
         toggleSeient(seientId) {

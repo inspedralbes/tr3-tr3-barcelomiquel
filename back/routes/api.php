@@ -22,13 +22,13 @@ Route::post('/peliculas', [PeliculasController::class, 'store']);
 Route::get('/peliculas/{id}', [PeliculasController::class, 'show']);
 
 Route::get('/entradas/{id}', [EntradaController::class, 'show']);
-Route::post('/entradas/{id}', [EntradaController::class, 'store']);
+Route::post('/entradas', [EntradaController::class, 'store']);
 Route::get('/entradas', [EntradaController::class, 'index']);
-Route::get('/entradas/{id}', [EntradaController::class, 'show']);
 
 
 Route::get('/sesiones', [SesionController::class, 'index']);
 Route::post('/sesiones', [SesionController::class, 'store']);
+Route::get('/sesiones-entradas/{id}', [SesionController::class, 'showEntradas']);
 Route::get('/sesiones/{id}', [SesionController::class, 'show']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
