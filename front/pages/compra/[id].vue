@@ -16,27 +16,31 @@
                     <p>{{ sesion.pelicula.descripcio }}</p>
                 </div>
             </div>
-            <h1>Selecciona el teu seient de la sessio {{ $route.params.id }}</h1>
-            <div class="pantalla">
-                <h2>Pantalla</h2>
-            </div>
-            <div class="plano-sala">
-                <div v-for="(fila, index) in files" :key="index" class="fila">
-                    <div class="fila-indicador">{{ fila[0].id.split('-')[0] }}</div>
-                    <div class="asientos">
-                        <Seient v-for="seient in fila" :key="seient.id" :seient="seient"
-                            @toggle="toggleSeient(seient.id)">
-                        </Seient>
+            <div class="contenedor-principal">
+                <h1>Selecciona el teu seient de la sessio {{ $route.params.id }}</h1>
+                <div class="pantalla">
+                    <h2>Pantalla</h2>
+                </div>
+                <div class="plano-sala">
+                    <div v-for="(fila, index) in files" :key="index" class="fila">
+                        <div class="fila-indicador">{{ fila[0].id.split('-')[0] }}</div>
+                        <div class="asientos">
+                            <Seient v-for="seient in fila" :key="seient.id" :seient="seient"
+                                @toggle="toggleSeient(seient.id)">
+                            </Seient>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div v-if="mostrarPanel" class="panel-seleccion">
-                <h3>Butacas seleccionadas:</h3>
-                <p>{{ butacasSeleccionadas.join(', ') }}</p>
-                <p>Precio total: {{ precioTotal }}€</p>
-                <button @click="comprar">Comprar</button>
-                <button class="borrar" @click="borrarSeleccion">Borrar selecció</button>
-                <button class="tornar" @click="tornar">Inici</button>
+            <div class="ticket">
+                <div v-if="mostrarPanel" class="panel-seleccion">
+                    <h3>Butacas seleccionadas:</h3>
+                    <p>{{ butacasSeleccionadas.join(', ') }}</p>
+                    <p>Precio total: {{ precioTotal }}€</p>
+                    <button @click="comprar">Comprar</button>
+                    <button class="borrar" @click="borrarSeleccion">Borrar selecció</button>
+                    <button class="tornar" @click="tornar">Inici</button>
+                </div>
             </div>
         </div>
     </body>
@@ -190,7 +194,7 @@ body {
     /* Elimina los márgenes predeterminados del body */
     padding: 0;
     /* Elimina el padding predeterminado del body */
-    height: 100%;
+    height: 100vh;
     /* Hace que el body ocupe el 100% del alto de la ventana */
 }
 
@@ -201,6 +205,7 @@ body {
     color: #ffffff;
     height: 100%;
     font-family: 'Your Epic Font', sans-serif;
+    display: flex;
 }
 
 .detalles-pelicula {
@@ -210,12 +215,15 @@ body {
     justify-content: center;
     /* Alinea horizontalmente */
     padding: 20px;
+    width: 30%;
 }
+
+
 
 .poster-pelicula {
     width: 300px;
     /* Ajusta según necesidad */
-    margin-left: 35%;
+    margin-left: 10%;
 }
 
 .poster-pelicula img {
@@ -244,8 +252,12 @@ body {
     /* Espacio entre párrafos */
 }
 
-.pantalla {
+.contenedor-principal {
     width: 40%;
+}
+
+.pantalla {
+    width: 96%;
     height: 50px;
     background-color: #ffffff;
     color: #000000;
@@ -343,6 +355,15 @@ button:hover {
 
 .tornar:hover {
     background-color: #a09a45;
+}
+
+.ticket {
+    width: 30%;
+    /* ajusta el ancho según tu preferencia */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* coloca los elementos en la parte superior */
 }
 
 /* Los estilos de Seient.vue se aplicarán aquí debido al scope */
