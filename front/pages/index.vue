@@ -4,23 +4,25 @@
     <div class="home">
       <h1>galaxia films</h1>
       <h2>Pel·licula de la semana</h2>
-      <div class="movie-of-the-week">
+      <div class="movie-of-the-week" v-if="movieOfTheWeek">
         <div class="movie-card">
-          <img :src="movieOfTheWeek.poster" alt="Pòster de la pel·lícula de la semana" />
-          <h2>{{ movieOfTheWeek.title }}</h2>
-          <p>{{ movieOfTheWeek.genre }}</p>
-          <p>{{ movieOfTheWeek.dia }}</p>
-          <nuxt-link :to="'compra/'+movieOfTheWeek.id" class="buttonTicket">Reservar Entrada</nuxt-link>
+          <img :src="movieOfTheWeek.pelicula.poster" alt="Pòster de la pel·lícula de la semana" />
+          <h2>{{ movieOfTheWeek.pelicula.titol }}</h2>
+          <p>{{ movieOfTheWeek.pelicula.genere }}</p>
+          <p>{{ movieOfTheWeek.fecha }}</p>
+          <p>{{ movieOfTheWeek.hora }}</p>
+          <nuxt-link :to="'compra/'+movieOfTheWeek.pelicula_id" class="buttonTicket" @click="reservarEntrada(movieOfTheWeek.id)">Reservar Entrada</nuxt-link>
         </div>
       </div>
-      <h2>Todas las películas</h2>
+      <h2>Totes les pel·lícules</h2>
       <div class="movie-list">
-        <div class="movie-card" v-for="movie in movies" :key="movie.id">
-          <img :src="movie.poster" :alt="`Póster de ${movie.title}`" />
-          <h2>{{ movie.title }}</h2>
-          <p>{{ movie.genre }}</p>
-          <p>{{ movie.dia }}</p>
-          <nuxt-link :to="'compra/'+movie.id" class="buttonTicket">Reservar Entrada</nuxt-link>
+        <div class="movie-card" v-for="sesion in sesiones" :key="sesion.id">
+          <img :src="sesion.pelicula.poster" :alt="`Póster de ${sesion.pelicula.titol}`" />
+          <h2>{{ sesion.pelicula.titol }}</h2>
+          <p>{{ sesion.pelicula.genere }}</p>
+          <p>{{ sesion.fecha }}</p>
+          <p>{{ sesion.hora }}</p>
+          <nuxt-link :to="'compra/'+sesion.pelicula_id" class="buttonTicket" @click="reservarEntrada(sesion.id)">Reservar Entrada</nuxt-link>
         </div>
       </div>
     </div>
@@ -28,73 +30,47 @@
 </template>
 
 <script>
+import { useSesionCompraStore } from '../stores/sesionCompra.js';
+
 export default {
   data() {
     return {
-      movies: [
-        {
-          id: 1,
-          title: "John Wick 4",
-          genre: "Acció",
-          poster: "/JohnWick4.jpg",
-          dia: "08/03/2024"
-        },
-        {
-          id: 2,
-          title: "Equalizador 3",
-          genre: "Acció",
-          poster: "/TheEqualizer3.jpg",
-          dia: "15/03/2024"
-        },
-        {
-          id: 3,
-          title: "Beekeeper",
-          genre: "Acció",
-          poster: "/Beekeeper.jpg",
-          dia: "22/03/2024"
-        },
-        {
-          id: 4,
-          title: "Ferrari vs Ford",
-          genre: "Acció",
-          poster: "/LeManse.jpg",
-          dia: "29/03/2024"
-        },
-        {
-          id: 5,
-          title: "Lamborhgini",
-          genre: "Acció",
-          poster: "/Lamborghini.jpg",
-          dia: "05/04/2024"
-        },
-        {
-          id: 6,
-          title: "Kill Bill ",
-          genre: "Acció",
-          poster: "/KillBill.jpg",
-          dia: "12/04/2024"
-        },
-        // Añade más películas aquí si lo deseas
-      ],
-      today: new Date().getDay(), // Obtiene el día de la semana actual
+      sesiones: [],
     };
+  },
+  mounted() {
+    this.fetchSesiones();
   },
   computed: {
     movieOfTheWeek() {
       const today = new Date();
-      let weekMovie = this.movies.find(movie => {
-        const movieDate = new Date(movie.dia);
-        const startOfWeek = today.getDate() - today.getDay();
-        const endOfWeek = startOfWeek + 7;
-        return movieDate >= new Date(today.setDate(startOfWeek)) && movieDate < new Date(today.setDate(endOfWeek));
+      const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
+      const endOfWeek = new Date(startOfWeek.getTime() + 6 * 24 * 60 * 60 * 1000);
+      return this.sesiones.find(sesion => {
+        const sesionDate = new Date(sesion.fecha);
+        return sesionDate >= startOfWeek && sesionDate <= endOfWeek;
       });
-      return weekMovie || this.movies[0]; // Devuelve la primera película si ninguna coincide con la semana actual
     },
   },
   methods: {
-    bookTicket(movieId) {
-      // Redirecciona a la página de cine al reservar una entrada
-      this.$router.push({ name: 'cine' }); // Asegúrate de tener configurado el enrutamiento en tu aplicación Vue
+    fetchSesiones() {
+      fetch('http://localhost:8000/api/sesiones')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          this.sesiones = data;
+        })
+        .catch(error => {
+          console.error('There has been a problem with your fetch operation:', error);
+        });
+    },
+    reservarEntrada(sesionId) {
+      const store = useSesionCompraStore(); // Obtén la instancia de Pinia
+      store.setSesionID(sesionId); // Guardar el ID de la sesión seleccionada en Pinia
     },
   },
 };
@@ -125,10 +101,9 @@ h1 {
 }
 
 .movie-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  padding: 20px;
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan si no caben en una línea */
+  justify-content: center; /* Centra los elementos horizontalmente */
 }
 
 @media screen and (max-width: 768px) {
@@ -154,20 +129,14 @@ h1 {
 }
 
 .movie-card {
-  margin: 20px;
+  margin: 70px;
   padding: 20px;
   border: 1px solid #4b5d67;
-  /* Borde sutil */
   border-radius: 15px;
-  /* Bordes más redondeados */
   width: 300px;
-  /* Ancho mayor para mejor visualización */
   background-color: #0b0c10;
-  /* Fondo oscuro para la tarjeta */
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  /* Sombra más pronunciada para profundidad */
   transition: transform 0.3s ease;
-  /* Suave transformación al pasar el mouse */
 }
 
 .movie-card:hover {

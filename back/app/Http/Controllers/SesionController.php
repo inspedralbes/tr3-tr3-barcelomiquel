@@ -25,6 +25,7 @@ class SesionController extends Controller
             'pelicula_id' => 'required|exists:peliculas,id',
             'fecha' => 'required|date',
             'dia_espectador' => 'required|boolean',
+            'hora' => 'required|date_format:H:i', // 'H:i' es el formato de hora 'HH:MM
             'VIP' => 'required|boolean',
         ]);
 
@@ -33,6 +34,7 @@ class SesionController extends Controller
             'fecha' => $request->fecha,
             'dia_espectador' => $request->dia_espectador,
             'VIP' => $request->VIP,
+            'hora' => $request->hora,
         ]);
 
         return response()->json($sesion, 201);
@@ -41,10 +43,27 @@ class SesionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        // Busca la sesión por su ID y carga la película relacionada
+        $sesion = Sesion::with('pelicula')->findOrFail($id);
+
+        // Si la sesión no existe, findOrFail arrojará automáticamente un error 404
+        return response()->json($sesion);
     }
+
+    /**
+    * Show the tickets for a specific session.
+    */
+    public function showEntradas($id)
+    {
+        // Busca la sesión por su ID y carga las entradas relacionadas
+        $sesion = Sesion::with('entradas')->findOrFail($id);
+
+        // Si la sesión no existe, findOrFail arrojará automáticamente un error 404
+        return response()->json($sesion);
+    }
+
 
     /**
      * Update the specified resource in storage.

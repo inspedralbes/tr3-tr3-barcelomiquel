@@ -1,0 +1,42 @@
+Diagrama de Casos d'Ús - Sistema de Compra d'Entrades de Cinema
+
+Actors:
+Client: Usuari que utilitza l'aplicació web per a comprar entrades de cinema.
+Servidor: Sistema que gestiona la lògica de negoci i proporciona respostes a les sol·licituds del client.
+
+Casos d'Ús:
+
+Gestió de Sessions:
+Servidor mostra les sessions disponibles.
+Client visualitza les sessions disponibles.
+Client tria una pel·lícula.
+Servidor mostra el pati de butaques.
+Servidor proporciona informació sobre els seients disponibles i ocupats per a aquesta pel·lícula.
+Client selecciona els seients desitjats.
+Servidor guarda les dades en Pinia.
+Client confirma la compra.
+Servidor processa la compra i confirma la transacció.
+
+Gestió del Sistema:
+Client inicia sessió en el seu compte.
+Servidor verifica les credencials del client.
+Servidor proporciona accés al perfil del client.
+Client consulta informació del sistema.
+Servidor mostra les compres anteriors del client.
+Client veu les seves compres anteriors.
+Gestió de Pel·lícules (Administrador):
+Servidor mostra les pelicules d'Omdb amb un fetch.
+Administrador afegeix noves pel·lícules al sistema.
+Servidor guarda la pelicula a la base de dades.
+Servidor confirma l'addició de la pel·lícula.
+
+Gestió de Correus:
+Client realitza una compra.
+Servidor envia un correu electrònic de confirmació al client.
+
+Relacions entre Casos d'Ús:
+Client visualitza les sessions disponibles, després el Servidor respon amb la informació de les sessions.
+Client tria una pel·lícula, el Servidor proporciona la disponibilitat de seients per a aquesta pel·lícula.
+Després de seleccionar els seients, el Client confirma la compra, i el Servidor processa la compra i confirma la transacció.
+Durant la gestió del sistema, el Client inicia sessió, i el Servidor verifica les credencials i proporciona accés al perfil.
+Quan el Client realitza una compra, el Servidor envia un correu electrònic de confirmació.

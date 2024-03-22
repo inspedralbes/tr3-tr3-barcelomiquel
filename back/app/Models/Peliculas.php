@@ -19,8 +19,4 @@ class Peliculas extends Model
         'poster',
         'duracio',
     ];
-
-    protected $casts = [
-        'butacasOcupadas' => 'array',
-    ];
 }

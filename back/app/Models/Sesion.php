@@ -14,13 +14,19 @@ class Sesion extends Model
     protected $fillable = [
         'pelicula_id', 
         'fecha', 
-        'dia_espectador', 
+        'dia_espectador',
+        'hora', 
         'VIP'
     ];
 
     public function pelicula()
     {
         return $this->belongsTo(Peliculas::class, 'pelicula_id');
+    }
+
+    public function entradas()
+    {
+        return $this->hasMany(Entrada::class, 'sesion_id');
     }
 }
 
