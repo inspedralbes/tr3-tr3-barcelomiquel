@@ -19,9 +19,7 @@ use App\Http\Controllers\SesionController;
 
 Route::get('/peliculas', [PeliculasController::class, 'index']);
 Route::post('/peliculas', [PeliculasController::class, 'store']);
-Route::get('/peliculas/{id}', [PeliculasController::class, 'show']);
 
-Route::get('/entradas/{id}', [EntradaController::class, 'show']);
 Route::post('/entradas', [EntradaController::class, 'store']);
 Route::get('/entradas', [EntradaController::class, 'index']);
 
