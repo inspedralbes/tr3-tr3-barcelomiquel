@@ -1,4 +1,5 @@
 <template>
+
   <body>
     <Header />
     <div class="confirmar-compra">
@@ -111,6 +112,11 @@ export default {
 
           // Redirigir a la página de inicio después de 2 segundos
           setTimeout(() => {
+            // Resetea el store de PINIA para borrar los datos almacenados
+            this.store.sesionID = 0;
+            this.store.butacasSeleccionadas = [];
+            this.store.precioTotal = 0;
+
             this.$router.push({ path: '/' });
           }, 2000);
         })

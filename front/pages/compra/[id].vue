@@ -153,6 +153,8 @@ export default {
                 seient.seleccionat = false;
             });
             this.butacasSeleccionadas = [];
+            this.store.butacasSeleccionadas = [];
+            this.store.precioTotal = 0;
         },
         comprar() {
             this.$router.push({
