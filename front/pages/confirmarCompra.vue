@@ -89,7 +89,7 @@ export default {
         sesion_id: this.store.sesionID,
         asientos: asientosSeleccionados,
         email: this.email, // Agrega el correo electrónico al objeto data
-        metodoPago: this.metodoPago // Agrega el método de pago al objeto data
+        metodo_pago: this.metodoPago // Agrega el método de pago al objeto data
       };
 
       console.log(data); // Añadido para verificar si se envía la información correcta
