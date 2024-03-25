@@ -29,6 +29,8 @@ class EntradaController extends Controller
             'sesion_id' => 'required|exists:sesiones,id',
             'asientos.*.asiento' => 'required|string',
             'asientos.*.precio' => 'required|int',
+            'email' => 'required|email',
+            'metodo_pago' => 'required|string',
         ]);
     
         try {
@@ -39,6 +41,8 @@ class EntradaController extends Controller
                     'sesion_id' => $validated['sesion_id'],
                     'asiento' => $asiento['asiento'],
                     'precio' => $asiento['precio'],
+                    'email' => $validated['email'],
+                    'metodo_pago' => $validated['metodo_pago'],
                 ]);
             }
     
