@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Entrada;
 use App\Models\Sesion;
+use App\Mail\ConfirmacionCompra;
+use Illuminate\Support\Facades\Mail;
 
 class EntradaController extends Controller
 {
@@ -49,6 +51,19 @@ class EntradaController extends Controller
             DB::commit();
     
             return response()->json(['message' => 'Entradas guardadas correctamente'], 201);
+
+            // Enviar un email de confirmación
+            
+            // Construye los datos para el correo electrónico
+            $datosCorreo = [
+                'entradas' => $asientosSeleccionados,
+                'precioTotal' => $this->precioTotal,
+                'metodoPago' => $this->metodoPago
+            ];
+
+            // Envía el correo electrónico de confirmación
+            Mail::to($this->email)->send(new ConfirmacionCompra($datosCorreo));
+            
         } catch (\Exception $e) {
             DB::rollBack();
     
