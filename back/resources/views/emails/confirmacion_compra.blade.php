@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmación de Compra</title>
+    <title>Rebut de Compra</title>
 </head>
 <body>
-    <h2>Confirmación de Compra</h2>
-    <p>Estas son las entradas que has comprado:</p>
+    <h1>Rebut de Compra</h1>
+    <h3>Aquestes son les entrades que has comprat:</h3>
     <ul>
         @foreach ($data['entradas'] as $entrada)
             <li>Asiento: {{ $entrada['asiento'] }} - Precio: {{ $entrada['precio'] }}€</li>
         @endforeach
     </ul>
-    <p>Total: {{ $data['precioTotal'] }}€</p>
-    <p>Método de Pago: {{ $data['metodoPago'] }}</p>
+    <p>Métode de Pagament: {{ $data['metodoPago'] }}</p>
+    <h2>Total: {{ $data['precioTotal'] }}€</h2>
 </body>
 </html>

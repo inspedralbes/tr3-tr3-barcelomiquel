@@ -38,31 +38,36 @@ class EntradaController extends Controller
         try {
             DB::beginTransaction();
     
+            $asientosSeleccionados = [];
+    
             foreach ($validated['asientos'] as $asiento) {
-                Entrada::create([
+                $entrada = Entrada::create([
                     'sesion_id' => $validated['sesion_id'],
                     'asiento' => $asiento['asiento'],
                     'precio' => $asiento['precio'],
                     'email' => $validated['email'],
                     'metodo_pago' => $validated['metodo_pago'],
                 ]);
+    
+                $asientosSeleccionados[] = [
+                    'asiento' => $entrada->asiento,
+                    'precio' => $entrada->precio,
+                ];
             }
     
             DB::commit();
     
-            return response()->json(['message' => 'Entradas guardadas correctamente'], 201);
-
-            // Enviar un email de confirmación
-            
             // Construye los datos para el correo electrónico
             $datosCorreo = [
                 'entradas' => $asientosSeleccionados,
-                'precioTotal' => $this->precioTotal,
-                'metodoPago' => $this->metodoPago
+                'precioTotal' => array_sum(array_column($asientosSeleccionados, 'precio')),
+                'metodoPago' => $validated['metodo_pago'],
             ];
-
+    
             // Envía el correo electrónico de confirmación
-            Mail::to($this->email)->send(new ConfirmacionCompra($datosCorreo));
+            Mail::to($validated['email'])->send(new ConfirmacionCompra($datosCorreo));
+    
+            return response()->json(['message' => 'Entradas guardadas correctamente'], 201);
             
         } catch (\Exception $e) {
             DB::rollBack();
