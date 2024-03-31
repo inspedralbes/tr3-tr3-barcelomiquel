@@ -4,7 +4,7 @@
             <img src="../public/logoCIne.jpg" alt="Logo Galaxia Films" class="logo-cine">
             <h2>galaxia films</h2>
         </a>
-        <button class="login-button">Login/Registro</button>
+        <router-link to="/login" class="login-button">Login/Registro</router-link>
     </header>
 </template>
 
@@ -12,6 +12,7 @@
 export default {
     name: 'Header',
 };
+
 </script>
 
 <style scoped>

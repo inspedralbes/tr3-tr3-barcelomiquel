@@ -1,0 +1,127 @@
+<template>
+    <body>
+        <Header />
+        <div class="registro">
+            <h1>Regístrate</h1>
+            <form @submit.prevent="registro" class="form">
+                <div class="form-group">
+                    <label for="email">Correo Electrónico:</label>
+                    <input type="email" id="email" v-model="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña:</label>
+                    <input type="password" id="password" v-model="password" required>
+                </div>
+                <button type="submit" class="buttonRegistro">Registrarse</button>
+            </form>
+            <p>¿Ya tienes una cuenta? <router-link to="/login">Inicia Sesión</router-link></p>
+        </div>
+    </body>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            email: '',
+            password: ''
+        };
+    },
+    methods: {
+        registro() {
+            // Aquí podrías implementar la lógica de registro, como enviar una solicitud al servidor
+            // con las credenciales del usuario para crear una cuenta.
+            // Por simplicidad, aquí simplemente imprimimos las credenciales en la consola.
+            console.log('Email:', this.email);
+            console.log('Contraseña:', this.password);
+
+            // Una vez que el registro sea exitoso, podrías redirigir al usuario a otra página
+            // usando this.$router.push('/ruta-de-destino');
+        }
+    }
+};
+</script>
+
+<style scoped>
+body {
+  margin: 0;
+  /* Elimina los márgenes predeterminados del body */
+  padding: 0;
+  /* Elimina el padding predeterminado del body */
+  height: 100vh;
+  /* Hace que el body ocupe el 100% del alto de la ventana */
+  overflow: hidden;
+}
+
+.registro {
+    text-align: center;
+    padding: 20px;
+    background-color: #1a1a1d;
+    color: #c5c6c7;
+    height: 100vh;
+}
+
+h1 {
+    font-variant: small-caps;
+    font-size: 4rem;
+    font-family: 'Your Epic Font', sans-serif;
+}
+
+.form{
+    margin-top: 7%;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 1.65rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-family: 'Your Epic Font', sans-serif;
+}
+
+input {
+    width: 40%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #4b5d67;
+    background-color: #0b0c10;
+    color: #c5c6c7;
+}
+
+button {
+    width: 40%;
+    padding: 10px 0;
+    background-color: #66fcf1;
+    color: #0b0c10;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    font-weight: bold;
+    font-size: 1.2em;
+    font-family: 'Your Epic Font', sans-serif;
+}
+
+button:hover {
+    background-color: #45a29e;
+}
+
+p {
+    font-size: 1.2rem;
+    font-family: 'Your Epic Font', sans-serif;
+}
+
+.router-link {
+    color: #66fcf1;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.router-link:hover {
+    color: #45a29e;
+}
+</style>
