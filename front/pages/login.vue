@@ -1,4 +1,5 @@
 <template>
+
     <body>
         <Header />
         <div class="login">
@@ -20,6 +21,7 @@
 </template>
 
 <script>
+import { useSesionCompraStore } from '@/stores/sesionCompra';
 export default {
     data() {
         return {
@@ -29,14 +31,29 @@ export default {
     },
     methods: {
         login() {
-            // Aquí podrías implementar la lógica de autenticación, como enviar una solicitud al servidor
-            // con las credenciales del usuario para verificarlas.
-            // Por simplicidad, aquí simplemente imprimimos las credenciales en la consola.
-            console.log('Email:', this.email);
-            console.log('Contraseña:', this.password);
-
-            // Una vez que la autenticación sea exitosa, podrías redirigir al usuario a otra página
-            // usando this.$router.push('/ruta-de-destino');
+            fetch('http://localhost:8000/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: this.email,
+                    password: this.password
+                })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        useSesionCompraStore().iniciarSesionExitoso();
+                        // Redirigir al usuario a la página de inicio después del inicio de sesión exitoso
+                        this.$router.push('/');
+                    } else {
+                        // Manejar errores en caso de que el inicio de sesión falle
+                        console.error('Error al iniciar sesión');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         }
     }
 };
@@ -44,13 +61,13 @@ export default {
 
 <style scoped>
 body {
-  margin: 0;
-  /* Elimina los márgenes predeterminados del body */
-  padding: 0;
-  /* Elimina el padding predeterminado del body */
-  height: 100vh;
-  /* Hace que el body ocupe el 100% del alto de la ventana */
-  overflow: hidden;
+    margin: 0;
+    /* Elimina los márgenes predeterminados del body */
+    padding: 0;
+    /* Elimina el padding predeterminado del body */
+    height: 100vh;
+    /* Hace que el body ocupe el 100% del alto de la ventana */
+    overflow: hidden;
 }
 
 .login {
@@ -67,7 +84,7 @@ h1 {
     font-family: 'Your Epic Font', sans-serif;
 }
 
-.form{
+.form {
     margin-top: 7%;
 }
 

@@ -4,6 +4,7 @@ export const useSesionCompraStore = defineStore('sesionCompra', () => {
     const sesionID = ref(0);
     const butacasSeleccionadas = ref([]);
     const precioTotal = ref(0);
+    const loguejat = ref(false);
 
     function agregarButacaSeleccionada(idAsiento, precio) {
         butacasSeleccionadas.value.push({ id: idAsiento, precio: precio });
@@ -26,12 +27,18 @@ export const useSesionCompraStore = defineStore('sesionCompra', () => {
         sesionID.value = id;
     }
 
+    function iniciarSesionExitoso() {
+        loguejat.value = true;
+    }
+
     return { 
         sesionID,
         setSesionID,
         butacasSeleccionadas,
         precioTotal,
         agregarButacaSeleccionada,
-        eliminarButacaSeleccionada
+        eliminarButacaSeleccionada,
+        iniciarSesionExitoso,
+        loguejat
     };
 });

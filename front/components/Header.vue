@@ -1,19 +1,25 @@
 <template>
     <header class="site-header">
-        <a href="/" class="logo-and-title">
-            <img src="../public/logoCIne.jpg" alt="Logo Galaxia Films" class="logo-cine">
-            <h2>galaxia films</h2>
-        </a>
-        <router-link to="/login" class="login-button">Login/Registro</router-link>
+      <a href="/" class="logo-and-title">
+        <img src="../public/logoCIne.jpg" alt="Logo Galaxia Films" class="logo-cine">
+        <h2>galaxia films</h2>
+      </a>
+      <router-link v-if="!loguejat" to="/login" class="login-button">Login/Registro</router-link>
     </header>
-</template>
-
-<script>
-export default {
+  </template>
+  
+  <script>
+  import { useSesionCompraStore } from '@/stores/sesionCompra';
+  
+  export default {
     name: 'Header',
-};
-
-</script>
+    computed: {
+      loguejat() {
+        return useSesionCompraStore().loguejat;
+      }
+    }
+  };
+  </script>
 
 <style scoped>
 .site-header {

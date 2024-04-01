@@ -1,20 +1,25 @@
 <template>
+
     <body>
         <Header />
         <div class="registro">
-            <h1>Regístrate</h1>
+            <h1>Regístra't</h1>
             <form @submit.prevent="registro" class="form">
                 <div class="form-group">
-                    <label for="email">Correo Electrónico:</label>
+                    <label for="name">Nom:</label>
+                    <input type="name" id="name" v-model="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Correu Electrónic:</label>
                     <input type="email" id="email" v-model="email" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">Contraseña:</label>
+                    <label for="password">Contrasenya:</label>
                     <input type="password" id="password" v-model="password" required>
                 </div>
-                <button type="submit" class="buttonRegistro">Registrarse</button>
+                <button type="submit" class="buttonRegistro">Registra't</button>
             </form>
-            <p>¿Ya tienes una cuenta? <router-link to="/login">Inicia Sesión</router-link></p>
+            <p>Ja tens conta? <router-link to="/login">Inicia Sesión</router-link></p>
         </div>
     </body>
 </template>
@@ -23,20 +28,37 @@
 export default {
     data() {
         return {
+            name: '',
             email: '',
             password: ''
         };
     },
     methods: {
         registro() {
-            // Aquí podrías implementar la lógica de registro, como enviar una solicitud al servidor
-            // con las credenciales del usuario para crear una cuenta.
-            // Por simplicidad, aquí simplemente imprimimos las credenciales en la consola.
-            console.log('Email:', this.email);
-            console.log('Contraseña:', this.password);
-
-            // Una vez que el registro sea exitoso, podrías redirigir al usuario a otra página
-            // usando this.$router.push('/ruta-de-destino');
+            // Realizar una solicitud HTTP a la API de registro en Laravel
+            fetch('http://localhost:8000/api/registro', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: this.name,
+                    email: this.email,
+                    password: this.password
+                })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Redirigir al usuario a la página de inicio después del registro exitoso
+                        this.$router.push('/');
+                    } else {
+                        // Manejar errores en caso de que el registro falle
+                        console.error('Error al registrar');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         }
     }
 };
@@ -44,13 +66,13 @@ export default {
 
 <style scoped>
 body {
-  margin: 0;
-  /* Elimina los márgenes predeterminados del body */
-  padding: 0;
-  /* Elimina el padding predeterminado del body */
-  height: 100vh;
-  /* Hace que el body ocupe el 100% del alto de la ventana */
-  overflow: hidden;
+    margin: 0;
+    /* Elimina los márgenes predeterminados del body */
+    padding: 0;
+    /* Elimina el padding predeterminado del body */
+    height: 100vh;
+    /* Hace que el body ocupe el 100% del alto de la ventana */
+    overflow: hidden;
 }
 
 .registro {
@@ -67,7 +89,7 @@ h1 {
     font-family: 'Your Epic Font', sans-serif;
 }
 
-.form{
+.form {
     margin-top: 7%;
 }
 
