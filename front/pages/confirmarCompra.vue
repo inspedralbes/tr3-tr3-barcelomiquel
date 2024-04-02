@@ -62,8 +62,8 @@ export default {
   data() {
     return {
       sesion: null,
-      email: '', // Agrega la propiedad email para almacenar el correo electrónico
-      metodoPago: '' // Agrega la propiedad metodoPago para almacenar el método de pago seleccionado
+      email: '', 
+      metodoPago: '' 
     };
   },
   components: {
@@ -90,7 +90,8 @@ export default {
         sesion_id: this.store.sesionID,
         asientos: asientosSeleccionados,
         email: this.email, // Agrega el correo electrónico al objeto data
-        metodo_pago: this.metodoPago // Agrega el método de pago al objeto data
+        metodo_pago: this.metodoPago, // Agrega el método de pago al objeto data
+        titol_pelicula: this.sesion.pelicula.titol, // Añadido para enviar el título de la película
       };
 
       console.log(data); // Añadido para verificar si se envía la información correcta

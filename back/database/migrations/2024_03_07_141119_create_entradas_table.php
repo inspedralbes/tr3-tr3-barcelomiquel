@@ -13,6 +13,7 @@ class CreateEntradasTable extends Migration
             $table->string('asiento'); // Cambiado a string para utilizarlo como parte de la clave primaria
             $table->decimal('precio', 8, 2);
             $table->string('email');
+            $table->string('titol_pelicula');
             $table->string('metodo_pago');
             $table->timestamps();
 

@@ -32,6 +32,7 @@ class EntradaController extends Controller
             'asientos.*.asiento' => 'required|string',
             'asientos.*.precio' => 'required|int',
             'email' => 'required|email',
+            'titol_pelicula' => 'required|string', 
             'metodo_pago' => 'required|string',
         ]);
     
@@ -46,6 +47,7 @@ class EntradaController extends Controller
                     'asiento' => $asiento['asiento'],
                     'precio' => $asiento['precio'],
                     'email' => $validated['email'],
+                    'titol_pelicula' => $validated['titol_pelicula'],
                     'metodo_pago' => $validated['metodo_pago'],
                 ]);
     
@@ -62,6 +64,7 @@ class EntradaController extends Controller
                 'entradas' => $asientosSeleccionados,
                 'precioTotal' => array_sum(array_column($asientosSeleccionados, 'precio')),
                 'metodoPago' => $validated['metodo_pago'],
+                'titolPelicula' => $validated['titol_pelicula'],
             ];
     
             // Envía el correo electrónico de confirmación

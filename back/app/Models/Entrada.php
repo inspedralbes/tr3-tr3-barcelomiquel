@@ -16,6 +16,7 @@ class Entrada extends Model
         'asiento', 
         'precio',
         'email',
+        'titol_pelicula',
         'metodo_pago',
     ];
 

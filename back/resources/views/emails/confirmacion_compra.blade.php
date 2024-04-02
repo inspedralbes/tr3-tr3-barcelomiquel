@@ -9,6 +9,7 @@
 <body>
     <h1>Rebut de Compra</h1>
     <h3>Aquestes son les entrades que has comprat:</h3>
+    <h2>Pel·lícula: {{ $data['titolPelicula'] }}</h2>
     <ul>
         @foreach ($data['entradas'] as $entrada)
             <li>Asiento: {{ $entrada['asiento'] }} - Precio: {{ $entrada['precio'] }}€</li>
