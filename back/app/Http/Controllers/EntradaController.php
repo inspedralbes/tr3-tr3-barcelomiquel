@@ -23,6 +23,16 @@ class EntradaController extends Controller
         return response()->json($entradas);
     }
 
+    public function getUserEntries($email)
+    {
+        // Obtener las entradas del usuario por su correo electrónico
+        $userEntries = Entrada::where('email', $email)->get();
+    
+        // Devolver una respuesta
+        return response()->json($userEntries);
+    }
+
+
     /**
      * Store a newly created resource in storage.
      */

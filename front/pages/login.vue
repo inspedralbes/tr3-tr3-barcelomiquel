@@ -1,12 +1,11 @@
 <template>
-
     <body>
         <Header />
         <div class="login">
             <h1>Iniciar Sesió</h1>
             <form @submit.prevent="login" class="form">
                 <div class="form-group">
-                    <label for="email">Correu Electrónic:</label>
+                    <label for="email">Correo Electrónic:</label>
                     <input type="email" id="email" v-model="email" required>
                 </div>
                 <div class="form-group">
@@ -15,7 +14,7 @@
                 </div>
                 <button type="submit" class="buttonLogin">Iniciar Sesió</button>
             </form>
-            <p>¿No tienes una conta? <router-link to="/registre">Regístra't</router-link></p>
+            <p>No tiens una conta? <router-link to="/registre">Regístra't</router-link></p>
         </div>
     </body>
 </template>
@@ -50,9 +49,11 @@ export default {
                     }
                 })
                 .then(data => {
-                    useSesionCompraStore().iniciarSesionExitoso();
-                    useSesionCompraStore().nom_usuari = data.name;
-                    useSesionCompraStore().tipus_usuari = data.tipus;
+                    const store = useSesionCompraStore();
+                    store.iniciarSesionExitoso();
+                    store.nom_usuari = data.name;
+                    store.tipus_usuari = data.tipus;
+                    store.email_usuari = data.email; 
                     this.$router.push('/');
                 })
                 .catch(error => {
@@ -62,7 +63,6 @@ export default {
     }
 };
 </script>
-
 
 <style scoped>
 body {
