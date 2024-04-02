@@ -13,16 +13,26 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
-            'tipus' => 'required|string', // 'user' or 'admin
+            'tipus' => 'string', // 'user' or 'admin
             'password' => 'required|string|min:6',
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'tipus' => 'user', // 'user' or 'admin
-            'password' => bcrypt($request->password),
-        ]);
+        if ($request->tipus != null) {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'tipus' => $request->tipus,
+                'password' => bcrypt($request->password),
+            ]);
+        }else{
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ]);
+        }
+
+        
 
         return response()->json(['message' => 'User registered successfully'], 201);
     }
@@ -39,7 +49,11 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $token = $user->createToken('MyApp')->accessToken;
-            return response()->json(['token' => $token], 200);
+            return response()->json([
+                'token' => $token,
+                'name' => $user->name,
+                'tipus' => $user->tipus,
+            ], 200);
         } else {
             return response()->json(['error' => 'Unauthorized'], 401);
         }

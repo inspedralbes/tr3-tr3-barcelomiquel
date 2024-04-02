@@ -22,6 +22,7 @@
 
 <script>
 import { useSesionCompraStore } from '@/stores/sesionCompra';
+
 export default {
     data() {
         return {
@@ -43,13 +44,16 @@ export default {
             })
                 .then(response => {
                     if (response.ok) {
-                        useSesionCompraStore().iniciarSesionExitoso();
-                        // Redirigir al usuario a la página de inicio después del inicio de sesión exitoso
-                        this.$router.push('/');
+                        return response.json();
                     } else {
-                        // Manejar errores en caso de que el inicio de sesión falle
-                        console.error('Error al iniciar sesión');
+                        throw new Error('Error al iniciar sesión');
                     }
+                })
+                .then(data => {
+                    useSesionCompraStore().iniciarSesionExitoso();
+                    useSesionCompraStore().nom_usuari = data.name;
+                    useSesionCompraStore().tipus_usuari = data.tipus;
+                    this.$router.push('/');
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -58,6 +62,7 @@ export default {
     }
 };
 </script>
+
 
 <style scoped>
 body {
