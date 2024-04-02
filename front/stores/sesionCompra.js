@@ -7,6 +7,7 @@ export const useSesionCompraStore = defineStore('sesionCompra', () => {
     const loguejat = ref(false);
     const tipus_usuari = ref("");
     const nom_usuari = ref("");
+    const email_usuari = ref("");
 
     function agregarButacaSeleccionada(idAsiento, precio) {
         butacasSeleccionadas.value.push({ id: idAsiento, precio: precio });
@@ -46,5 +47,6 @@ export const useSesionCompraStore = defineStore('sesionCompra', () => {
         loguejat,
         tipus_usuari,
         nom_usuari,
+        email_usuari,
     };
 });

@@ -26,18 +26,32 @@ export default {
     components: {
         Header
     },
+    data() {
+        return {
+            purchasedEntries: []
+        };
+    },
     computed: {
         nom_usuario() {
             return this.$route.params.nom_usuario;
-        },
-        purchasedEntries() {
-            // Aquí deberías obtener las entradas compradas del usuario desde tu almacenamiento o mediante una llamada a la API
-            // Por ahora, simularemos una lista de entradas compradas
-            return [
-                'Película 1',
-                'Concierto 2',
-                'Evento 3'
-            ];
+        }
+    },
+    mounted() {
+        this.fetchPurchasedEntries();
+    },
+    methods: {
+        async fetchPurchasedEntries() {
+            try {
+                const response = await fetch('/api/entradas');
+                if (response.ok) {
+                    const data = await response.json();
+                    this.purchasedEntries = data.entradas;
+                } else {
+                    console.error('Error al obtener las entradas');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
     }
 };

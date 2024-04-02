@@ -50,9 +50,12 @@ export default {
                     }
                 })
                 .then(data => {
-                    useSesionCompraStore().iniciarSesionExitoso();
-                    useSesionCompraStore().nom_usuari = data.name;
-                    useSesionCompraStore().tipus_usuari = data.tipus;
+                    const store = useSesionCompraStore();
+                    store.iniciarSesionExitoso();
+                    store.nom_usuari = data.name;
+                    store.tipus_usuari = data.tipus;
+                    store.email_usuari = data.email; // Guardar email
+                    console.log(this.email); // Mostrar email
                     this.$router.push('/');
                 })
                 .catch(error => {
