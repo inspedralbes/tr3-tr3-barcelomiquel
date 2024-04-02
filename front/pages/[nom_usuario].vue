@@ -116,6 +116,7 @@ td {
     padding: 8px;
     text-align: left;
     color: #000;
+    font-family: 'Your Epic Font', sans-serif;
 }
 
 th {
