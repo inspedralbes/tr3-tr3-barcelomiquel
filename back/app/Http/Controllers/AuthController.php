@@ -53,6 +53,7 @@ class AuthController extends Controller
                 'token' => $token,
                 'name' => $user->name,
                 'tipus' => $user->tipus,
+                'email' => $user->email,
             ], 200);
         } else {
             return response()->json(['error' => 'Unauthorized'], 401);

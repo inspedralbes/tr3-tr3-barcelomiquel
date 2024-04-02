@@ -34,8 +34,6 @@ export const useSesionCompraStore = defineStore('sesionCompra', () => {
         loguejat.value = true;
     }
 
-
-
     return { 
         sesionID,
         setSesionID,

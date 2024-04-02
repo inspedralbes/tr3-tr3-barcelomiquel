@@ -2,15 +2,26 @@
     <body>
         <div>
             <Header />
-            <div class="profile-container">
+            <div class="home">
                 <h1>Perfil de {{ nom_usuario }}</h1>
                 <div class="purchased-entries">
                     <h2>Entradas Compradas</h2>
-                    <ul>
-                        <li v-for="(entry, index) in purchasedEntries" :key="index">
-                            {{ entry }}
-                        </li>
-                    </ul>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Asiento</th>
+                                <th>Precio</th>
+                                <th>Título de la Película</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(entry, index) in purchasedEntries" :key="index">
+                                <td>{{ entry.asiento }}</td>
+                                <td>{{ entry.precio }}</td>
+                                <td>{{ entry.titol_pelicula }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -42,10 +53,13 @@ export default {
     methods: {
         async fetchPurchasedEntries() {
             try {
-                const response = await fetch('/api/entradas');
+                const sesionCompraStore = useSesionCompraStore();
+                const email = sesionCompraStore.email_usuari;
+
+                const response = await fetch(`http://localhost:8000/api/entradas/${email}`);
                 if (response.ok) {
                     const data = await response.json();
-                    this.purchasedEntries = data.entradas;
+                    this.purchasedEntries = data;
                 } else {
                     console.error('Error al obtener las entradas');
                 }
@@ -63,14 +77,22 @@ body {
     /* Elimina los márgenes predeterminados del body */
     padding: 0;
     /* Elimina el padding predeterminado del body */
-    height: 100vh;
+    height: 100%;
     /* Hace que el body ocupe el 100% del alto de la ventana */
 }
 
-.profile-container {
-    max-width: 800px;
-    margin: 0 auto;
+.home {
+    text-align: center;
     padding: 20px;
+    background-color: #1a1a1d;
+    color: #c5c6c7;
+    height: 100vh;
+}
+
+h1 {
+    font-variant: small-caps;
+    font-size: 4rem;
+    font-family: 'Your Epic Font', sans-serif;
 }
 
 .purchased-entries {
@@ -78,21 +100,38 @@ body {
 }
 
 .purchased-entries h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
+    font-size: 2rem;
+    font-family: 'Your Epic Font', sans-serif;
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
 }
 
-li {
-    padding: 5px 0;
-    border-bottom: 1px solid #ccc;
+th,
+td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+    color: #000;
 }
 
-li:last-child {
-    border-bottom: none;
+th {
+    background-color: #ccc;
+    font-size: 1.15em;
+}
+
+tr{
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #c0c0c0;
+}
+
+tr:hover {
+    background-color: #91cef1;
 }
 </style>

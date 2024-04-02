@@ -26,6 +26,7 @@ Route::post('/peliculas', [PeliculasController::class, 'store']);
 
 Route::post('/entradas', [EntradaController::class, 'store']);
 Route::get('/entradas', [EntradaController::class, 'index']);
+Route::get('/entradas/{email}', [EntradaController::class, 'getUserEntries']);
 
 
 Route::get('/sesiones', [SesionController::class, 'index']);
