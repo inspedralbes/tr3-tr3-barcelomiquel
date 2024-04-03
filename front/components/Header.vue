@@ -6,8 +6,9 @@
     </nuxt-link>
     <div>
       <nuxt-link v-if="!loguejat" to="/login" class="login-button">Login/Registro</nuxt-link>
-      <nuxt-link v-else :to="`/${nom_usuari}`" class="login-button">{{ nom_usuari }}</nuxt-link>
-      <nuxt-link v-if="loguejat" to="/" @click="logout" class="login-button">Logout</nuxt-link>
+      <nuxt-link  v-if="loguejat" :to="`/${nom_usuari}`" class="login-button">{{ nom_usuari }}</nuxt-link>
+      <nuxt-link  v-if="loguejat && admin" :to="`admin/${nom_usuari}`" class="login-button">Admin</nuxt-link>
+      <nuxt-link  v-if="loguejat" to="/" @click="logout" class="login-button">Logout</nuxt-link>
     </div>
 
   </header>
@@ -24,7 +25,10 @@ export default {
     },
     nom_usuari() {
       return useSesionCompraStore().nom_usuari;
-    }
+    },
+    admin() {
+      return useSesionCompraStore().tipus_usuari === 'admin';
+    },
   },
   methods: {
     logout() {
@@ -90,6 +94,10 @@ h2 {
   font-size: 2rem;
   font-family: 'Your Epic Font', sans-serif;
   margin: 0;
+}
+
+div{
+  margin-right: 2%;
 }
 
 .login-button {
