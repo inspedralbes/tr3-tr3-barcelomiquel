@@ -18,7 +18,7 @@ docker-compose up
 
 ## Prototip Grafic:
 
-Pendent
+[Penpot](https://design.penpot.app/#/view/6e12068a-09a0-801a-8004-2449d21f2d20?page-id=6e12068a-09a0-801a-8004-2449d21f2d21&section=interactions&index=0&share-id=6e12068a-09a0-801a-8004-248dccd58a53)
 
 ## URL de Producció:
 
