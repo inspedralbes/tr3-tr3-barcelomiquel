@@ -1,6 +1,6 @@
 <template>
   <header class="site-header">
-    <nuxt-link to="/" class="logo-and-title">
+    <nuxt-link to="/" class="logo-and-title" @click="inici()">
       <img src="../public/logoCIne.jpg" alt="Logo Galaxia Films" class="logo-cine">
       <h2>galaxia films</h2>
     </nuxt-link>
@@ -60,6 +60,12 @@ export default {
         }
       })
       .catch(error => console.error('Error al realizar el logout:', error));
+    },
+    inici(){
+      const store = useSesionCompraStore();
+      store.butacasSeleccionadas = [];
+      store.sesionID = "";
+      store.precioTotal = 0;
     }
   }
 };
