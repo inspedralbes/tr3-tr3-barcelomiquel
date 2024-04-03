@@ -14,7 +14,7 @@ class AuthController extends Controller
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'tipus' => 'string', // 'user' or 'admin
-            'password' => 'required|string|min:6',
+            'password' => 'required|string',
         ]);
 
         if ($request->tipus != null) {
@@ -58,5 +58,10 @@ class AuthController extends Controller
         } else {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+    }
+
+    public function logout(Request $request)
+    {
+        return response()->json(['message' => 'User logged out successfully'], 200);
     }
 }
