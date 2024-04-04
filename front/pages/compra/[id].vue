@@ -82,6 +82,7 @@ export default {
                 .then(response => response.json())
                 .then(data => {
                     this.sesion = data;
+                    this.precioPorButaca = data.preu_entrada;
                 })
                 .catch(error => console.error('Error al obtener la película:', error));
         },
@@ -109,6 +110,10 @@ export default {
                 }
             });
         },
+        calcularPrecioTotal() {
+            // Calcula el precio total multiplicando el precio por butaca por el número de butacas seleccionadas
+            return this.precioPorButaca * this.butacasSeleccionadas.length;
+        },
         toggleSeient(seientId) {
             // Encuentra el asiento seleccionado por su ID
             const seient = this.findSeientById(seientId);
@@ -125,8 +130,7 @@ export default {
                 if (isSelected) {
                     this.butacasSeleccionadas.push(seientId);
 
-                    const precio = 6; // Precio fijo de 6€ por asiento
-                    this.store.agregarButacaSeleccionada(seientId, precio);
+                    this.store.agregarButacaSeleccionada(seientId, this.precioPorButaca);
                 } else {
                     const index = this.butacasSeleccionadas.indexOf(seientId);
                     if (index > -1) {
@@ -176,7 +180,10 @@ export default {
             return this.butacasSeleccionadas.length > 0;
         },
         precioTotal() {
-            return this.butacasSeleccionadas.length * 6; // 6€ por butaca
+            // Calculamos el precio total multiplicando el precio por butaca por el número de butacas seleccionadas
+            return this.butacasSeleccionadas.reduce((total, seientId) => {
+                return total + this.precioPorButaca;
+            }, 0);
         },
         store() {
             return useSesionCompraStore();
