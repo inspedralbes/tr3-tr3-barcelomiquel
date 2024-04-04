@@ -25,7 +25,7 @@
         </ul>
         <h2>Total: {{ precioTotal }}€</h2>
         <form @submit.prevent="comprar">
-          <div class="form-group">
+          <div class="form-group" v-if="!store.loguejat">
             <label for="email" class="label-email">Correo Electrónico:</label>
             <input type="email" id="email" v-model="email" required class="input-field">
           </div>
@@ -89,12 +89,14 @@ export default {
       const data = {
         sesion_id: this.store.sesionID,
         asientos: asientosSeleccionados,
-        email: this.email, // Agrega el correo electrónico al objeto data
+        email: this.store.loguejat ? this.store.email_usuari : this.email,
         metodo_pago: this.metodoPago, // Agrega el método de pago al objeto data
         titol_pelicula: this.sesion.pelicula.titol, // Añadido para enviar el título de la película
       };
 
       console.log(data); // Añadido para verificar si se envía la información correcta
+
+
 
       fetch(`http://localhost:8000/api/entradas`, {
         method: 'POST',

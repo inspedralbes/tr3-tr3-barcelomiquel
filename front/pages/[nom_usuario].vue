@@ -112,6 +112,7 @@ table {
 
 th,
 td {
+    font-family: 'Your Epic Font', sans-serif;
     border: 1px solid #ccc;
     padding: 8px;
     text-align: left;
