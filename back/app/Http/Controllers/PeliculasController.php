@@ -13,7 +13,7 @@ class PeliculasController extends Controller
     public function index()
     {
         $peliculas = Peliculas::all();
-        return Peliculas::all();
+        return view('peliculas', ['peliculas' => $peliculas]);
     }
 
     /**
