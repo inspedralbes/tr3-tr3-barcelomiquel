@@ -24,8 +24,31 @@
           </li>
         </ul>
         <h2>Total: {{ precioTotal }}€</h2>
-        <button @click="comprar">Comprar</button>
-        <button class="tornar" @click="tornar">Inici</button>
+        <form @submit.prevent="comprar">
+          <div class="form-group" v-if="!store.loguejat">
+            <label for="email" class="label-email">Correo Electrónico:</label>
+            <input type="email" id="email" v-model="email" required class="input-field">
+          </div>
+          <div class="form-group">
+            <label class="label-pago">Método de Pago:</label>
+            <div class="payment-methods">
+              <div>
+                <input type="radio" id="visa" value="visa" v-model="metodoPago" required>
+                <label for="visa">Visa</label>
+              </div>
+              <div>
+                <input type="radio" id="paypal" value="paypal" v-model="metodoPago" required>
+                <label for="paypal">PayPal</label>
+              </div>
+              <div>
+                <input type="radio" id="mastercard" value="mastercard" v-model="metodoPago" required>
+                <label for="mastercard">Mastercard</label>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn-comprar">Comprar</button>
+          <button class="tornar" @click="tornar">Inici</button>
+        </form>
       </div>
     </div>
   </body>
@@ -39,6 +62,8 @@ export default {
   data() {
     return {
       sesion: null,
+      email: '', 
+      metodoPago: '' 
     };
   },
   components: {
@@ -63,10 +88,15 @@ export default {
 
       const data = {
         sesion_id: this.store.sesionID,
-        asientos: asientosSeleccionados
+        asientos: asientosSeleccionados,
+        email: this.store.loguejat ? this.store.email_usuari : this.email,
+        metodo_pago: this.metodoPago, // Agrega el método de pago al objeto data
+        titol_pelicula: this.sesion.pelicula.titol, // Añadido para enviar el título de la película
       };
 
       console.log(data); // Añadido para verificar si se envía la información correcta
+
+
 
       fetch(`http://localhost:8000/api/entradas`, {
         method: 'POST',
@@ -85,6 +115,11 @@ export default {
 
           // Redirigir a la página de inicio después de 2 segundos
           setTimeout(() => {
+            // Resetea el store de PINIA para borrar los datos almacenados
+            this.store.sesionID = 0;
+            this.store.butacasSeleccionadas = [];
+            this.store.precioTotal = 0;
+
             this.$router.push({ path: '/' });
           }, 2000);
         })
@@ -145,6 +180,10 @@ body {
   border-radius: 5px;
   margin: 20px auto;
   max-width: 500px;
+}
+
+h2 {
+  font-size: 2em;
 }
 
 ul {
@@ -213,6 +252,58 @@ button:hover {
   /* Espacio entre párrafos */
 }
 
+/* Estilos para el campo de correo electrónico */
+.label-email {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.input-field {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  max-width: 450px;
+}
+
+/* Estilos para los métodos de pago */
+.label-pago {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+}
+
+.payment-methods div {
+  margin-bottom: 10px;
+}
+
+.payment-methods input[type="radio"] {
+  margin-right: 5px;
+}
+
+/* Estilos para el botón de comprar */
+.btn-comprar {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  margin-top: 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.btn-comprar:hover {
+  background-color: #45a049;
+}
+
+/* Estilos para el botón de volver */
 .tornar {
   background-color: #afa84c;
   color: white;

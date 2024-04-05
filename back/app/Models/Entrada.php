@@ -14,7 +14,10 @@ class Entrada extends Model
     protected $fillable = [
         'sesion_id', 
         'asiento', 
-        'precio'
+        'precio',
+        'email',
+        'titol_pelicula',
+        'metodo_pago',
     ];
 
     protected $casts = [

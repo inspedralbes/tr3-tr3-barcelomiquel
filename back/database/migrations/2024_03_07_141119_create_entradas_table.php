@@ -12,6 +12,9 @@ class CreateEntradasTable extends Migration
             $table->foreignId('sesion_id')->constrained('sesiones')->onDelete('cascade');
             $table->string('asiento'); // Cambiado a string para utilizarlo como parte de la clave primaria
             $table->decimal('precio', 8, 2);
+            $table->string('email');
+            $table->string('titol_pelicula');
+            $table->string('metodo_pago');
             $table->timestamps();
 
             // Definición de clave primaria compuesta

@@ -4,6 +4,11 @@ export const useSesionCompraStore = defineStore('sesionCompra', () => {
     const sesionID = ref(0);
     const butacasSeleccionadas = ref([]);
     const precioTotal = ref(0);
+    const loguejat = ref(false);
+    const tipus_usuari = ref("");
+    const nom_usuari = ref("");
+    const email_usuari = ref("");
+    const sesionID_Editar = ref(0);
 
     function agregarButacaSeleccionada(idAsiento, precio) {
         butacasSeleccionadas.value.push({ id: idAsiento, precio: precio });
@@ -26,12 +31,27 @@ export const useSesionCompraStore = defineStore('sesionCompra', () => {
         sesionID.value = id;
     }
 
+    function iniciarSesionExitoso() {
+        loguejat.value = true;
+    }
+
+    function setSesionID_Editar(id) {
+        sesionID_Editar.value = id;
+    }
+
     return { 
         sesionID,
         setSesionID,
         butacasSeleccionadas,
         precioTotal,
         agregarButacaSeleccionada,
-        eliminarButacaSeleccionada
+        eliminarButacaSeleccionada,
+        iniciarSesionExitoso,
+        loguejat,
+        tipus_usuari,
+        nom_usuari,
+        email_usuari,
+        sesionID_Editar,
+        setSesionID_Editar,
     };
 });

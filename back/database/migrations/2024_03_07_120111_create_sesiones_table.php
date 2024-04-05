@@ -13,7 +13,8 @@ class CreateSesionesTable extends Migration
             $table->foreignId('pelicula_id')->constrained('peliculas')->onDelete('cascade');
             $table->date('fecha');
             $table->time('hora');
-            $table->boolean('dia_espectador');
+            $table->integer('preu_entrada');
+            $table->integer('preu_entradaVip');
             $table->boolean('VIP');
             $table->timestamps();
         });
