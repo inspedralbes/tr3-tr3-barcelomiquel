@@ -33,7 +33,7 @@ export default {
   methods: {
     logout() {
       // Realiza una petición fetch para llamar a la ruta de logout en tu backend
-      fetch('http://localhost:8000/api/logout', {
+      fetch('http://cinema.pre.daw.inspedralbes.cat/back/public/api/logout', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`, // Agrega el token de autenticación
