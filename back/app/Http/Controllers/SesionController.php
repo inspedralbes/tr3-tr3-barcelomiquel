@@ -73,14 +73,14 @@ class SesionController extends Controller
     public function update(Request $request, string $id)
     {
         // Validar la solicitud
-        $request->validate([
-            'pelicula_id' => 'required|exists:peliculas,id',
-            'fecha' => 'required|date',
-            'hora' => 'required|date_format:H:i',
-            'preu_entrada' => 'required|integer',
-            'preu_entradaVip' => 'required|integer',
-            'VIP' => 'required|boolean',
-        ]);
+        // $request->validate([
+        //     'pelicula_id' => 'required|exists:peliculas,id',
+        //     'fecha' => 'required|date',
+        //     'hora' => 'required|date_format:H:i',
+        //     'preu_entrada' => 'required|integer',
+        //     'preu_entradaVip' => 'required|integer',
+        //     'VIP' => 'required|boolean',
+        // ]);
     
         // Buscar la sesión por su ID
         $sesion = Sesion::findOrFail($id);
@@ -104,6 +104,13 @@ class SesionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // Buscar la sesión por su ID
+        $sesion = Sesion::findOrFail($id);
+    
+        // Eliminar la sesión
+        $sesion->delete();
+    
+        // Devolver una respuesta de éxito
+        return response()->json(null, 204);
     }
 }

@@ -85,7 +85,7 @@ export default {
                 if (response.ok) {
                     console.log('Datos actualizados exitosamente');
                     // Redireccionar a la página de detalles de sesión
-                    this.$router.push(`/sesiones/${this.sesionID}`);
+                    this.$router.push(`/gestioSessions`);
                 } else {
                     console.error('Error al actualizar la sesión:', response.statusText);
                 }

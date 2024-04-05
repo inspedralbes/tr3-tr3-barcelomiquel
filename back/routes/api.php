@@ -35,6 +35,7 @@ Route::post('/sesiones', [SesionController::class, 'store']);
 Route::get('/sesiones-entradas/{id}', [SesionController::class, 'showEntradas']);
 Route::get('/sesiones/{id}', [SesionController::class, 'show']);
 Route::put('/sesiones/{id}', [SesionController::class, 'update']);
+Route::delete('/sesiones/{id}', [SesionController::class, 'destroy']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
