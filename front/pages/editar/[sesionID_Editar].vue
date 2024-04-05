@@ -65,25 +65,39 @@ export default {
             const sesionCompraStore = useSesionCompraStore();
             const sesionID_Editar = sesionCompraStore.sesionID_Editar;
 
+            // Obtener los valores de los campos del formulario
+            const formData = {
+                pelicula_id: this.sesion.pelicula_id,
+                fecha: this.sesion.fecha,
+                hora: this.sesion.hora,
+                preu_entrada: this.sesion.preu_entrada,
+                preu_entradaVip: this.sesion.preu_entradaVip,
+                VIP: this.sesion.VIP
+            };
+
             fetch(`http://localhost:8000/api/sesiones/${sesionID_Editar}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(this.sesion)
+                body: JSON.stringify(formData)
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Datos actualizados exitosamente');
+                    // Redireccionar a la página de detalles de sesión
+                    this.$router.push(`/sesiones/${this.sesionID}`);
+                } else {
+                    console.error('Error al actualizar la sesión:', response.statusText);
+                }
+            }).catch(error => {
+                console.error('Error de red:', error);
             });
-            if (response.ok) {
-                console.log('Datos actualizados exitosamente');
-                // Redireccionar a la página de detalles de sesión
-                this.$router.push(`/sesiones/${this.sesionID}`);
-            } else {
-                console.error('Error al actualizar la sesión:', response.statusText);
-            } console.error('Error de red:', error);
-        }
+        },
+
     },
     mounted() {
         this.mostrarInformacion();
-    }
+    },
 }
 </script>
 
