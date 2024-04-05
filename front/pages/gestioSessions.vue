@@ -4,6 +4,9 @@
         <div class="gestioSessions">
             <Header />
             <h1>Gestió de Sessions</h1>
+            <div class="div_crear">
+                <nuxt-link to="/crearSessio" class="crear">Crear sessió</nuxt-link>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -56,7 +59,8 @@ export default {
         };
     },
     mounted() {
-        this.fetchSesiones();
+        this.fetchSesiones(); // Llama a fetchSesiones() cuando se monta el componente
+        this.startInterval(); // Inicia el intervalo de actualización
     },
     methods: {
         fetchSesiones() {
@@ -78,7 +82,34 @@ export default {
             const sesionCompraStore = useSesionCompraStore();
             sesionCompraStore.setSesionID_Editar(sesionID_Editar);
         },
+        eliminar(sesionID) {
+            fetch(`http://localhost:8000/api/sesiones/${sesionID}`, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        this.fetchSesiones();
+                    }
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
+        },
+        startInterval() {
+            // Iniciar un intervalo que llama a fetchSesiones() cada 3 segundos
+            this.interval = setInterval(() => {
+                this.fetchSesiones();
+            }, 3000); // 3000 milisegundos = 3 segundos
+        },
+        stopInterval() {
+            // Detener el intervalo
+            clearInterval(this.interval);
+        },
     },
+    beforeDestroy() {
+        // Asegurarse de detener el intervalo cuando se destruye el componente
+        this.stopInterval();
+    }
 };
 </script>
 
@@ -145,6 +176,29 @@ img {
 .link-container {
     display: flex;
     justify-content: space-between; /* Esto distribuirá los elementos horizontalmente */
+}
+
+.div_crear {
+    margin-bottom: 3%;
+}
+
+.crear {
+    margin: auto;
+    display: block;
+    font-size: 1rem;
+    color: #000000;
+    font-family: 'Your Epic Font', sans-serif;
+    font-weight: bold;
+    padding: 15px;
+    border-radius: 8px;
+    width: 30%;
+    background-color: #0ff807;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.crear:hover {
+    background-color: #159105;
 }
 
 .editar {
