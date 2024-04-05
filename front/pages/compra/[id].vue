@@ -78,7 +78,7 @@ export default {
             const sesionCompraStore = useSesionCompraStore();
             const sesionId = sesionCompraStore.sesionID; // Accede al ID almacenado en el store de PINIA
 
-            fetch(`http://localhost:8000/api/sesiones/${sesionId}`)
+            fetch(`http://cinema.pre.daw.inspedralbes.cat/back/public/api/sesiones/${sesionId}`)
                 .then(response => response.json())
                 .then(data => {
                     this.sesion = data;
@@ -89,7 +89,7 @@ export default {
         fetchButacasOcupadas() {
             const sesionCompraStore = useSesionCompraStore();
             const sesionId = sesionCompraStore.sesionID; // Accede al ID almacenado en el store de PINIA
-            fetch(`http://localhost:8000/api/sesiones-entradas/${sesionId}`)
+            fetch(`http://cinema.pre.daw.inspedralbes.cat/back/public/api/sesiones-entradas/${sesionId}`)
                 .then(response => response.json())
                 .then(data => {
                     this.actualizarButacasOcupadas(data.entradas);

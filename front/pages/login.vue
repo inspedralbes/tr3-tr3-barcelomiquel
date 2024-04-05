@@ -31,7 +31,7 @@ export default {
     },
     methods: {
         login() {
-            fetch('http://localhost:8000/api/login', {
+            fetch('http://cinema.pre.daw.inspedralbes.cat/back/public/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
