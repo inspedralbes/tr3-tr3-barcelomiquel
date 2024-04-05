@@ -72,7 +72,31 @@ class SesionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Validar la solicitud
+        $request->validate([
+            'pelicula_id' => 'required|exists:peliculas,id',
+            'fecha' => 'required|date',
+            'hora' => 'required|date_format:H:i',
+            'preu_entrada' => 'required|integer',
+            'preu_entradaVip' => 'required|integer',
+            'VIP' => 'required|boolean',
+        ]);
+    
+        // Buscar la sesión por su ID
+        $sesion = Sesion::findOrFail($id);
+    
+        // Actualizar los campos con los valores de la solicitud
+        $sesion->update([
+            'pelicula_id' => $request->pelicula_id,
+            'fecha' => $request->fecha,
+            'hora' => $request->hora,
+            'preu_entrada' => $request->preu_entrada,
+            'preu_entradaVip' => $request->preu_entradaVip,
+            'VIP' => $request->VIP,
+        ]);
+    
+        // Devolver la sesión actualizada
+        return response()->json($sesion, 200);
     }
 
     /**
