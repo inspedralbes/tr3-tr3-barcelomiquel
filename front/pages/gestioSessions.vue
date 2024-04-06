@@ -1,8 +1,7 @@
 <template>
-
     <body>
+        <Header />
         <div class="gestioSessions">
-            <Header />
             <h1>Gestió de Sessions</h1>
             <div class="div_crear">
                 <nuxt-link to="/crearSessio" class="crear">Crear sessió</nuxt-link>

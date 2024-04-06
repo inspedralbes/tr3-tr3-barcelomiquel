@@ -36,7 +36,7 @@
                 <div v-if="mostrarPanel" class="panel-seleccion">
                     <h3>Butacas seleccionadas:</h3>
                     <p>{{ butacasSeleccionadas.join(', ') }}</p>
-                    <p>Precio total: {{ precioTotal }}€</p>
+                    <h3>Precio total: {{ precioTotal }}€</h3>
                     <button @click="comprar">Comprar</button>
                     <button class="borrar" @click="borrarSeleccion">Borrar selecció</button>
                     <button class="tornar" @click="tornar">Inici</button>
@@ -227,7 +227,14 @@ body {
     width: 30%;
 }
 
+h3{
+    font-size: 1.5rem;
+}
 
+p{
+    font-size: 1.2rem;
+
+}
 
 .poster-pelicula {
     width: 300px;
@@ -325,45 +332,51 @@ body {
 }
 
 button {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #0ff807;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
     padding: 10px 20px;
     margin: 10px 10px 0 0;
     border: none;
     cursor: pointer;
     border-radius: 5px;
+    font-size: 1rem;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #159105;
 }
 
 .borrar {
-    background-color: #af4c4c;
-    color: white;
+    background-color: #f30909;
+    color: rgb(0, 0, 0);
     padding: 10px 20px;
     margin: 10px 10px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
+    font-weight: bold;
+    font-size: 1rem;
 }
 
 .borrar:hover {
-    background-color: #a04545;
+    background-color: #960505;
 }
 
 .tornar {
-    background-color: #afa84c;
-    color: white;
+    background-color: #e0f807;
+    color: black;
     padding: 10px 20px;
     margin: 10px 10px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
+    font-weight: bold;
+    font-size: 1rem;
 }
 
 .tornar:hover {
-    background-color: #a09a45;
+    background-color: #879105;
 }
 
 .ticket {

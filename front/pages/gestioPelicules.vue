@@ -26,7 +26,7 @@
                         <td class="descripcio">{{ pelicula.descripcio }}</td>
                         <td>{{ pelicula.genere }}</td>
                         <td>{{ pelicula.duracio }}</td>
-                        <td>
+                        <td class="boton">
                             <div class="link-container">
                                 <nuxt-link to="/gestioPelicules" @click="eliminar(pelicula.id)"
                                     class="eliminar">Eliminar</nuxt-link>
@@ -148,6 +148,10 @@ th {
     white-space: nowrap; */
 }
 
+.boton{
+    width: 100px;
+}
+
 img {
     width: 100px;
     height: 150px;
@@ -155,8 +159,7 @@ img {
 
 .link-container {
     display: flex;
-    justify-content: space-between;
-    /* Esto distribuirá los elementos horizontalmente */
+    justify-content: center;
 }
 
 .div_crear {
@@ -206,12 +209,13 @@ img {
     color: #000000;
     font-family: 'Your Epic Font', sans-serif;
     font-weight: bold;
-    padding: 15px;
+    padding: 15px; 
     border-radius: 8px;
-    width: 30%;
+    width: 100px; 
     background-color: #f30909;
     text-decoration: none;
     transition: background-color 0.3s;
+    text-align: center; 
 }
 
 .eliminar:hover {

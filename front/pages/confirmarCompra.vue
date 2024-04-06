@@ -62,8 +62,8 @@ export default {
   data() {
     return {
       sesion: null,
-      email: '', 
-      metodoPago: '' 
+      email: '',
+      metodoPago: ''
     };
   },
   components: {
@@ -290,32 +290,36 @@ button:hover {
 
 /* Estilos para el botón de comprar */
 .btn-comprar {
-  background-color: #4CAF50;
-  color: white;
+  background-color: #0ff807;
+  color: black;
   padding: 10px 20px;
   margin-top: 20px;
   border: none;
   cursor: pointer;
   border-radius: 5px;
+  font-weight: bold;
+  font-size: 1rem;
 }
 
 .btn-comprar:hover {
-  background-color: #45a049;
+  background-color: #159105;
 }
 
 /* Estilos para el botón de volver */
 .tornar {
-  background-color: #afa84c;
-  color: white;
+  background-color: #e0f807;
+  color: black;
   padding: 10px 20px;
   margin: 10px 10px;
   border: none;
   cursor: pointer;
   border-radius: 5px;
+  font-weight: bold;
+  font-size: 1rem;
 }
 
 .tornar:hover {
-  background-color: #a09a45;
+  background-color: #879105;
 }
 
 /* .confirmacion {
