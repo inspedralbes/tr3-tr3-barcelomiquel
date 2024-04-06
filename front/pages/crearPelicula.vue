@@ -1,8 +1,7 @@
 <template>
-
     <body>
+        <Header />
         <div class="home">
-            <Header />
             <h1>Crear Nueva Película</h1>
             <form @submit.prevent="crearPelicula" class="form">
                 <label for="titol">Título</label>
@@ -15,7 +14,7 @@
                 <label for="genere">Género</label>
                 <input v-model="nuevaPelicula.genere" type="text" name="genere" id="genere" class="input-field">
                 <label for="duracio">Duración (minutos)</label>
-                <input v-model="nuevaPelicula.duracio" type="number" name="duracio" id="duracio" class="input-field">
+                <input v-model="nuevaPelicula.duracio" type="text" name="duracio" id="duracio" class="input-field">
                 <button type="submit" class="buttonTicket">Guardar</button>
             </form>
         </div>
@@ -48,7 +47,7 @@ export default {
                 genere: this.nuevaPelicula.genere,
                 duracio: this.nuevaPelicula.duracio
             };
-
+            console.log('Creando película:', formData);
             fetch('http://localhost:8000/api/peliculas', {
                 method: 'POST',
                 headers: {
