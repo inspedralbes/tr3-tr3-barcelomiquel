@@ -24,6 +24,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::get('/peliculas', [PeliculasController::class, 'index']);
 Route::post('/peliculas', [PeliculasController::class, 'store']);
+Route::delete('/peliculas/{id}', [PeliculasController::class, 'destroy']);
 
 Route::post('/entradas', [EntradaController::class, 'store']);
 Route::get('/entradas', [EntradaController::class, 'index']);

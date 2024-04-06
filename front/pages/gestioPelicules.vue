@@ -1,11 +1,10 @@
 <template>
-
     <body>
+        <Header />
         <div class="gestioSessions">
-            <Header />
             <h1>Gestió de Sessions</h1>
             <div class="div_crear">
-                <nuxt-link to="/crearSessio" class="crear">Crear Pel·licula</nuxt-link>
+                <nuxt-link to="/crearPelicula" class="crear">Crear Pel·licula</nuxt-link>
             </div>
             <table>
                 <thead>
@@ -24,12 +23,12 @@
                         <td>{{ pelicula.id }}</td>
                         <td>{{ pelicula.titol }}</td>
                         <td class="imatge"><img :src="pelicula.poster" :alt="`Pòster de ${pelicula.titol}`" /></td>
-                        <td>{{ pelicula.descripcio }}</td>
+                        <td class="descripcio">{{ pelicula.descripcio }}</td>
                         <td>{{ pelicula.genere }}</td>
                         <td>{{ pelicula.duracio }}</td>
                         <td>
                             <div class="link-container">
-                                <nuxt-link to="/gestioSessions" @click="eliminar(sesion.id)"
+                                <nuxt-link to="/gestioPelicules" @click="eliminar(pelicula.id)"
                                     class="eliminar">Eliminar</nuxt-link>
                             </div>
                         </td>
@@ -45,11 +44,11 @@ import { useSesionCompraStore } from '@/stores/sesionCompra';
 export default {
     data() {
         return {
-            sesiones: [],
+            peliculas: [],
         };
     },
     mounted() {
-        this.fetchSesiones(); // Llama a fetchSesiones() cuando se monta el componente
+        this.fetchPeliculas(); // Llama a fetchSesiones() cuando se monta el componente
         this.startInterval(); // Inicia el intervalo de actualización
     },
     methods: {
@@ -64,27 +63,23 @@ export default {
                 .then(data => {
                     this.peliculas = data;
                 })
+        },
+        eliminar(peliculaID) {
+            fetch(`http://localhost:8000/api/peliculas/${peliculaID}`, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        this.fetchPeliculas();
+                    }
+                })
                 .catch(error => {
                     console.error('There has been a problem with your fetch operation:', error);
                 });
         },
-        // eliminar(sesionID) {
-        //     fetch(`http://localhost:8000/api/sesiones/${sesionID}`, {
-        //         method: 'DELETE'
-        //     })
-        //         .then(response => {
-        //             if (response.ok) {
-        //                 this.fetchSesiones();
-        //             }
-        //         })
-        //         .catch(error => {
-        //             console.error('There has been a problem with your fetch operation:', error);
-        //         });
-        // },
         startInterval() {
-            // Iniciar un intervalo que llama a fetchSesiones() cada 3 segundos
             this.interval = setInterval(() => {
-                this.fetchSesiones();
+                this.fetchPeliculas();
             }, 3000); // 3000 milisegundos = 3 segundos
         },
         stopInterval() {
@@ -146,12 +141,11 @@ th {
     width: 100px;
 }
 
-.preu {
-    width: 30px;
-}
-
-.preuVip {
-    width: 100px;
+.descripcio {
+    max-width: 300px;
+    /* overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; */
 }
 
 img {
