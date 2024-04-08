@@ -92,9 +92,11 @@ export default {
                             if (this.sesion.VIP && index === 5) {
                                 // Si es la fila 6 y la sesión es VIP, asigna el precio VIP
                                 seient.precio = this.sesion.preu_entradaVip;
+                                seient.vip = true; // Establece vip como true para los asientos de la fila 6
                             } else {
                                 // Para las demás filas o si la sesión no es VIP, asigna el precio estándar
                                 seient.precio = this.sesion.preu_entrada;
+                                seient.vip = false; // Asegúrate de establecer vip como false para las demás filas
                             }
                         });
                     });
@@ -118,6 +120,7 @@ export default {
                 for (let fila of this.files) {
                     for (let seient of fila) {
                         if (seient.id === asiento) {
+                            seient.vip = false;
                             seient.ocupada = true;
                             break; // No necesitas seguir buscando en las filas
                         }
@@ -143,6 +146,7 @@ export default {
             if (this.butacasSeleccionadas.length < 10 || !isSelected) {
                 // Cambia el estado de selección del asiento
                 seient.seleccionat = isSelected;
+                seient.vip = false;
 
                 // Actualiza el array de butacas seleccionadas
                 if (isSelected) {
@@ -154,6 +158,9 @@ export default {
                     const index = this.butacasSeleccionadas.indexOf(seientId);
                     if (index > -1) {
                         this.butacasSeleccionadas.splice(index, 1);
+                        if(this.sesion.VIP && seient.id.split('-')[0] === '6') {
+                            seient.vip = true;
+                        } 
                     }
                     // Elimina el asiento del estado de Pinia
                     this.store.eliminarButacaSeleccionada(seientId);
