@@ -1,11 +1,12 @@
 <template>
+
     <body>
         <Header />
         <div class="login">
             <h1>Iniciar Sesió</h1>
             <form @submit.prevent="login" class="form">
                 <div class="form-group">
-                    <label for="email">Correo Electrónic:</label>
+                    <label for="email">Correu Electrónic:</label>
                     <input type="email" id="email" v-model="email" required>
                 </div>
                 <div class="form-group">
@@ -14,7 +15,11 @@
                 </div>
                 <button type="submit" class="buttonLogin">Iniciar Sesió</button>
             </form>
-            <p>No tiens una conta? <router-link to="/registre">Regístra't</router-link></p>
+            <p>No tens conta? <router-link to="/registre">Regístra't</router-link></p>
+            <!-- Div para mostrar el mensaje de error -->
+            <div v-if="error" class="error-message">
+                Credencials incorrectes o usuari no autenticat. Si us plau, intenta-ho de nou o registra't.
+            </div>
         </div>
     </body>
 </template>
@@ -26,7 +31,8 @@ export default {
     data() {
         return {
             email: '',
-            password: ''
+            password: '',
+            error: false // Variable para controlar el mensaje de error
         };
     },
     methods: {
@@ -45,6 +51,8 @@ export default {
                     if (response.ok) {
                         return response.json();
                     } else {
+                        // Si hay un error en la autenticación, establecemos la variable de error en true
+                        this.error = true;
                         throw new Error('Error al iniciar sesión');
                     }
                 })
@@ -53,7 +61,7 @@ export default {
                     store.iniciarSesionExitoso();
                     store.nom_usuari = data.name;
                     store.tipus_usuari = data.tipus;
-                    store.email_usuari = data.email; 
+                    store.email_usuari = data.email;
                     this.$router.push('/');
                 })
                 .catch(error => {
@@ -112,6 +120,13 @@ input {
     border: 1px solid #4b5d67;
     background-color: #0b0c10;
     color: #c5c6c7;
+}
+
+.error-message {
+    margin-top: 10px;
+    color: #ff6347; /* Color rojo */
+    font-size: 1.2rem;
+    font-family: 'Your Epic Font', sans-serif;
 }
 
 button {

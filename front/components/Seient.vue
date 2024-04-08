@@ -1,5 +1,5 @@
 <template>
-  <div class="seient" :class="{ 'seient-seleccionat': seient.seleccionat, 'seient-ocupat': seient.ocupada }"
+  <div class="seient" :class="{ 'seient-seleccionat': seient.seleccionat, 'seient-ocupat': seient.ocupada, 'asiento-vip-seleccionat': seient.vip}"
     @click="toggleSeient">
     <!-- {{ seient.id }} -->
   </div>
@@ -45,6 +45,11 @@ export default {
   /* Rojo para indicar asiento ocupado */
   cursor: not-allowed;
   /* Cambia el cursor para indicar que no es seleccionable */
+}
+
+.asiento-vip-seleccionat {
+  background-color: gold;
+  /* Cambia el color de fondo a dorado para asientos VIP seleccionados */
 }
 
 /* Asegúrate de deshabilitar la interacción con el asiento ocupado */

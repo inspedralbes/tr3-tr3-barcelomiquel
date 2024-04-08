@@ -12,8 +12,11 @@ class PeliculasController extends Controller
      */
     public function index()
     {
+        // Obtener todas las películas
         $peliculas = Peliculas::all();
-        return Peliculas::all();
+
+        // Devolver respuesta
+        return response()->json($peliculas);
     }
 
     /**
@@ -21,8 +24,7 @@ class PeliculasController extends Controller
     */
     public function store(Request $request)
     {
-        // Validación de datos
-        $validatedData = $request->validate([
+        $request->validate([
             'titol' => 'required|string|max:255',
             'genere' => 'required|string|max:255',
             'descripcio' => 'required|string|max:255', 
@@ -30,34 +32,26 @@ class PeliculasController extends Controller
             'duracio' => 'required|string|max:255',
         ]);
 
-        // Crear nueva película
-        $pelicula = Peliculas::create($validatedData);
+        $pelicula = Peliculas::create([
+            'titol' =>  $request->titol,
+            'genere' => $request->genere,
+            'descripcio' => $request->descripcio,
+            'poster' => $request->poster,
+            'duracio' => $request->duracio,
+        ]);
 
-        // Devolver respuesta
-        return response()->json($pelicula, 201); // 201 = Created
+        return response()->json($pelicula, 201); 
     }
 
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
-         // Validación de datos
-        $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'genere' => 'required|string|max:255',
-            'poster' => 'nullable|string|max:255',
-            'dia' => 'required|date',
-            'imagen' => 'nullable|string|max:255',
-        ]);
-
         // Buscar la película por ID
         $pelicula = Peliculas::findOrFail($id); // Si no encuentra la película, devolverá un error 404
-
-        // Actualizar la película
-        $pelicula->update($validatedData);
-
+    
         // Devolver respuesta
         return response()->json($pelicula);
     }
@@ -75,6 +69,13 @@ class PeliculasController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // Buscar la película por ID
+        $pelicula = Peliculas::findOrFail($id); // Si no encuentra la película, devolverá un error 404
+
+        // Eliminar la película
+        $pelicula->delete();
+
+        // Devolver respuesta
+        return response()->json(null, 204);
     }
 }

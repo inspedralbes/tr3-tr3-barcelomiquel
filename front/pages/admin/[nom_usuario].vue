@@ -3,9 +3,10 @@
     <Header />
     <div class="admin">
       <h1>Administració</h1>
-      <p>Estás en la página de administració de {{ $route.params.nom_usuario }}</p>
+      <p>Estás en la página d'administració de {{ $route.params.nom_usuario }}</p>
       <div class="buttons">
         <nuxt-link to="/gestioSessions" class="admin-link">Gestió de Sessions</nuxt-link>
+        <nuxt-link to="/gestioPelicules" class="admin-link">Gestió de Pel·licules</nuxt-link>
         <nuxt-link to="/estadistiques" class="admin-link">Estadístiques</nuxt-link>
       </div>
       

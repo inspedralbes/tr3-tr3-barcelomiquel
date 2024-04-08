@@ -24,6 +24,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::get('/peliculas', [PeliculasController::class, 'index']);
 Route::post('/peliculas', [PeliculasController::class, 'store']);
+Route::delete('/peliculas/{id}', [PeliculasController::class, 'destroy']);
 
 Route::post('/entradas', [EntradaController::class, 'store']);
 Route::get('/entradas', [EntradaController::class, 'index']);
@@ -35,6 +36,7 @@ Route::post('/sesiones', [SesionController::class, 'store']);
 Route::get('/sesiones-entradas/{id}', [SesionController::class, 'showEntradas']);
 Route::get('/sesiones/{id}', [SesionController::class, 'show']);
 Route::put('/sesiones/{id}', [SesionController::class, 'update']);
+Route::delete('/sesiones/{id}', [SesionController::class, 'destroy']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

@@ -26,11 +26,11 @@
         <h2>Total: {{ precioTotal }}€</h2>
         <form @submit.prevent="comprar">
           <div class="form-group" v-if="!store.loguejat">
-            <label for="email" class="label-email">Correo Electrónico:</label>
+            <label for="email" class="label-email">Correu Electrónic:</label>
             <input type="email" id="email" v-model="email" required class="input-field">
           </div>
           <div class="form-group">
-            <label class="label-pago">Método de Pago:</label>
+            <label class="label-pago">Métode de Pagament:</label>
             <div class="payment-methods">
               <div>
                 <input type="radio" id="visa" value="visa" v-model="metodoPago" required>
@@ -62,8 +62,8 @@ export default {
   data() {
     return {
       sesion: null,
-      email: '', 
-      metodoPago: '' 
+      email: '',
+      metodoPago: ''
     };
   },
   components: {
@@ -114,14 +114,13 @@ export default {
           alert('Entrades comprades amb èxit');
 
           // Redirigir a la página de inicio después de 2 segundos
-          setTimeout(() => {
-            // Resetea el store de PINIA para borrar los datos almacenados
-            this.store.sesionID = 0;
-            this.store.butacasSeleccionadas = [];
-            this.store.precioTotal = 0;
 
-            this.$router.push({ path: '/' });
-          }, 2000);
+          // Resetea el store de PINIA para borrar los datos almacenados
+          this.store.sesionID = 0;
+          this.store.butacasSeleccionadas = [];
+          this.store.precioTotal = 0;
+
+          this.$router.push({ path: '/' });
         })
         .catch(error => console.error('Error al enviar datos al backend:', error));
     },
@@ -290,32 +289,36 @@ button:hover {
 
 /* Estilos para el botón de comprar */
 .btn-comprar {
-  background-color: #4CAF50;
-  color: white;
+  background-color: #0ff807;
+  color: black;
   padding: 10px 20px;
   margin-top: 20px;
   border: none;
   cursor: pointer;
   border-radius: 5px;
+  font-weight: bold;
+  font-size: 1rem;
 }
 
 .btn-comprar:hover {
-  background-color: #45a049;
+  background-color: #159105;
 }
 
 /* Estilos para el botón de volver */
 .tornar {
-  background-color: #afa84c;
-  color: white;
+  background-color: #e0f807;
+  color: black;
   padding: 10px 20px;
   margin: 10px 10px;
   border: none;
   cursor: pointer;
   border-radius: 5px;
+  font-weight: bold;
+  font-size: 1rem;
 }
 
 .tornar:hover {
-  background-color: #a09a45;
+  background-color: #879105;
 }
 
 /* .confirmacion {

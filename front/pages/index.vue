@@ -16,7 +16,7 @@
       </div>
       <h2>Totes les pel·lícules</h2>
       <div class="movie-list">
-        <div class="movie-card" v-for="sesion in sesiones" :key="sesion.id">
+        <div class="movie-card" v-for="sesion in filteredSesiones" :key="sesion.id">
           <img :src="sesion.pelicula.poster" :alt="`Póster de ${sesion.pelicula.titol}`" />
           <h2>{{ sesion.pelicula.titol }}</h2>
           <p>{{ sesion.pelicula.genere }}</p>
@@ -51,6 +51,11 @@ export default {
         return sesionDate >= startOfWeek && sesionDate <= endOfWeek;
       });
     },
+    filteredSesiones() {
+      const today = new Date();
+      // Filtrar sesiones que tienen una fecha posterior o igual a hoy
+      return this.sesiones.filter(sesion => new Date(sesion.fecha) >= today);
+    }
   },
   methods: {
     fetchSesiones() {

@@ -5,7 +5,7 @@
       <h2>galaxia films</h2>
     </nuxt-link>
     <div>
-      <nuxt-link v-if="!loguejat" to="/login" class="login-button">Login/Registro</nuxt-link>
+      <nuxt-link v-if="!loguejat" to="/login" class="login-button">Login/Registre</nuxt-link>
       <nuxt-link  v-if="loguejat" :to="`/${nom_usuari}`" class="login-button">{{ nom_usuari }}</nuxt-link>
       <nuxt-link  v-if="loguejat && admin" :to="`admin/${nom_usuari}`" class="login-button">Admin</nuxt-link>
       <nuxt-link  v-if="loguejat" to="/" @click="logout" class="login-button">Logout</nuxt-link>
@@ -52,6 +52,10 @@ export default {
           store.tipus_usuari = '';
           store.nom_usuari = '';
           store.email_usuari = '';
+          store.butacasSeleccionadas = [];
+          store.sesionID = '';
+          store.precioTotal = 0;
+          store.sesionID_Editar = '';
 
           // Redirige al usuario a la página de inicio
           this.$router.push('/');
@@ -66,6 +70,7 @@ export default {
       store.butacasSeleccionadas = [];
       store.sesionID = "";
       store.precioTotal = 0;
+      store.sesionID_Editar = "";
     }
   }
 };
@@ -106,7 +111,8 @@ div{
   margin-right: 2%;
 }
 
-.login-button {
+.login-button,
+.logout-button {
   margin-right: 5%;
   padding: 10px 20px;
   background-color: #66fcf1;
@@ -117,24 +123,10 @@ div{
   transition: background-color 0.3s;
   font-family: 'Your Epic Font', sans-serif;
   font-weight: bold;
+  text-decoration: none; /* Quitar subrayado */
 }
 
-.login-button:hover {
-  background-color: #45a29e;
-}
-
-.logout-button {
-  padding: 10px 20px;
-  background-color: #66fcf1;
-  color: #0b0c10;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-family: 'Your Epic Font', sans-serif;
-  font-weight: bold;
-}
-
+.login-button:hover,
 .logout-button:hover {
   background-color: #45a29e;
 }

@@ -4,7 +4,7 @@
         <div class="gestioSessions">
             <h1>Gestió de Sessions</h1>
             <div class="div_crear">
-                <nuxt-link to="/crearSessio" class="crear">Crear sessió</nuxt-link>
+                <nuxt-link to="/crearPelicula" class="crear">Crear Pel·licula</nuxt-link>
             </div>
             <table>
                 <thead>
@@ -14,32 +14,22 @@
                         <th>Poster</th>
                         <th>Descripció</th>
                         <th>Genere</th>
-                        <th>Data</th>
-                        <th>Hora</th>
                         <th>Durada</th>
-                        <th>Preu Entrada</th>
-                        <th>Preu Entrada VIP</th>
-                        <th>VIP</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="sesion in sesiones" :key="sesion.id">
-                        <td>{{ sesion.id }}</td>
-                        <td>{{ sesion.pelicula.titol }}</td>
-                        <td class="imatge"><img :src="sesion.pelicula.poster" :alt="`Póster de ${sesion.pelicula.titol}`" /></td>
-                        <td>{{ sesion.pelicula.descripcio }}</td>
-                        <td>{{ sesion.pelicula.genere }}</td>
-                        <td>{{ sesion.fecha }}</td>
-                        <td>{{ sesion.hora }}</td>
-                        <td>{{ sesion.pelicula.duracio }}</td>
-                        <td class="preu">{{ sesion.preu_entrada }}</td>
-                        <td class="preuVip">{{ sesion.preu_entradaVip }}</td>
-                        <td>{{ sesion.VIP ? 'Sí' : 'No' }}</td>
-                        <td>
+                    <tr v-for="pelicula in peliculas" :key="pelicula.id">
+                        <td>{{ pelicula.id }}</td>
+                        <td>{{ pelicula.titol }}</td>
+                        <td class="imatge"><img :src="pelicula.poster" :alt="`Pòster de ${pelicula.titol}`" /></td>
+                        <td class="descripcio">{{ pelicula.descripcio }}</td>
+                        <td>{{ pelicula.genere }}</td>
+                        <td>{{ pelicula.duracio }}</td>
+                        <td class="boton">
                             <div class="link-container">
-                                <nuxt-link :to="'/editar/' + sesion.id" @click="guardarSesionID(sesion.id)" class="editar">Editar</nuxt-link>
-                                <nuxt-link to="/gestioSessions" @click="eliminar(sesion.id)" class="eliminar">Eliminar</nuxt-link>
+                                <nuxt-link to="/gestioPelicules" @click="eliminar(pelicula.id)"
+                                    class="eliminar">Eliminar</nuxt-link>
                             </div>
                         </td>
                     </tr>
@@ -54,16 +44,16 @@ import { useSesionCompraStore } from '@/stores/sesionCompra';
 export default {
     data() {
         return {
-            sesiones: [],
+            peliculas: [],
         };
     },
     mounted() {
-        this.fetchSesiones(); // Llama a fetchSesiones() cuando se monta el componente
+        this.fetchPeliculas(); // Llama a fetchSesiones() cuando se monta el componente
         this.startInterval(); // Inicia el intervalo de actualización
     },
     methods: {
-        fetchSesiones() {
-            fetch('http://cinema.pre.daw.inspedralbes.cat/back/public/api/sesiones')
+        fetchPeliculas() {
+            fetch('http://localhost:8000/api/peliculas')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -71,23 +61,16 @@ export default {
                     return response.json();
                 })
                 .then(data => {
-                    this.sesiones = data;
+                    this.peliculas = data;
                 })
-                .catch(error => {
-                    console.error('There has been a problem with your fetch operation:', error);
-                });
         },
-        guardarSesionID(sesionID_Editar) {
-            const sesionCompraStore = useSesionCompraStore();
-            sesionCompraStore.setSesionID_Editar(sesionID_Editar);
-        },
-        eliminar(sesionID) {
-            fetch(`http://localhost:8000/api/sesiones/${sesionID}`, {
+        eliminar(peliculaID) {
+            fetch(`http://localhost:8000/api/peliculas/${peliculaID}`, {
                 method: 'DELETE'
             })
                 .then(response => {
                     if (response.ok) {
-                        this.fetchSesiones();
+                        this.fetchPeliculas();
                     }
                 })
                 .catch(error => {
@@ -95,9 +78,8 @@ export default {
                 });
         },
         startInterval() {
-            // Iniciar un intervalo que llama a fetchSesiones() cada 3 segundos
             this.interval = setInterval(() => {
-                this.fetchSesiones();
+                this.fetchPeliculas();
             }, 3000); // 3000 milisegundos = 3 segundos
         },
         stopInterval() {
@@ -159,11 +141,14 @@ th {
     width: 100px;
 }
 
-.preu{
-    width: 30px;
+.descripcio {
+    max-width: 300px;
+    /* overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; */
 }
 
-.preuVip{
+.boton{
     width: 100px;
 }
 
@@ -174,7 +159,7 @@ img {
 
 .link-container {
     display: flex;
-    justify-content: space-between; /* Esto distribuirá los elementos horizontalmente */
+    justify-content: center;
 }
 
 .div_crear {
@@ -224,12 +209,13 @@ img {
     color: #000000;
     font-family: 'Your Epic Font', sans-serif;
     font-weight: bold;
-    padding: 15px;
+    padding: 15px; 
     border-radius: 8px;
-    width: 30%;
+    width: 100px; 
     background-color: #f30909;
     text-decoration: none;
     transition: background-color 0.3s;
+    text-align: center; 
 }
 
 .eliminar:hover {
