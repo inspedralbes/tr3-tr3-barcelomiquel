@@ -6,7 +6,7 @@
             <h1>Iniciar Sesió</h1>
             <form @submit.prevent="login" class="form">
                 <div class="form-group">
-                    <label for="email">Correo Electrónic:</label>
+                    <label for="email">Correu Electrónic:</label>
                     <input type="email" id="email" v-model="email" required>
                 </div>
                 <div class="form-group">
@@ -15,7 +15,7 @@
                 </div>
                 <button type="submit" class="buttonLogin">Iniciar Sesió</button>
             </form>
-            <p>No tiens una conta? <router-link to="/registre">Regístra't</router-link></p>
+            <p>No tens conta? <router-link to="/registre">Regístra't</router-link></p>
             <!-- Div para mostrar el mensaje de error -->
             <div v-if="error" class="error-message">
                 Credencials incorrectes o usuari no autenticat. Si us plau, intenta-ho de nou o registra't.

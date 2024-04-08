@@ -2,18 +2,18 @@
     <body>
         <Header />
         <div class="home">
-            <h1>Crear Nueva Película</h1>
+            <h1>Crear Nova Pel·lícula</h1>
             <form @submit.prevent="crearPelicula" class="form">
-                <label for="titol">Título</label>
+                <label for="titol">Titol</label>
                 <input v-model="nuevaPelicula.titol" type="text" name="titol" id="titol" class="input-field">
                 <label for="poster">URL del Poster</label>
                 <input v-model="nuevaPelicula.poster" type="text" name="poster" id="poster" class="input-field">
-                <label for="descripcio">Descripción</label>
+                <label for="descripcio">Descripció</label>
                 <textarea v-model="nuevaPelicula.descripcio" name="descripcio" id="descripcio" rows="4"
                     class="input-field"></textarea>
-                <label for="genere">Género</label>
+                <label for="genere">Génere</label>
                 <input v-model="nuevaPelicula.genere" type="text" name="genere" id="genere" class="input-field">
-                <label for="duracio">Duración (minutos)</label>
+                <label for="duracio">Duració (minuts)</label>
                 <input v-model="nuevaPelicula.duracio" type="text" name="duracio" id="duracio" class="input-field">
                 <button type="submit" class="buttonTicket">Guardar</button>
             </form>

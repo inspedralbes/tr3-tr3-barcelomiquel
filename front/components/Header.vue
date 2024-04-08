@@ -5,7 +5,7 @@
       <h2>galaxia films</h2>
     </nuxt-link>
     <div>
-      <nuxt-link v-if="!loguejat" to="/login" class="login-button">Login/Registro</nuxt-link>
+      <nuxt-link v-if="!loguejat" to="/login" class="login-button">Login/Registre</nuxt-link>
       <nuxt-link  v-if="loguejat" :to="`/${nom_usuari}`" class="login-button">{{ nom_usuari }}</nuxt-link>
       <nuxt-link  v-if="loguejat && admin" :to="`admin/${nom_usuari}`" class="login-button">Admin</nuxt-link>
       <nuxt-link  v-if="loguejat" to="/" @click="logout" class="login-button">Logout</nuxt-link>

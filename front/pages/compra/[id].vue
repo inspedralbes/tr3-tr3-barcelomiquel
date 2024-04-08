@@ -40,7 +40,7 @@
                         <div v-for="butaca in butacasSeleccionadas" :key="butaca" class="butaca-seleccionada">{{ butaca
                             }}</div>
                     </div>
-                    <h3>Precio total: {{ precioTotal }}€</h3>
+                    <h3>Preu total: {{ precioTotal }}€</h3>
                     <button @click="comprar">Comprar</button>
                     <button class="borrar" @click="borrarSeleccion">Borrar selecció</button>
                     <button class="tornar" @click="tornar">Inici</button>

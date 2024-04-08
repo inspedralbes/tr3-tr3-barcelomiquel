@@ -5,13 +5,13 @@
             <div class="home">
                 <h1>Perfil de {{ nom_usuario }}</h1>
                 <div class="purchased-entries">
-                    <h2>Entradas Compradas</h2>
+                    <h2>Entrades Comprades</h2>
                     <table>
                         <thead>
                             <tr>
-                                <th>Asiento</th>
-                                <th>Precio</th>
-                                <th>Título de la Película</th>
+                                <th>Seient</th>
+                                <th>Preu</th>
+                                <th>Títol de la Pel·lícula</th>
                                 <th>Metóde de pagament</th>
                             </tr>
                         </thead>

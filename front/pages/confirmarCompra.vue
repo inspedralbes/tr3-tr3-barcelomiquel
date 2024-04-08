@@ -26,11 +26,11 @@
         <h2>Total: {{ precioTotal }}€</h2>
         <form @submit.prevent="comprar">
           <div class="form-group" v-if="!store.loguejat">
-            <label for="email" class="label-email">Correo Electrónico:</label>
+            <label for="email" class="label-email">Correu Electrónic:</label>
             <input type="email" id="email" v-model="email" required class="input-field">
           </div>
           <div class="form-group">
-            <label class="label-pago">Método de Pago:</label>
+            <label class="label-pago">Métode de Pagament:</label>
             <div class="payment-methods">
               <div>
                 <input type="radio" id="visa" value="visa" v-model="metodoPago" required>
