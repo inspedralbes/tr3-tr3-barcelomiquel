@@ -36,12 +36,16 @@
             <div class="ticket">
                 <div v-if="mostrarPanel" class="panel-seleccion">
                     <h3>Butacas seleccionadas:</h3>
-                    <p>{{ butacasSeleccionadas.join(', ') }}</p>
+                    <div class="butacas-seleccionadas">
+                        <div v-for="butaca in butacasSeleccionadas" :key="butaca" class="butaca-seleccionada">{{ butaca
+                            }}</div>
+                    </div>
                     <h3>Precio total: {{ precioTotal }}€</h3>
                     <button @click="comprar">Comprar</button>
                     <button class="borrar" @click="borrarSeleccion">Borrar selecció</button>
                     <button class="tornar" @click="tornar">Inici</button>
                 </div>
+
             </div>
         </div>
     </body>
@@ -151,16 +155,16 @@ export default {
                 // Actualiza el array de butacas seleccionadas
                 if (isSelected) {
                     this.butacasSeleccionadas.push(seientId);
-
+                    this.butacasSeleccionadas.sort();
                     // Almacena el precio del asiento en el estado de Pinia
                     this.store.agregarButacaSeleccionada(seientId, seient.precio);
                 } else {
                     const index = this.butacasSeleccionadas.indexOf(seientId);
                     if (index > -1) {
                         this.butacasSeleccionadas.splice(index, 1);
-                        if(this.sesion.VIP && seient.id.split('-')[0] === '6') {
+                        if (this.sesion.VIP && seient.id.split('-')[0] === '6') {
                             seient.vip = true;
-                        } 
+                        }
                     }
                     // Elimina el asiento del estado de Pinia
                     this.store.eliminarButacaSeleccionada(seientId);
@@ -182,9 +186,13 @@ export default {
             }
         },
         borrarSeleccion() {
+
             this.butacasSeleccionadas.forEach(id => {
                 const seient = this.findSeientById(id);
                 seient.seleccionat = false;
+                if (this.sesion.VIP && seient.id.split('-')[0] === '6') {
+                    seient.vip = true;
+                }
             });
             this.butacasSeleccionadas = [];
             this.store.butacasSeleccionadas = [];
@@ -267,6 +275,21 @@ h3 {
 p {
     font-size: 1.2rem;
 
+}
+
+.butacas-seleccionadas {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.butaca-seleccionada {
+    background-color: #444;
+    color: #fff;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-family: 'Your Epic Font', sans-serif;
 }
 
 .poster-pelicula {

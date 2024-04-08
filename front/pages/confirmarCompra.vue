@@ -114,14 +114,13 @@ export default {
           alert('Entrades comprades amb èxit');
 
           // Redirigir a la página de inicio después de 2 segundos
-          setTimeout(() => {
-            // Resetea el store de PINIA para borrar los datos almacenados
-            this.store.sesionID = 0;
-            this.store.butacasSeleccionadas = [];
-            this.store.precioTotal = 0;
 
-            this.$router.push({ path: '/' });
-          }, 2000);
+          // Resetea el store de PINIA para borrar los datos almacenados
+          this.store.sesionID = 0;
+          this.store.butacasSeleccionadas = [];
+          this.store.precioTotal = 0;
+
+          this.$router.push({ path: '/' });
         })
         .catch(error => console.error('Error al enviar datos al backend:', error));
     },
