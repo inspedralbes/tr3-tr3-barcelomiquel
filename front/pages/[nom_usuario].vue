@@ -12,13 +12,17 @@
                                 <th>Asiento</th>
                                 <th>Precio</th>
                                 <th>Título de la Película</th>
+                                <th>Metóde de pagament</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(entry, index) in purchasedEntries" :key="index">
                                 <td>{{ entry.asiento }}</td>
                                 <td>{{ entry.precio }}</td>
-                                <td>{{ entry.titol_pelicula }}</td>
+                                <td>
+                                    <nuxt-link :to="`/compra/${entry.sesion_id}`" @click="PantallaButacas(entry.sesion_id)" class="titol_pelicula">{{ entry.titol_pelicula }}</nuxt-link>
+                                </td>
+                                <td>{{ entry.metodo_pago}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -59,6 +63,7 @@ export default {
                 const response = await fetch(`http://localhost:8000/api/entradas/${email}`);
                 if (response.ok) {
                     const data = await response.json();
+                    console.log(data);
                     this.purchasedEntries = data;
                 } else {
                     console.error('Error al obtener las entradas');
@@ -66,6 +71,10 @@ export default {
             } catch (error) {
                 console.error('Error:', error);
             }
+        },
+        PantallaButacas(sesion_id) {
+            const sesionCompraStore = useSesionCompraStore();
+            sesionCompraStore.sesionID = sesion_id;
         }
     }
 };
@@ -102,6 +111,10 @@ h1 {
 .purchased-entries h2 {
     font-size: 2rem;
     font-family: 'Your Epic Font', sans-serif;
+}
+
+.titol_pelicula{
+    color: black
 }
 
 table {
