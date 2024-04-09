@@ -2,7 +2,10 @@
 
   <body>
     <Header />
-    <div class="confirmar-compra" v-if="!loading">
+    <div class="confirmar-compra">
+      <div v-if="loading" class="loading">
+        <img src="/public/loading.gif" alt="Carregant..." />
+      </div>
       <div class="detalles-pelicula" v-if="sesion">
         <div class="poster-pelicula">
           <img :src="sesion.pelicula.poster" alt="Poster de la película" />
@@ -50,9 +53,6 @@
           <button class="tornar" @click="tornar">Inici</button>
         </form>
       </div>
-    </div>
-    <div v-else class="loading"> <!-- Mostrar cuando se está cargando -->
-      <img src="/public/loading.gif" alt="Carregant..." />
     </div>
   </body>
 </template>

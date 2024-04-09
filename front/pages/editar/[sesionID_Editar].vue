@@ -1,8 +1,7 @@
 <template>
-
     <body>
+        <Header />
         <div class="home">
-            <Header />
             <h1>Editar Sessió</h1>
             <form @submit.prevent="guardarCambios" class="form">
                 <label for="pelicula">Pel·lícula</label>

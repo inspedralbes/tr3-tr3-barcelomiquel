@@ -1,7 +1,7 @@
 <template>
     <body>
+        <Header />
         <div class="home">
-            <Header />
             <h1>Crear Nova Sesió</h1>
             <form @submit.prevent="crearSesion" class="form">
                 <label for="pelicula">Película</label>
