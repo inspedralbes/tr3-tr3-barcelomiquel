@@ -66,6 +66,33 @@ class SesionController extends Controller
         return response()->json($sesion);
     }
 
+    public function showTodasEntradas()
+    {
+        // Obtener todas las sesiones con las entradas relacionadas cargadas
+        $sesiones = Sesion::with('entradas')->get();
+    
+        // Iterar sobre cada sesión para calcular el precio total y contar los asientos vendidos
+        foreach ($sesiones as $sesion) {
+            $totalPrecio = 0;
+            $totalAsientos = 0;
+    
+            // Iterar sobre las entradas de la sesión actual
+            foreach ($sesion->entradas as $entrada) {
+                // Sumar el precio de cada entrada al precio total de la sesión
+                $totalPrecio += $entrada->VIP ? $sesion->preu_entradaVip : $sesion->preu_entrada;
+                
+                // Incrementar el contador de asientos vendidos
+                $totalAsientos++;
+            }
+    
+            // Agregar los datos calculados a la sesión actual
+            $sesion->total_precio = $totalPrecio;
+            $sesion->total_asientos = $totalAsientos;
+        }
+    
+        // Devolver las sesiones con los precios totales y el conteo de asientos
+        return response()->json($sesiones);
+    }    
 
     /**
      * Update the specified resource in storage.

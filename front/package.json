@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
+    "chart.js": "^4.4.2",
     "nuxt": "^3.10.3",
     "pinia": "^2.1.7",
     "vue": "^3.4.19",
+    "vue-chartjs": "^5.3.1",
     "vue-router": "^4.3.0"
   }
 }
