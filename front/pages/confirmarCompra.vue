@@ -2,7 +2,7 @@
 
   <body>
     <Header />
-    <div class="confirmar-compra">
+    <div class="confirmar-compra" v-if="!loading">
       <div class="detalles-pelicula" v-if="sesion">
         <div class="poster-pelicula">
           <img :src="sesion.pelicula.poster" alt="Poster de la película" />
@@ -51,6 +51,9 @@
         </form>
       </div>
     </div>
+    <div v-else class="loading"> <!-- Mostrar cuando se está cargando -->
+      <img src="/public/loading.gif" alt="Carregant..." />
+    </div>
   </body>
 </template>
 
@@ -63,7 +66,8 @@ export default {
     return {
       sesion: null,
       email: '',
-      metodoPago: ''
+      metodoPago: '',
+      loading: false,
     };
   },
   components: {
@@ -79,6 +83,9 @@ export default {
   },
   methods: {
     comprar() {
+      // Activar estado de carga
+      this.loading = true;
+
       const asientosSeleccionados = this.store.butacasSeleccionadas.map(butaca => {
         return {
           asiento: butaca.id,
@@ -95,8 +102,6 @@ export default {
       };
 
       console.log(data); // Añadido para verificar si se envía la información correcta
-
-
 
       fetch(`http://localhost:8000/api/entradas`, {
         method: 'POST',
@@ -120,9 +125,16 @@ export default {
           this.store.butacasSeleccionadas = [];
           this.store.precioTotal = 0;
 
+          // Desactivar estado de carga
+          this.loading = false;
+
           this.$router.push({ path: '/' });
         })
-        .catch(error => console.error('Error al enviar datos al backend:', error));
+        .catch(error => {
+          console.error('Error al enviar datos al backend:', error);
+          // Desactivar estado de carga en caso de error
+          this.loading = false;
+        });
     },
     fetchPelicula() {
       const sesionCompraStore = useSesionCompraStore();
@@ -285,6 +297,23 @@ button:hover {
 
 .payment-methods input[type="radio"] {
   margin-right: 5px;
+}
+
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.582); /* Fondo negro con opacidad */
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  z-index: 9999; /* Asegura que esté por encima de otros elementos */
+}
+
+.loading img {
+  width: 200px; /* Ajusta el tamaño del gif de carga según sea necesario */
 }
 
 /* Estilos para el botón de comprar */

@@ -2,6 +2,9 @@
 
     <body>
         <Header />
+        <div v-if="loading" class="loading"> 
+            <img src="/public/loading.gif" alt="Carregant..." />
+        </div>
         <div class="login">
             <h1>Iniciar Sesió</h1>
             <form @submit.prevent="login" class="form">
@@ -24,6 +27,7 @@
     </body>
 </template>
 
+
 <script>
 import { useSesionCompraStore } from '@/stores/sesionCompra';
 
@@ -32,11 +36,15 @@ export default {
         return {
             email: '',
             password: '',
-            error: false // Variable para controlar el mensaje de error
+            error: false, // Variable para controlar el mensaje de error
+            loading: false,
         };
     },
     methods: {
         login() {
+            // Activar el estado de carga
+            this.loading = true;
+
             fetch('http://localhost:8000/api/login', {
                 method: 'POST',
                 headers: {
@@ -66,6 +74,10 @@ export default {
                 })
                 .catch(error => {
                     console.error('Error:', error);
+                })
+                .finally(() => {
+                    // Desactivar el estado de carga después de que la petición haya finalizado
+                    this.loading = false;
                 });
         }
     }
@@ -124,9 +136,32 @@ input {
 
 .error-message {
     margin-top: 10px;
-    color: #ff6347; /* Color rojo */
+    color: #ff6347;
+    /* Color rojo */
     font-size: 1.2rem;
     font-family: 'Your Epic Font', sans-serif;
+}
+
+.loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.582);
+    /* Fondo negro con opacidad */
+    display: flex;
+    justify-content: center;
+    /* Centra horizontalmente */
+    align-items: center;
+    /* Centra verticalmente */
+    z-index: 9999;
+    /* Asegura que esté por encima de otros elementos */
+}
+
+.loading img {
+    width: 200px;
+    /* Ajusta el tamaño del gif de carga según sea necesario */
 }
 
 button {

@@ -437,11 +437,12 @@ button:hover {
 }
 
 .ticket {
-    width: 30%;
+    width: 25%;
     /* ajusta el ancho según tu preferencia */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    margin-left: 50px;
     /* coloca los elementos en la parte superior */
 }
 
