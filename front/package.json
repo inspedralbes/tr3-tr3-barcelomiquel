@@ -12,8 +12,11 @@
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
     "chart.js": "^3.9.1",
+    "express": "^4.19.2",
+    "http": "^0.0.1-security",
     "nuxt": "^3.10.3",
     "pinia": "^2.1.7",
+    "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5",
     "vue": "^3.4.19",
     "vue-router": "^4.3.0"

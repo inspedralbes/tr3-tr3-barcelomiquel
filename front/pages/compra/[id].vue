@@ -54,6 +54,8 @@
 <script>
 import { useSesionCompraStore } from '../stores/sesionCompra.js';
 import Seient from '../components/Seient.vue';
+import io from 'socket.io-client';
+
 
 export default {
     components: {
@@ -78,6 +80,7 @@ export default {
             sesion: null,
             precioPorButaca: 0,
             filaActual: '',
+            socket: null,
         };
     },
     methods: {
@@ -158,6 +161,8 @@ export default {
                     this.butacasSeleccionadas.sort();
                     // Almacena el precio del asiento en el estado de Pinia
                     this.store.agregarButacaSeleccionada(seientId, seient.precio);
+                    this.socket.emit('butacaSeleccionada', seientId);
+                    this.$emit('toggle', this.id);
                 } else {
                     const index = this.butacasSeleccionadas.indexOf(seientId);
                     if (index > -1) {
@@ -168,6 +173,7 @@ export default {
                     }
                     // Elimina el asiento del estado de Pinia
                     this.store.eliminarButacaSeleccionada(seientId);
+                    this.socket.emit('butacaSeleccionada', seientId);
                 }
 
                 // Almacena la fila actual cuando se selecciona un asiento
@@ -212,6 +218,22 @@ export default {
                 path: '/',
             });
         },
+        connectToSocketIO() {
+            this.socket = io(); // Conecta al servidor Socket.IO
+
+            // Maneja eventos de Socket.IO
+            this.socket.on('butacasSeleccionadas', butacas => {
+                this.butacasSeleccionadas = butacas;
+            });
+
+            this.socket.on('butacaSeleccionada', butacaId => {
+                this.butacasSeleccionadas.push(butacaId);
+            });
+
+            this.socket.on('butacaDeseleccionada', butacaId => {
+                this.butacasSeleccionadas = this.butacasSeleccionadas.filter(id => id !== butacaId);
+            });
+        },
     },
     computed: {
         mostrarPanel() {
@@ -230,10 +252,16 @@ export default {
             return useSesionCompraStore();
         },
     },
-    created() {
-        // Llama a la función para obtener las butacas ocupadas cuando se crea el componente
+    mounted() {
         this.fetchButacasOcupadas();
         this.fetchPelicula();
+
+        // Conecta al servidor Socket.IO cuando se monta el componente
+        this.connectToSocketIO();
+    },
+    beforeUnmount() {
+        // Desconecta del servidor cuando el componente se desmonta
+        this.socket.disconnect();
     },
 };
 </script>
