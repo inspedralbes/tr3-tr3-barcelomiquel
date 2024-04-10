@@ -1,0 +1,47 @@
+name: Despliegue de la aplicación
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  desplegar-laravel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v2
+
+      - name: Instalar dependencias PHP
+        run: |
+          apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev zip unzip git libonig-dev libxml2-dev
+          docker-php-ext-install pdo pdo_mysql gd
+          curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+          composer install
+
+      - name: Generar clave de aplicación Laravel
+        run: php artisan key:generate
+
+      - name: Migrar base de datos
+        run: php artisan migrate --seed
+
+      - name: Desplegar Laravel
+        run: |
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+          scp -r -i ${{ secrets.SSH_PRIVATE_KEY }} ./laravel-app ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:~/path/to/laravel
+
+  desplegar-vue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v2
+
+      - name: Instalar dependencias Nuxt.js
+        run: npm install
+
+      - name: Construir aplicación Vue.js
+        run: npm run build
+
+      - name: Desplegar Vue.js
+        run: |
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+          scp -r -i ${{ secrets.SSH_PRIVATE_KEY }} ./nuxt-app/dist ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:~/path/to/vue
