@@ -26,21 +26,11 @@ services:
     working_dir: /app
     volumes:
       - ./front:/app
-    command: bash -c "pwd && ls -la && echo 'INI' && npm install && npm install -g npm@10.5.1 && echo 'segon'&& npm i @pinia/nuxt && npm install pinia && npm install chart.js@3 && npm install socket.io-client && npm run dev"
+    command: bash -c "pwd && ls -la && echo 'INI' && npm install && npm run dev"
     ports:
       - "3000:3000"
     environment:
       - CHOKIDAR_USEPOLLING=true
-
-  sockets-server:
-    image: node:18-bullseye
-    container_name: sockets
-    working_dir: /app
-    volumes:
-      - ./front:/app
-    command: bash -c "node server.js"
-    depends_on:
-      - nuxt-app
 
   db:
     image: mysql:8.2.0
