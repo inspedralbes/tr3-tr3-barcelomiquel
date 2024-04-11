@@ -60,7 +60,7 @@ export default {
                 const sesionCompraStore = useSesionCompraStore();
                 const email = sesionCompraStore.email_usuari;
 
-                const response = await fetch(`http://cinema.pre.daw.inspedralbes.cat/back/public/api/entradas/${email}`);
+                const response = await fetch(`http://galaxiafilms.daw.inspedralbes.cat/back/public/api/entradas/${email}`);
                 if (response.ok) {
                     const data = await response.json();
                     console.log(data);

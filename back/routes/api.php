@@ -34,6 +34,7 @@ Route::get('/entradas/{email}', [EntradaController::class, 'getUserEntries']);
 Route::get('/sesiones', [SesionController::class, 'index']);
 Route::post('/sesiones', [SesionController::class, 'store']);
 Route::get('/sesiones-entradas/{id}', [SesionController::class, 'showEntradas']);
+Route::get('/todas-entradas', [SesionController::class, 'showTodasEntradas']);
 Route::get('/sesiones/{id}', [SesionController::class, 'show']);
 Route::put('/sesiones/{id}', [SesionController::class, 'update']);
 Route::delete('/sesiones/{id}', [SesionController::class, 'destroy']);

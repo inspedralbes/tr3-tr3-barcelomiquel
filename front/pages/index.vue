@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     fetchSesiones() {
-      fetch('http://cinema.pre.daw.inspedralbes.cat/back/public/api/sesiones')
+      fetch('http://galaxiafilms.daw.inspedralbes.cat/back/public/api/sesiones')
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok');

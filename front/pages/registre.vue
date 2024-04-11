@@ -2,6 +2,9 @@
 
     <body>
         <Header />
+        <div v-if="loading" class="loading"> 
+            <img src="/public/loading.gif" alt="Carregant..." />
+        </div>
         <div class="registro">
             <h1>Regístra't</h1>
             <form @submit.prevent="registro" class="form">
@@ -30,13 +33,17 @@ export default {
         return {
             name: '',
             email: '',
-            password: ''
+            password: '',
+            loading: false // Agrega la variable loading
         };
     },
     methods: {
         registro() {
+            // Activar el estado de carga
+            this.loading = true;
+
             // Realizar una solicitud HTTP a la API de registro en Laravel
-            fetch('http://cinema.pre.daw.inspedralbes.cat/back/public/api/registro', {
+            fetch('http://galaxiafilms.daw.inspedralbes.cat/back/public/api/registro', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -50,7 +57,7 @@ export default {
                 .then(response => {
                     if (response.ok) {
                         // Redirigir al usuario a la página de inicio después del registro exitoso
-                        this.$router.push('/');
+                        this.$router.push('/login');
                     } else {
                         // Manejar errores en caso de que el registro falle
                         console.error('Error al registrar');
@@ -58,6 +65,10 @@ export default {
                 })
                 .catch(error => {
                     console.error('Error:', error);
+                })
+                .finally(() => {
+                    // Desactivar el estado de carga después de que la petición haya finalizado
+                    this.loading = false;
                 });
         }
     }
@@ -112,6 +123,23 @@ input {
     border: 1px solid #4b5d67;
     background-color: #0b0c10;
     color: #c5c6c7;
+}
+
+.loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.582); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loading img {
+    width: 200px;
 }
 
 button {
