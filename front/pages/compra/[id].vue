@@ -113,6 +113,7 @@ export default {
         fetchButacasOcupadas() {
             const sesionCompraStore = useSesionCompraStore();
             const sesionId = sesionCompraStore.sesionID; // Accede al ID almacenado en el store de PINIA
+            
             fetch(`http://galaxiafilms.daw.inspedralbes.cat/back/public/api/sesiones-entradas/${sesionId}`)
                 .then(response => response.json())
                 .then(data => {

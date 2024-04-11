@@ -44,7 +44,6 @@ export default {
         login() {
             // Activar el estado de carga
             this.loading = true;
-
             fetch('http://galaxiafilms.daw.inspedralbes.cat/back/public/api/login', {
                 method: 'POST',
                 headers: {

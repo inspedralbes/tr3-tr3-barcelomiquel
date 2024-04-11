@@ -1,19 +1,30 @@
-# transversals
-Esquema mínim de carpetes pels projectes transversals
+# Galaxia Films
 
-És obligatori seguir aquesta estructura tot i que la podeu ampliar.
+## Descripció
 
-## Atenció
-Un cop comenceu heu de canviar aquesta explicació amb la corresponent al vostre projecte (utilitzant markdown)
+Galaxia Films es un projecte que tracta d'un cinema de poble en el que te una cartalera i tu pots reservar entrades.
 
-## Docker & Docker compose
-El projecte s'ha de poder desplegar en mode desenvolupament simplement fent docker compose up
+## Docker & Docker Compose
 
-# Aquest fitxer ha de contenir com a mínim:
- * Nom dels integrants
- * Nom del projecte
- * Petita descripció
- * Adreça del gestor de tasques (taiga, jira, trello...)
- * Adreça del prototip gràfic del projecte (Penpot, figma, moqups...)
- * URL de producció (quan la tingueu)
- * Estat: (explicació d'en quin punt està)
+El proyecto es pot desplegar fácilment en mode de desenvolupament utilizant Docker Compose. Simplement excecuta la seguent ordre per iniciar l'entorno.
+
+````docker
+docker-compose up
+````
+
+## Gestio de tasques:
+
+ [Taiga](https://tree.taiga.io/project/a16miqbargim-tr3-barcelomiquel/taskboard/sprint-1-7966)
+
+## Prototip Grafic:
+
+[Penpot]([https://design.penpot.app/#/view/6e12068a-09a0-801a-8004-2449d21f2d20?page-id=6e12068a-09a0-801a-8004-2449d21f2d21&section=interactions&index=0&share-id=6e12068a-09a0-801a-8004-248dccd58a53](https://design.penpot.app/#/view/6e12068a-09a0-801a-8004-2449d21f2d20?page-id=6e12068a-09a0-801a-8004-2449d21f2d21&section=interactions&index=0&share-id=6e12068a-09a0-801a-8004-248dccd58a53))
+
+## URL de Producció:
+
+Pendent
+
+## Estat:
+
+Desenvolupament
+

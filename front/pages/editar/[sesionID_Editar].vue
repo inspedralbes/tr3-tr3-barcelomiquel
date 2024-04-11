@@ -45,7 +45,7 @@ export default {
             const sesionID_Editar = sesionCompraStore.sesionID_Editar;
 
             // Obtener la sesión
-            fetch(`http://localhost:8000/api/sesiones/${sesionID_Editar}`)
+            fetch(`http://cinema.pre.daw.inspedralbes.cat/back/public/api/sesiones/${sesionID_Editar}`)
                 .then(response => response.json())
                 .then(data => {
                     this.sesion = data;
@@ -53,7 +53,7 @@ export default {
                 .catch(error => console.error('Error al obtener la sesión:', error));
 
             // Obtener todas las películas
-            fetch(`http://localhost:8000/api/peliculas`)
+            fetch(`http://cinema.pre.daw.inspedralbes.cat/back/public/api/peliculas`)
                 .then(response => response.json())
                 .then(data => {
                     this.peliculas = data;
@@ -74,7 +74,7 @@ export default {
                 VIP: this.sesion.VIP
             };
 
-            fetch(`http://localhost:8000/api/sesiones/${sesionID_Editar}`, {
+            fetch(`http://cinema.pre.daw.inspedralbes.cat/back/public/api/sesiones/${sesionID_Editar}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

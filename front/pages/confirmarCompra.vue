@@ -139,7 +139,7 @@ export default {
     fetchPelicula() {
       const sesionCompraStore = useSesionCompraStore();
       const sesionId = sesionCompraStore.sesionID; // Accede al ID almacenado en el store de PINIA
-
+      
       fetch(`http://galaxiafilms.daw.inspedralbes.cat/back/public/api/sesiones/${sesionId}`)
         .then(response => response.json())
         .then(data => {
