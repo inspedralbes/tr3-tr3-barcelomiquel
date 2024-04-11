@@ -45,7 +45,7 @@ export default {
     },
     methods: {
         cargarPeliculas() {
-            fetch(`http://localhost:8000/api/peliculas`)
+            fetch(`http://galaxiafilms.daw.inspedralbes.cat/back/public/api/peliculas`)
                 .then(response => response.json())
                 .then(data => {
                     this.peliculas = data;
@@ -62,7 +62,7 @@ export default {
                 VIP: this.nuevaSesion.VIP
             };
 
-            fetch(`http://localhost:8000/api/sesiones`, {
+            fetch(`http://galaxiafilms.daw.inspedralbes.cat/back/public/api/sesiones`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

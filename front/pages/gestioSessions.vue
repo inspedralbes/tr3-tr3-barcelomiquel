@@ -63,7 +63,7 @@ export default {
     },
     methods: {
         fetchSesiones() {
-            fetch('http://localhost:8000/api/sesiones')
+            fetch('http://galaxiafilms.daw.inspedralbes.cat/back/public/api/sesiones')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -82,7 +82,7 @@ export default {
             sesionCompraStore.setSesionID_Editar(sesionID_Editar);
         },
         eliminar(sesionID) {
-            fetch(`http://localhost:8000/api/sesiones/${sesionID}`, {
+            fetch(`http://galaxiafilms.daw.inspedralbes.cat/back/public/api/sesiones/${sesionID}`, {
                 method: 'DELETE'
             })
                 .then(response => {

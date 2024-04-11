@@ -43,7 +43,7 @@ export default {
             this.loading = true;
 
             // Realizar una solicitud HTTP a la API de registro en Laravel
-            fetch('http://localhost:8000/api/registro', {
+            fetch('http://galaxiafilms.daw.inspedralbes.cat/back/public/api/registro', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -22,7 +22,7 @@ import Chart from 'chart.js/auto';
 export default {
   async mounted() {
     try {
-      const response = await fetch('http://localhost:8000/api/todas-entradas');
+      const response = await fetch('http://galaxiafilms.daw.inspedralbes.cat/back/public/api/todas-entradas');
       const data = await response.json();
 
       // Procesar los datos para los gráficos

@@ -48,7 +48,7 @@ export default {
                 duracio: this.nuevaPelicula.duracio
             };
             console.log('Creando película:', formData);
-            fetch('http://localhost:8000/api/peliculas', {
+            fetch('http://galaxiafilms.daw.inspedralbes.cat/back/public/api/peliculas', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -53,7 +53,7 @@ export default {
     },
     methods: {
         fetchPeliculas() {
-            fetch('http://localhost:8000/api/peliculas')
+            fetch('http://galaxiafilms.daw.inspedralbes.cat/back/public/api/peliculas')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -65,7 +65,7 @@ export default {
                 })
         },
         eliminar(peliculaID) {
-            fetch(`http://localhost:8000/api/peliculas/${peliculaID}`, {
+            fetch(`http://galaxiafilms.daw.inspedralbes.cat/back/public/api/peliculas/${peliculaID}`, {
                 method: 'DELETE'
             })
                 .then(response => {

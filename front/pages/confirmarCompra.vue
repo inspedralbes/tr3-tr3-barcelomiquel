@@ -103,7 +103,7 @@ export default {
 
       console.log(data); // Añadido para verificar si se envía la información correcta
 
-      fetch(`http://localhost:8000/api/entradas`, {
+      fetch(`http://galaxiafilms.daw.inspedralbes.cat/back/public/api/entradas`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -140,7 +140,7 @@ export default {
       const sesionCompraStore = useSesionCompraStore();
       const sesionId = sesionCompraStore.sesionID; // Accede al ID almacenado en el store de PINIA
 
-      fetch(`http://localhost:8000/api/sesiones/${sesionId}`)
+      fetch(`http://galaxiafilms.daw.inspedralbes.cat/back/public/api/sesiones/${sesionId}`)
         .then(response => response.json())
         .then(data => {
           console.log(data);
