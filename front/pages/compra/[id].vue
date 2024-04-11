@@ -37,8 +37,7 @@
                 <div v-if="mostrarPanel" class="panel-seleccion">
                     <h3>Butacas seleccionadas:</h3>
                     <div class="butacas-seleccionadas">
-                        <div v-for="butaca in butacasSeleccionadas" :key="butaca" class="butaca-seleccionada">{{ butaca
-                            }}</div>
+                        <div v-for="butaca in butacasSeleccionadas" :key="butaca" class="butaca-seleccionada">{{ butaca }}</div>
                     </div>
                     <h3>Preu total: {{ precioTotal }}€</h3>
                     <button @click="comprar">Comprar</button>
@@ -54,13 +53,13 @@
 <script>
 import { useSesionCompraStore } from '../stores/sesionCompra.js';
 import Seient from '../components/Seient.vue';
-import io from 'socket.io-client';
+import { initializeSocket } from '~/sockets';
 
 
 export default {
     components: {
         Seient
-    },
+    }, 
     data() {
         return {
             files: [
@@ -161,8 +160,7 @@ export default {
                     this.butacasSeleccionadas.sort();
                     // Almacena el precio del asiento en el estado de Pinia
                     this.store.agregarButacaSeleccionada(seientId, seient.precio);
-                    this.socket.emit('butacaSeleccionada', seientId);
-                    this.$emit('toggle', this.id);
+                    this.socket.emit('toggleButaca', seientId);
                 } else {
                     const index = this.butacasSeleccionadas.indexOf(seientId);
                     if (index > -1) {
@@ -173,7 +171,6 @@ export default {
                     }
                     // Elimina el asiento del estado de Pinia
                     this.store.eliminarButacaSeleccionada(seientId);
-                    this.socket.emit('butacaSeleccionada', seientId);
                 }
 
                 // Almacena la fila actual cuando se selecciona un asiento
@@ -203,6 +200,7 @@ export default {
             this.butacasSeleccionadas = [];
             this.store.butacasSeleccionadas = [];
             this.store.precioTotal = 0;
+            this.socket.emit('borrarButacasSeleccionadas');
         },
         comprar() {
             this.$router.push({
@@ -219,19 +217,38 @@ export default {
             });
         },
         connectToSocketIO() {
-            this.socket = io(); // Conecta al servidor Socket.IO
+            this.socket = initializeSocket();
 
-            // Maneja eventos de Socket.IO
-            this.socket.on('butacasSeleccionadas', butacas => {
-                this.butacasSeleccionadas = butacas;
+            // Manejar eventos de Socket.IO
+            this.socket.on('usuarioConectado', sesionId => {
+                console.log(`Usuario conectado a la sesión: ${sesionId}`);
             });
 
-            this.socket.on('butacaSeleccionada', butacaId => {
-                this.butacasSeleccionadas.push(butacaId);
+            this.socket.on('updateButaca', ({ seientId, sesionId }) => {
+                // Actualizar selección de butacas en la sesión específica
+                if (this.$route.params.id === sesionId) {
+                    const seient = this.findSeientById(seientId);
+                    seient.seleccionat = !seient.seleccionat;
+                    if (this.sesion.VIP && seient.id.split('-')[0] === '6') {
+                        seient.vip = !seient.vip;
+                    }
+                }
             });
 
-            this.socket.on('butacaDeseleccionada', butacaId => {
-                this.butacasSeleccionadas = this.butacasSeleccionadas.filter(id => id !== butacaId);
+            this.socket.on('borrarButacas', sesionId => {
+                // Borrar selecciones de butacas en la sesión específica
+                if (this.$route.params.id === sesionId) {
+                    this.butacasSeleccionadas.forEach(id => {
+                        const seient = this.findSeientById(id);
+                        seient.seleccionat = false;
+                        if (this.sesion.VIP && seient.id.split('-')[0] === '6') {
+                            seient.vip = true;
+                        }
+                    });
+                    this.butacasSeleccionadas = [];
+                    this.store.butacasSeleccionadas = [];
+                    this.store.precioTotal = 0;
+                }
             });
         },
     },
